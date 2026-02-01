@@ -20,21 +20,21 @@ public class SiteUserTest {
 	private SiteUserRepository siteUserRepo;
 	
 	@Test
-	void siteUserSaveAndFindTest() {
+	void siteUserSaveAndFindTest() throws InterruptedException {
 		SiteUser user = SiteUser.builder()
 								.userId("id")
 								.password("pwd")
 								.nickName("nickName").build();
 		
 		siteUserRepo.save(user);
+		
 		Optional<SiteUser> op = siteUserRepo.findById(1L);
 		
 		if(op.isPresent()) {
 			SiteUser foundUser = op.get();
 			assertEquals(1, foundUser.getId());
-			System.out.println(foundUser);
-			
 		}
+		
 	}
 
 }
