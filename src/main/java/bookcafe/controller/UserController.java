@@ -28,8 +28,8 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/delete")
-	public String deleteUser(@RequestParam("userId") long userId) {
-		System.out.println(userId);
+	public String deleteUser(@RequestParam("id") long id) {
+		System.out.println(id);
 		return "redirect:/";
 	}
 
