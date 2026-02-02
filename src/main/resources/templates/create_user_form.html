@@ -6,5 +6,19 @@
 	</head>
 	<body>
 		<p>사용자 계정 생성!!</p>
+		<form th:action="@{/user/create}" method="post" th:object = "${createUserFormDTO}">
+			<p>
+			<label for="userId" th:text = "dadadada">id</label>
+			<input type="text" th:field="*{userId}"> 
+			</p>
+			<p>
+			<label for="password">password </label>
+			<input type="password" th:field="*{password}"> 
+			</p>
+			<p>
+			<label for="submit">제출</label>
+			<input type="submit"> 
+			</p>
+		</form>
 	</body>
 </html>

@@ -26,5 +26,15 @@ public class SiteUser extends Base {
 	
 	private String nickName;
 	
+	@Getter
+	@Setter
+	@ToString
+	public static class SiteUserDTO{
+		
+		private String userId;
+		
+		private String password;
+	}
+	
 
 }
