@@ -26,6 +26,12 @@ public class SiteUser extends Base {
 	
 	private String nickName;
 	
+	public static SiteUser newSiteUserFromDTO(SiteUserDTO dto) {
+		return SiteUser.builder().userId(dto.userId)
+								.password(dto.password)
+								.nickName(dto.nickName).build();
+	}
+	
 	@Getter
 	@Setter
 	@ToString
@@ -34,6 +40,8 @@ public class SiteUser extends Base {
 		private String userId;
 		
 		private String password;
+		
+		private String nickName;
 	}
 	
 

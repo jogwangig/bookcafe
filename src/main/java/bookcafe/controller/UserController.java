@@ -3,7 +3,6 @@ package bookcafe.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import bookcafe.data.entity.SiteUser;
+import bookcafe.data.entity.SiteUser.SiteUserDTO;
 import bookcafe.data.repository.SiteUserRepository;
 
 @Controller
@@ -26,14 +26,21 @@ public class UserController {
 		return "create_user_form";
 	}
 	
+	
+	
 	@PostMapping("/create")
-	public String processCreateUserForm(@ModelAttribute("createUserFormDTO") SiteUser.SiteUserDTO createUserFormDTO) {
+	public String processCreateUserForm(@ModelAttribute("createUserFormDTO") SiteUserDTO createUserFormDTO) {
+		userRepo.save(SiteUser.newSiteUserFromDTO(createUserFormDTO));
 		System.out.print(createUserFormDTO);
 		return "redirect:/";
 	}
 	
+	
+	
+	
 	@GetMapping("/delete")
 	public String deleteUser(@RequestParam("id") long id) {
+		userRepo.deleteById(id);
 		System.out.println(id);
 		return "redirect:/";
 	}
