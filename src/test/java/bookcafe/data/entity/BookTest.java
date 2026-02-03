@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Import;
 
 import bookcafe.config.AuditingConfig;
 import bookcafe.data.repository.BookRepository;
+import bookcafe.data.valueobject.BookInfo;
 
 @DataJpaTest
 @Import(AuditingConfig.class)
@@ -24,7 +25,8 @@ public class BookTest {
 
 		
 		Book book = new Book.BookBuilder()
-				.numberOfReadingRecord(5).build();
+				.numberOfReadingRecord(5).
+				bookInfo(BookInfo.builder().title("title").ISBN("ISBN").build()).build();
 		
 		bookRepo.save(book);
 		
@@ -32,6 +34,7 @@ public class BookTest {
 		
 		if(foundBook.isPresent()) {
 			assertEquals(5, foundBook.get().getNumberOfReadingRecord());
+			assertEquals("title", foundBook.get().getBookInfo().getTitle());
 		}
 		
 		

@@ -1,6 +1,8 @@
 package bookcafe.data.entity;
 
 import bookcafe.data.ItemBase;
+import bookcafe.data.valueobject.BookInfo;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,5 +22,8 @@ import lombok.ToString;
 public class Book extends ItemBase{
 
 	private long numberOfReadingRecord;
+	
+	@Embedded
+	private BookInfo bookInfo;
 	
 }

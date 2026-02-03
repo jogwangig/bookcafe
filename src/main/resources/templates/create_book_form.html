@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<link rel="stylesheet" th:href = @{/createUserForm.css}/>
+		<title>사용자 계정 생성</title>
+	</head>
+	<body>
+		<p>사용자 계정 생성!!</p>
+		<form th:action="@{/book/create}" method="post" th:object = ${bookInfo}>
+			<p>
+			<label for="title" th:text = "'title'"></label>
+			<input type="text" th:field="*{title}"> 
+			</p>
+			<p>
+			<label for="ISBN" th:text = "'ISBN'"></label>
+			<input type="text" th:field= "*{ISBN}"> 
+			</p>
+			<p>
+			<label for="submit">제출</label>
+			<input type="submit"> 
+			</p>
+		</form>
+	</body>
+</html>
