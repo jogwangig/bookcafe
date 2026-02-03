@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class DefaultController {
 		
 	@GetMapping("/")
-	@ResponseBody
 	public String index() {
-		return "Hello!!!+++++aaaa";
+		return "index";
 	}
 
 }
