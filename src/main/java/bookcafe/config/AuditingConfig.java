@@ -21,6 +21,8 @@ import bookcafe.data.repository.SiteUserRepository;
 @EnableJpaAuditing
 public class AuditingConfig {
 	
+	public static SiteUser user;
+	
 	@Bean
 	public AuditorAware<SiteUser> siteUserAuditorProvider(){
 		return new SiteUserAuditorAware();
@@ -37,10 +39,12 @@ public class AuditingConfig {
 				
 			Authentication p = SecurityContextHolder.getContext().getAuthentication();
 
-			if(p.getName().equals("anonymousUser")) {
-				return Optional.empty();
+			if(p.getName().equals("anonymousUser") || user != null) {
+				System.out.println(user.getId());
+				return Optional.ofNullable(user);
 				}
 						
+//			System.out.println(user.getId());
 		    return Optional.ofNullable(p)
 		            .filter(Authentication::isAuthenticated)
 		            .map(Authentication::getPrincipal)

@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import bookcafe.config.AuditingConfig;
+import bookcafe.data.entity.BookShelf;
 import bookcafe.data.entity.SiteUser;
 import bookcafe.data.entity.SiteUser.SiteUserDTO;
 import bookcafe.data.entity.SiteUserAuthority;
 import bookcafe.data.entity.SiteUserAuthority.AuthorityType;
+import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.data.repository.SiteUserAuthorityRepository;
 import bookcafe.data.repository.SiteUserRepository;
 
@@ -30,6 +33,9 @@ public class UserController {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	BookShelfRepository bookShelfRepo;
 	
 	@GetMapping("/create")
 	public String createUser(Model model) {
@@ -53,12 +59,17 @@ public class UserController {
 		
 		System.out.println("======================================");
 		
-		userRepo.save(newUser);
+		AuditingConfig.user = userRepo.save(newUser);
 		userAuthorityRepo.save(userAuthority);
+		
+		System.out.println(
+				bookShelfRepo.save(BookShelf.builder().name("default").build())
+		);
 				
+		AuditingConfig.user = null;
 //		System.out.println(a);
 		
-		System.out.println(createUserFormDTO);
+//		System.out.println(createUserFormDTO);
 		return "redirect:/";
 	}
 	
