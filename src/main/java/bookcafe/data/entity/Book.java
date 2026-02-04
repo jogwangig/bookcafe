@@ -4,6 +4,7 @@ import bookcafe.data.ItemBase;
 import bookcafe.data.valueobject.BookInfo;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,5 +26,8 @@ public class Book extends ItemBase{
 	
 	@Embedded
 	private BookInfo bookInfo;
+	
+	@ManyToOne
+	private BookShelf bookShelf;
 	
 }

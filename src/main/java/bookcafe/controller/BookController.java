@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import bookcafe.data.entity.Book;
 import bookcafe.data.repository.BookRepository;
+import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.data.valueobject.BookInfo;
 
 @Controller
@@ -18,6 +20,9 @@ public class BookController {
 	
 	@Autowired
 	BookRepository bookRepo;
+	
+	@Autowired
+	BookShelfRepository bookShelfRepo;
 	
 	@GetMapping("/create")
 	public String createBook(Model model) {
@@ -29,7 +34,7 @@ public class BookController {
 	public String createBook(@ModelAttribute("bookInfo")BookInfo bookInfo) {
 		System.out.println(bookInfo);
 		System.out.println(
-		bookRepo.save(Book.builder().numberOfReadingRecord(8).bookInfo(bookInfo).build())
+		bookRepo.save(Book.builder().numberOfReadingRecord(8).bookInfo(bookInfo).bookShelf(bookShelfRepo.findById(3L).get()).build())
 		);
 		return "redirect:/";
 	}
