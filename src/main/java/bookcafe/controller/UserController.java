@@ -31,9 +31,6 @@ public class UserController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
-	@Autowired
-	UserDetailsService userDetailsService;
-	
 	@GetMapping("/create")
 	public String createUser(Model model) {
 		model.addAttribute("createUserFormDTO", new SiteUser.SiteUserDTO());
@@ -54,14 +51,14 @@ public class UserController {
 		SiteUserAuthority userAuthority = SiteUserAuthority.builder().userOwningAuthority(newUser)
 															.authorityType(AuthorityType.NORMAL).build();
 		
+		System.out.println("======================================");
+		
 		userRepo.save(newUser);
 		userAuthorityRepo.save(userAuthority);
-		
-//		String a = userDetailsService.loadUserByUsername(newUser.getUserId()).getUsername();
-		
+				
 //		System.out.println(a);
 		
-		System.out.print(createUserFormDTO);
+		System.out.println(createUserFormDTO);
 		return "redirect:/";
 	}
 	

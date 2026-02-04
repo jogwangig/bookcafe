@@ -1,5 +1,6 @@
 package bookcafe.config;
 
+import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,17 @@ public class AuditingConfig {
 		
 		@Override
 		public Optional<SiteUser> getCurrentAuditor() {
-		    return Optional.ofNullable(SecurityContextHolder.getContext())
-		            .map(SecurityContext::getAuthentication)
+				
+			Authentication p = SecurityContextHolder.getContext().getAuthentication();
+
+			if(p.getName().equals("anonymousUser")) {
+				return Optional.empty();
+				}
+						
+		    return Optional.ofNullable(p)
 		            .filter(Authentication::isAuthenticated)
 		            .map(Authentication::getPrincipal)
-		            .map((p)->userRepo.findByUserId(((UserDetails)p).getUsername()));
+		            .map((c)->userRepo.findByUserId(((UserDetails)c).getUsername()));
 		}
 	}
  

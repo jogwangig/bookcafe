@@ -13,19 +13,19 @@ import bookcafe.data.repository.BookRepository;
 import bookcafe.data.valueobject.BookInfo;
 
 @Controller
-@RequestMapping("book")
+@RequestMapping("/book")
 public class BookController {
 	
 	@Autowired
 	BookRepository bookRepo;
 	
-	@GetMapping("create")
+	@GetMapping("/create")
 	public String createBook(Model model) {
 		model.addAttribute("bookInfo", new BookInfo());
 		return "create_book_form";
 	}
 	
-	@PostMapping("create")
+	@PostMapping("/create")
 	public String createBook(@ModelAttribute("bookInfo")BookInfo bookInfo) {
 		System.out.println(bookInfo);
 		System.out.println(
