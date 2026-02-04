@@ -39,16 +39,17 @@ public class AuditingConfig {
 				
 			Authentication p = SecurityContextHolder.getContext().getAuthentication();
 
-			if(p.getName().equals("anonymousUser") || user != null) {
-				System.out.println(user.getId());
-				return Optional.ofNullable(user);
+			if(p == null || p.getName().equals("anonymousUser") || user != null) {
+				SiteUser userTemp = user;
+				user = null;
+				return Optional.ofNullable(userTemp);
 				}
-						
-//			System.out.println(user.getId());
-		    return Optional.ofNullable(p)
+			
+				return Optional.ofNullable(p)
 		            .filter(Authentication::isAuthenticated)
 		            .map(Authentication::getPrincipal)
-		            .map((c)->userRepo.findByUserId(((UserDetails)c).getUsername()));
+		            .map((c)->userRepo.findByUsername(((UserDetails)c).getUsername()));
+				
 		}
 	}
  

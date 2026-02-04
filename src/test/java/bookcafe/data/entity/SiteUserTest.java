@@ -22,7 +22,7 @@ public class SiteUserTest {
 	@Test
 	void siteUserSaveAndFindTest() throws InterruptedException {
 		SiteUser user = SiteUser.builder()
-								.userId("id")
+								.username("id")
 								.password("pwd")
 								.nickName("nickName").build();
 		

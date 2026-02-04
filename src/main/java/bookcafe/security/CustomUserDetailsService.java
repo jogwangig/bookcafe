@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) {
-		SiteUser user = userRepo.findByUserId(username);
+		SiteUser user = userRepo.findByUsername(username);
 		
 		List<SiteUserAuthority> userAuthorities = userAuthorityRepo.findByUserOwningAuthority(user);
 		
@@ -35,10 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 																		.map(SimpleGrantedAuthority::new)
 																		.toList();
 		
-		for(SimpleGrantedAuthority s : authorities)
-			System.out.println(s.getAuthority());
-		
-		return new User(user.getUserId(), user.getPassword(), authorities);
+		return new User(user.getUsername(), user.getPassword(), authorities);
 	}
 	
 }

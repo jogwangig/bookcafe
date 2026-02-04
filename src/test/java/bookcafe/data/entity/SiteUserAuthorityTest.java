@@ -28,7 +28,7 @@ public class SiteUserAuthorityTest {
 	
 	@Test
 	void createSiteUserAuthorityTest() {
-		SiteUser user = SiteUser.builder().userId("a").password("b").nickName("c").build();
+		SiteUser user = SiteUser.builder().username("a").password("b").nickName("c").build();
 		userRepo.save(user);
 		em.flush();
 		em.clear();

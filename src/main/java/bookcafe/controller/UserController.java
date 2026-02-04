@@ -56,9 +56,7 @@ public class UserController {
 		
 		SiteUserAuthority userAuthority = SiteUserAuthority.builder().userOwningAuthority(newUser)
 															.authorityType(AuthorityType.NORMAL).build();
-		
-		System.out.println("======================================");
-		
+				
 		AuditingConfig.user = userRepo.save(newUser);
 		userAuthorityRepo.save(userAuthority);
 		
@@ -67,9 +65,7 @@ public class UserController {
 		);
 				
 		AuditingConfig.user = null;
-//		System.out.println(a);
-		
-//		System.out.println(createUserFormDTO);
+
 		return "redirect:/";
 	}
 	
@@ -79,7 +75,6 @@ public class UserController {
 	@GetMapping("/delete")
 	public String deleteUser(@RequestParam("id") long id) {
 		userRepo.deleteById(id);
-		System.out.println(id);
 		return "redirect:/";
 	}
 

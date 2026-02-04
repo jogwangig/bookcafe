@@ -20,14 +20,14 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class SiteUser extends Base {
 	
-	private String userId;
+	private String username;
 	
 	private String password;
 	
 	private String nickName;
 	
 	public static SiteUser newSiteUserFromDTO(SiteUserDTO dto) {
-		return SiteUser.builder().userId(dto.userId)
+		return SiteUser.builder().username(dto.userId)
 								.password(dto.password)
 								.nickName(dto.nickName).build();
 	}
