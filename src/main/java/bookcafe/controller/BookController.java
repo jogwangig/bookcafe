@@ -13,15 +13,15 @@ import bookcafe.data.entity.Book;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.data.valueobject.BookInfo;
+import lombok.AllArgsConstructor;
 
 @Controller
 @RequestMapping("/book")
+@AllArgsConstructor
 public class BookController {
 	
-	@Autowired
 	BookRepository bookRepo;
 	
-	@Autowired
 	BookShelfRepository bookShelfRepo;
 	
 	@GetMapping("/create")

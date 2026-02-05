@@ -18,6 +18,6 @@ public class ItemBase extends Base{
 	
 	@CreatedBy
 	@ManyToOne
-	private SiteUser siteUser;
+	private SiteUser user;
 
 }

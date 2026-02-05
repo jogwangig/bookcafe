@@ -9,5 +9,5 @@ import bookcafe.data.entity.BookShelf;
 
 @Repository
 public interface BookShelfRepository extends JpaRepository<BookShelf, Long>{
-	List<BookShelf> findBySiteUserId(Long id);
+	List<BookShelf> findByUserId(Long id);
 }
