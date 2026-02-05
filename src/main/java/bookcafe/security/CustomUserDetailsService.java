@@ -34,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 																		.map(AuthorityType::name)
 																		.map(SimpleGrantedAuthority::new)
 																		.toList();
-		
+		System.out.println("loadUserByUsername 호출");
 		System.out.println(new CustomUserDetails(user, authorities));
 		return new CustomUserDetails(user, authorities);
 //		return new User(user.getUsername(), user.getPassword(), authorities);

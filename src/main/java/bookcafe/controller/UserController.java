@@ -48,23 +48,30 @@ public class UserController {
 	@PostMapping("/create")
 	public String processCreateUserForm(@ModelAttribute("createUserFormDTO") SiteUserDTO createUserFormDTO) {
 		
+		System.out.println(createUserFormDTO);
+		
 		createUserFormDTO.setPassword(
 				passwordEncoder.encode(createUserFormDTO.getPassword())
 				);
 		
 		SiteUser newUser = SiteUser.newSiteUserFromDTO(createUserFormDTO);
 		
+		System.out.println(newUser);
+		
 		SiteUserAuthority userAuthority = SiteUserAuthority.builder().userOwningAuthority(newUser)
 															.authorityType(AuthorityType.NORMAL).build();
 				
-		AuditingConfig.user = userRepo.save(newUser);
+		AuditingConfig.setNewUser(
+				userRepo.save(newUser)
+				);
+		
 		userAuthorityRepo.save(userAuthority);
 		
 		System.out.println(
 				bookShelfRepo.save(BookShelf.builder().name("default").build())
 		);
 				
-		AuditingConfig.user = null;
+		AuditingConfig.flushNewUser();
 
 		return "redirect:/";
 	}

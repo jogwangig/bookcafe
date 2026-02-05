@@ -9,7 +9,7 @@
 		<p>사용자 계정 생성!!</p>
 		<form th:action="@{/user/create}" method="post" th:object = "${createUserFormDTO}">
 			<p>
-			<label for="username" th:text = "dadadada">id</label>
+			<label for="username" th:text = "'id'">id</label>
 			<input type="text" th:field="*{username}"> 
 			</p>
 			<p>
