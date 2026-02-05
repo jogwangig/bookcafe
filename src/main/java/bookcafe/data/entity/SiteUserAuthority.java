@@ -1,6 +1,7 @@
 package bookcafe.data.entity;
 
 import bookcafe.data.Base;
+import bookcafe.data.ItemBase;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,10 +16,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SiteUserAuthority extends Base{
-	
-	@ManyToOne
-	private SiteUser userOwningAuthority;
+public class SiteUserAuthority extends ItemBase{
 	
 	@Enumerated(EnumType.STRING)
 	private AuthorityType authorityType;

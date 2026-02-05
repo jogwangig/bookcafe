@@ -8,6 +8,5 @@ import bookcafe.data.entity.SiteUser;
 import bookcafe.data.entity.SiteUserAuthority;
 
 public interface SiteUserAuthorityRepository extends JpaRepository<SiteUserAuthority, Long>{
-	
-	List<SiteUserAuthority> findByUserOwningAuthority(SiteUser siteUser);
+	List<SiteUserAuthority> findByUser(SiteUser user);
 }

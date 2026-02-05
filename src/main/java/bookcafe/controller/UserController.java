@@ -64,8 +64,8 @@ public class UserController {
 		
 
 		
-		SiteUserAuthority userAuthority = SiteUserAuthority.builder().userOwningAuthority(newUser)
-															.authorityType(AuthorityType.NORMAL).build();
+		SiteUserAuthority userAuthority = SiteUserAuthority.builder()
+											.authorityType(AuthorityType.NORMAL).build();
 				
 		userRepo.save(newUser);
 		
@@ -77,7 +77,6 @@ public class UserController {
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "" ,userDetails.getAuthorities());
 		ctx.setAuthentication(authentication);
 		SecurityContextHolder.setContext(ctx);
-		
 		
 		userAuthorityRepo.save(userAuthority);
 		

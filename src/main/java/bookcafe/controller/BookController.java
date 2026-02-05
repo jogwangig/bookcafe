@@ -32,10 +32,9 @@ public class BookController {
 	
 	@PostMapping("/create")
 	public String createBook(@ModelAttribute("bookInfo")BookInfo bookInfo) {
-		System.out.println(bookInfo);
-		System.out.println(
-		bookRepo.save(Book.builder().numberOfReadingRecord(8).bookInfo(bookInfo).bookShelf(bookShelfRepo.findById(3L).get()).build())
-		);
+		bookRepo.save(Book.builder().
+				numberOfReadingRecord(8).bookInfo(bookInfo).
+				bookShelf(bookShelfRepo.findById(3L).get()).build());
 		return "redirect:/";
 	}
 }

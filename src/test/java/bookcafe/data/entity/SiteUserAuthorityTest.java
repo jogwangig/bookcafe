@@ -6,15 +6,22 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import bookcafe.config.AuditingConfig;
+import bookcafe.config.SecurityConfig;
 import bookcafe.data.entity.SiteUserAuthority.AuthorityType;
 import bookcafe.data.repository.SiteUserAuthorityRepository;
 import bookcafe.data.repository.SiteUserRepository;
+import bookcafe.security.CustomUserDetailsService;
 import jakarta.persistence.EntityManager;
 
 @DataJpaTest
-@Import(AuditingConfig.class)
+@Import({AuditingConfig.class, CustomUserDetailsService.class})
 public class SiteUserAuthorityTest {
 	
 	@Autowired
@@ -26,6 +33,9 @@ public class SiteUserAuthorityTest {
 	@Autowired
 	EntityManager em;
 	
+	@Autowired
+	CustomUserDetailsService userDetailsService;
+	
 	@Test
 	void createSiteUserAuthorityTest() {
 		SiteUser user = SiteUser.builder().username("a").password("b").nickName("c").build();
@@ -33,10 +43,15 @@ public class SiteUserAuthorityTest {
 		em.flush();
 		em.clear();
 		
-		user = userRepo.findById(user.getId()).get();
+		SecurityContext ctx = SecurityContextHolder.createEmptyContext();
 		
-		SiteUserAuthority userAuthority = SiteUserAuthority.builder().userOwningAuthority(user)
-																		.authorityType(AuthorityType.NORMAL).build();
+		UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "" ,userDetails.getAuthorities());
+		ctx.setAuthentication(authentication);
+		SecurityContextHolder.setContext(ctx);
+		
+		SiteUserAuthority userAuthority = SiteUserAuthority.builder()
+												.authorityType(AuthorityType.NORMAL).build();
 		
 		userAuthorityRepo.save(userAuthority);
 		
