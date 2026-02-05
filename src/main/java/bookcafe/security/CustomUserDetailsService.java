@@ -35,7 +35,9 @@ public class CustomUserDetailsService implements UserDetailsService{
 																		.map(SimpleGrantedAuthority::new)
 																		.toList();
 		
-		return new User(user.getUsername(), user.getPassword(), authorities);
+		System.out.println(new CustomUserDetails(user, authorities));
+		return new CustomUserDetails(user, authorities);
+//		return new User(user.getUsername(), user.getPassword(), authorities);
 	}
 	
 }

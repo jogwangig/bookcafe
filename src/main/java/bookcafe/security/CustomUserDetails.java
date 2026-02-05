@@ -6,7 +6,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import bookcafe.data.entity.SiteUser;
+import lombok.ToString;
 
+@ToString
 public class CustomUserDetails implements UserDetails{
 	
 	private Long id;
