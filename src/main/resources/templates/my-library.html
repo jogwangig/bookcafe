@@ -6,6 +6,9 @@
 	</head>
 	<body>
 		<p>나의 도서관</p>
+		<div th:each = "bookShelf : ${bookShelfList}">
+			<p th:text = "${bookShelf.name}"></p>
+		</div>
 	</body>
 	
 </html>

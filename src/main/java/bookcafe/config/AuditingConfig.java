@@ -54,6 +54,11 @@ public class AuditingConfig {
 			}
 			
 			Authentication p = SecurityContextHolder.getContext().getAuthentication();
+			
+			if(p == null) {
+				System.out.println("Authentication이 존재하지 않아 AuditorAware<SiteUser> 를 반환 할 수 없습니다.");
+				return Optional.empty();
+			}
 		
 			if(p.getName().equals("anonymousUser")) {
 				System.out.println("현재 반환된 AuditorAware<SiteUser> 는 익명의 사용자입니다");
@@ -67,6 +72,7 @@ public class AuditingConfig {
 				SiteUser u = userRepo.findByUsername(a.getUsername());
 				return Optional.ofNullable(u);
 			}
+			
 			System.out.println("AuditorAware<SiteUser> 반환에 문제가 생겼습니다");
 			return Optional.empty();
 				

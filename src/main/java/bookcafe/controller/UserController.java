@@ -20,21 +20,19 @@ import bookcafe.data.entity.SiteUserAuthority.AuthorityType;
 import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.data.repository.SiteUserAuthorityRepository;
 import bookcafe.data.repository.SiteUserRepository;
+import lombok.AllArgsConstructor;
 
 @Controller
 @RequestMapping("/user")
+@AllArgsConstructor
 public class UserController {
 	
-	@Autowired
 	SiteUserRepository userRepo;
 	
-	@Autowired
 	SiteUserAuthorityRepository userAuthorityRepo;
 	
-	@Autowired
 	PasswordEncoder passwordEncoder;
 	
-	@Autowired
 	BookShelfRepository bookShelfRepo;
 	
 	@GetMapping("/create")

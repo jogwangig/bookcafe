@@ -1,6 +1,6 @@
 package bookcafe.controller;
 
-import java.security.Principal;
+import java.util.List;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import bookcafe.data.entity.BookShelf;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.security.CustomUserDetails;
@@ -22,10 +23,10 @@ public class LibraryController {
 	
 	private BookRepository bookRepo;
 	
-	@GetMapping()
+	@GetMapping
 	public String myLibrary(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-		bookShelfRepo.findBySiteUserId(userDetails.getId()).forEach(a->System.out.println(a.getName()));
-		
+		List<BookShelf> bookShelfList = bookShelfRepo.findBySiteUserId(userDetails.getId());
+		model.addAttribute("bookShelfList", bookShelfList);
 		return "my-library";
 	}
 
