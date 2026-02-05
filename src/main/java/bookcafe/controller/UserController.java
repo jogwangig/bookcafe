@@ -1,6 +1,11 @@
 package bookcafe.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +25,8 @@ import bookcafe.data.entity.SiteUserAuthority.AuthorityType;
 import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.data.repository.SiteUserAuthorityRepository;
 import bookcafe.data.repository.SiteUserRepository;
+import bookcafe.security.CustomUserDetails;
+import bookcafe.security.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -35,6 +42,8 @@ public class UserController {
 	
 	BookShelfRepository bookShelfRepo;
 	
+	CustomUserDetailsService userDetailsService;
+	
 	@GetMapping("/create")
 	public String createUser(Model model) {
 		model.addAttribute("createUserFormDTO", new SiteUser.SiteUserDTO());
@@ -46,7 +55,6 @@ public class UserController {
 	@PostMapping("/create")
 	public String processCreateUserForm(@ModelAttribute("createUserFormDTO") SiteUserDTO createUserFormDTO) {
 		
-		System.out.println(createUserFormDTO);
 		
 		createUserFormDTO.setPassword(
 				passwordEncoder.encode(createUserFormDTO.getPassword())
@@ -54,22 +62,26 @@ public class UserController {
 		
 		SiteUser newUser = SiteUser.newSiteUserFromDTO(createUserFormDTO);
 		
-		System.out.println(newUser);
+
 		
 		SiteUserAuthority userAuthority = SiteUserAuthority.builder().userOwningAuthority(newUser)
 															.authorityType(AuthorityType.NORMAL).build();
 				
-		AuditingConfig.setNewUser(
-				userRepo.save(newUser)
-				);
+		userRepo.save(newUser);
+		
+		
+		SecurityContext ctx = SecurityContextHolder.createEmptyContext();
+		
+		UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getUsername());
+		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails,"" ,userDetails.getAuthorities());
+		ctx.setAuthentication(authentication);
+		SecurityContextHolder.setContext(ctx);
+		
 		
 		userAuthorityRepo.save(userAuthority);
 		
-		System.out.println(
-				bookShelfRepo.save(BookShelf.builder().name("default").build())
-		);
+		bookShelfRepo.save(BookShelf.builder().name("default").build());
 				
-		AuditingConfig.flushNewUser();
 
 		return "redirect:/";
 	}
