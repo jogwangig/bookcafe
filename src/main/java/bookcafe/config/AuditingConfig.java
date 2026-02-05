@@ -18,24 +18,10 @@ import bookcafe.security.CustomUserDetails;
 @Configuration
 @EnableJpaAuditing
 public class AuditingConfig {
-	
-	private static SiteUser user;
-	
+		
 	@Bean
 	public AuditorAware<SiteUser> siteUserAuditorProvider(){
 		return new SiteUserAuditorAware();
-	}
-	
-	public static void setNewUser(SiteUser newUser) {
-		user = newUser;
-	}
-	
-	public static void flushNewUser() {
-		user = null;
-	}
-	
-	private static boolean isNewUser() {
-		return user != null;
 	}
 	
 
@@ -48,20 +34,10 @@ public class AuditingConfig {
 		public Optional<SiteUser> getCurrentAuditor() {
 				
 			
-			if(isNewUser()) {
-				System.out.println("현재 반환된 AuditorAware<SiteUser> 는 새롭게 생성된 사용자입니다");
-				return Optional.ofNullable(user);
-			}
-			
 			Authentication p = SecurityContextHolder.getContext().getAuthentication();
 			
-			if(p == null) {
+			if(p == null || p.getName().equals("anonymousUser")) {
 				System.out.println("Authentication이 존재하지 않아 AuditorAware<SiteUser> 를 반환 할 수 없습니다.");
-				return Optional.empty();
-			}
-		
-			if(p.getName().equals("anonymousUser")) {
-				System.out.println("현재 반환된 AuditorAware<SiteUser> 는 익명의 사용자입니다");
 				return Optional.empty();
 			}
 			

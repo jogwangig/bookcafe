@@ -72,8 +72,9 @@ public class UserController {
 		
 		SecurityContext ctx = SecurityContextHolder.createEmptyContext();
 		
+		
 		UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getUsername());
-		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails,"" ,userDetails.getAuthorities());
+		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "" ,userDetails.getAuthorities());
 		ctx.setAuthentication(authentication);
 		SecurityContextHolder.setContext(ctx);
 		
