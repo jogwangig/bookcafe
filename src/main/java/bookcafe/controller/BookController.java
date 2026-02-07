@@ -34,7 +34,7 @@ public class BookController {
 	public String createBook(@ModelAttribute("bookInfo")BookInfo bookInfo) {
 		bookRepo.save(Book.builder().
 				numberOfReadingRecord(8).bookInfo(bookInfo).
-				bookShelf(bookShelfRepo.findById(3L).get()).build());
+				bookShelf(bookShelfRepo.findById(1L).get()).build());
 		return "redirect:/";
 	}
 }
