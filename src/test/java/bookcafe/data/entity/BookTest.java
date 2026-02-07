@@ -25,15 +25,13 @@ public class BookTest {
 
 		
 		Book book = new Book.BookBuilder()
-				.numberOfReadingRecord(5).
-				bookInfo(BookInfo.builder().title("title").ISBN("ISBN").build()).build();
+				.bookInfo(BookInfo.builder().title("title").ISBN("ISBN").build()).build();
 		
 		bookRepo.save(book);
 		
 		Optional<Book> foundBook = bookRepo.findById(1L);
 		
 		if(foundBook.isPresent()) {
-			assertEquals(5, foundBook.get().getNumberOfReadingRecord());
 			assertEquals("title", foundBook.get().getBookInfo().getTitle());
 		}
 		

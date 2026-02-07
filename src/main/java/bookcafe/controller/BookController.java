@@ -33,7 +33,7 @@ public class BookController {
 	@PostMapping("/create")
 	public String createBook(@ModelAttribute("bookInfo")BookInfo bookInfo) {
 		bookRepo.save(Book.builder().
-				numberOfReadingRecord(8).bookInfo(bookInfo).
+				bookInfo(bookInfo).
 				bookShelf(bookShelfRepo.findById(1L).get()).build());
 		return "redirect:/";
 	}

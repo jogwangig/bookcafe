@@ -5,6 +5,8 @@
 		<title>대문</title>
 	</head>
 	<body>
+		<div th:replace="~{header::header}"></div>
+		<div th:replace="~{sidebar::side}"></div>
 		<p>시작 화면</p>
 		<a th:href = @{/user/create} th:text="'계정 생성'">aaa</a>
 		<a th:href = @{/book/create} th:text="'새로운 책 등록'">aaa</a>

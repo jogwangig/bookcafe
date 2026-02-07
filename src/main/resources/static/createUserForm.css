@@ -8,7 +8,18 @@ body{
 	
 }
 
+p{	
+	border : 5px solid yellow;
+	text-align: center;
+}
+
 form{
 	border : 5px solid black;
 	justify-items: center;
+}
+
+label{
+	display: inline-block;
+	width: 200px;
+	border: 5px solid pink;
 }

@@ -21,8 +21,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString(callSuper = true)
 public class Book extends ItemBase{
-
-	private long numberOfReadingRecord;
 	
 	@Embedded
 	private BookInfo bookInfo;
