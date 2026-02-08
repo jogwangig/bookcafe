@@ -1,0 +1,14 @@
+body{
+	min-height: 100vh;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+header{
+	font-size: 20px;
+	height: 200px;
+}
+
+main{
+	display: flex;
+	border: solid 4px rebeccapurple;
+}

@@ -4,14 +4,14 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
     <head>
-        <title>공통 타이틀</title>
+		<link rel="stylesheet" th:href = @{/layout.css}/>
     </head>
 
     <body>
        	<div th:replace="~{header::header}"></div>
+		<main>
 		<div th:replace="~{sidebar::side}"></div>
-		
         <th:block layout:fragment="Content"></th:block>
-    
+		</main>
     </body>
 </html>

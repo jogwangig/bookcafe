@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{/layout}">
+		
 	<head>
 		<link rel="stylesheet" th:href = @{/createUserForm.css}/>
 		<title>사용자 계정 생성</title>
 	</head>
 	<body>
+		<main>
+		<div layout:fragment="Content">
 		<p>사용자 계정 생성!!</p>
 		<form th:action="@{/user/create}" method="post" th:object = "${createUserFormDTO}">
 			<p>
@@ -24,5 +29,7 @@
 			<input type="submit"> 
 			</p>
 		</form>
+		</div>
+		</main>
 	</body>
 </html>
