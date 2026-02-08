@@ -11,7 +11,9 @@
        	<div th:replace="~{header::header}"></div>
 		<main>
 		<div th:replace="~{sidebar::side}"></div>
+		<div id="content">
         <th:block layout:fragment="Content"></th:block>
+		</div>
 		</main>
     </body>
 </html>
