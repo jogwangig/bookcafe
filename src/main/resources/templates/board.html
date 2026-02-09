@@ -2,15 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org"
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{/layout}">
+		
 	<head>
-		<link rel="stylesheet" th:href = @{/index.css}/>
-		<title>대문</title>
+		<title>게시판</title>
 	</head>
 	<body>
 		<div layout:fragment="Content">
-		<p>나의 도서관</p>
-		<div th:each = "bookShelf : ${bookShelfList}">
-			<p th:text = "${bookShelf.name}"></p>
+		<p>게시판</p>
 		</div>
 	</body>
 	
