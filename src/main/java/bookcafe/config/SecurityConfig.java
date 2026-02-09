@@ -20,7 +20,8 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 		.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers("/book/**").hasAnyAuthority("NORMAL")
+				.requestMatchers("/book/**", "/library/**").hasAnyAuthority("NORMAL", "ADMIN")
+				.requestMatchers("/board/create").hasAnyAuthority("ADMIN")
 				.anyRequest().permitAll())
 		
 		.formLogin(Customizer.withDefaults())
