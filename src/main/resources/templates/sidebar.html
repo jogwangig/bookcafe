@@ -5,12 +5,15 @@
 	<body>
 		<aside th:fragment="side">
 			<ul>
-			<a th:href = @{/library}>
-			  <li th:text = "'내 서재'" />
-			</a>
-			  
+			<li><a th:href = @{/library} th:text = "'내 서재'" style="display: block;"/></li>
+			
+			<li><a th:href = @{/user/create} th:text="'계정 생성'" style="display: block;"/></li>
+			
+			<li><a th:href = @{/book/create} th:text="'새로운 책 등록'" style="display: block;"/></li>
+			
+			<li><a th:href = @{/board} th:text="'게시판'" style="display: block;"/></li>
+			
 			</ul>
 		</aside>
 	</body>
-	
 </html>

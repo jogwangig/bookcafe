@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+		layout:decorate="~{/form-layout}">
 	<head>
 		<link rel="stylesheet" th:href = @{/createUserForm.css}/>
 		<title>사용자 계정 생성</title>
 	</head>
 	<body>
-		<p>사용자 계정 생성!!</p>
+		<div layout:fragment="Content">
+		<p>책 등록!!</p>
 		<form th:action="@{/book/create}" method="post" th:object = ${bookInfo}>
 			<p>
 			<label for="title" th:text = "'title'"></label>
@@ -20,5 +22,6 @@
 			<input type="submit"> 
 			</p>
 		</form>
+		</div>
 	</body>
 </html>

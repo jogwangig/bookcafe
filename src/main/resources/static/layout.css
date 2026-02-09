@@ -1,8 +1,11 @@
+*{
+	border: 3px black solid;
+}
+
 body{
 	min-height: 100vh;
-	width: 80vw;
+	width: 100vw;
 	margin: auto;
-	border: 5px palegreen solid;
 	font-family: Arial, Helvetica, sans-serif;
 	display: flex;
 	flex-direction: column;
@@ -12,7 +15,6 @@ body{
 header{
 	font-size: 30px;
 	padding: 5px;
-	border: 5px salmon solid;
 }
 
 header > a{
@@ -22,23 +24,18 @@ header > a{
 main{
 	flex : 1  1  0;
 	display: flex;
-	border: solid 4px rebeccapurple;
 }
 
 aside{
 	flex: 0 0 200px;
-	border: solid 4px rebeccapurple;
 }
 
 #content{
 	flex: 1 1 0;
-	border: solid 4px red;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-
-
 
 
 

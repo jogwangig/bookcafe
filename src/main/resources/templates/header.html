@@ -4,6 +4,9 @@
 	</head>
 	<body>
 		<header th:fragment="header" >
+			<a th:href = @{/}>
+				<span th:text ="'시작 화면'" />
+				</a>
 			<a th:href = @{/login}>
 			<span th:text ="'로그인'" />
 			</a>
