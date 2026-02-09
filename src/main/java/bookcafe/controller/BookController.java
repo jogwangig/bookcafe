@@ -27,7 +27,7 @@ public class BookController {
 	@GetMapping("/create")
 	public String createBook(Model model) {
 		model.addAttribute("bookInfo", new BookInfo());
-		return "create_book_form";
+		return "/form/create_book_form";
 	}
 	
 	@PostMapping("/create")

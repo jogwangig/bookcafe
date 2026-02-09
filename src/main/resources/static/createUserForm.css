@@ -1,3 +1,6 @@
+*{
+	border: rebeccapurple 3px solid;
+}
 
 p{	display: flex;
 	padding: 0;
@@ -11,7 +14,6 @@ form{
 }
 
 label{
-	display: inline-block;
 	width: 200px;
 }
 

@@ -27,7 +27,7 @@ public class LibraryController {
 	public String myLibrary(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		List<BookShelf> bookShelfList = bookShelfRepo.findByUserId(userDetails.getId());
 		model.addAttribute("bookShelfList", bookShelfList);
-		return "my-library";
+		return "/my-library";
 	}
 
 }

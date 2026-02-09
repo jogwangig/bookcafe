@@ -47,7 +47,7 @@ public class UserController {
 	@GetMapping("/create")
 	public String createUser(Model model) {
 		model.addAttribute("createUserFormDTO", new SiteUser.SiteUserDTO());
-		return "create_user_form";
+		return "/form/create_user_form";
 	}
 	
 	

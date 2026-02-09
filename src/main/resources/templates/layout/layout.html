@@ -8,9 +8,9 @@
     </head>
 
     <body>
-       	<div th:replace="~{header::header}"></div>
+       	<div th:replace="~{/fragment/header::header}"></div>
 		<main>
-		<div th:replace="~{sidebar::side}"></div>
+		<div th:replace="~{/fragment/sidebar::side}"></div>
 		<div id="content">
         <th:block layout:fragment="Content"></th:block>
 		</div>
