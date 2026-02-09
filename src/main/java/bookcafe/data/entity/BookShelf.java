@@ -1,5 +1,7 @@
 package bookcafe.data.entity;
 
+import java.util.List;
+
 import bookcafe.data.ItemBase;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -15,5 +17,13 @@ import lombok.NoArgsConstructor;
 public class BookShelf extends ItemBase {
 	
 	private String name;
+	
+	@Getter
+	@Builder
+	public static class BookShelfDTO{
+		private String name;
+		
+		private List<Book> books;
+	}
 
 }

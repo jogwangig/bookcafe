@@ -9,8 +9,16 @@
 	<body>
 		<div layout:fragment="Content">
 		<p>나의 도서관</p>
-		<div th:each = "bookShelf : ${bookShelfList}">
-			<p th:text = "${bookShelf.name}"></p>
+		<div th:each = "bookShelf : ${bookShelfDTOs}">
+			
+			<p th:text = "${bookShelf.name}">
+				
+			<ul th:each = "book : ${bookShelf.books}">
+				<li th:text = "${book.bookInfo.title}"></li>
+			</ul>
+			
+			</p>
+			
 		</div>
 	</body>
 	

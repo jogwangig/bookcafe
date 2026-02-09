@@ -41,17 +41,18 @@ public class UserService {
 		
 		SiteUser newUser = SiteUser.newSiteUserFromDTO(userDTO);
 	
-		
-		SiteUserAuthority userAuthority = SiteUserAuthority.builder()
-											.authorityType(AuthorityType.NORMAL).build();
-				
 		userRepo.save(newUser);
-		
 		setSecurityContextByNewUser(newUser);
 		
-		userAuthorityRepo.save(userAuthority);
+		SiteUserAuthority defaultAuthority = SiteUserAuthority.builder()
+											.authorityType(AuthorityType.NORMAL).build();
 		
-		bookShelfRepo.save(BookShelf.builder().name("default").build());
+		BookShelf defaultBookShelf = BookShelf.builder().name("default").build();
+				
+		
+		userAuthorityRepo.save(defaultAuthority);
+		
+		bookShelfRepo.save(defaultBookShelf);
 		
 	}
 	
