@@ -27,6 +27,7 @@ import bookcafe.data.repository.SiteUserAuthorityRepository;
 import bookcafe.data.repository.SiteUserRepository;
 import bookcafe.security.CustomUserDetails;
 import bookcafe.security.CustomUserDetailsService;
+import bookcafe.service.UserService;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -35,14 +36,16 @@ import lombok.AllArgsConstructor;
 public class UserController {
 	
 	SiteUserRepository userRepo;
+//	
+//	SiteUserAuthorityRepository userAuthorityRepo;
+//	
+//	PasswordEncoder passwordEncoder;
+//	
+//	BookShelfRepository bookShelfRepo;
+//	
+//	CustomUserDetailsService userDetailsService;
 	
-	SiteUserAuthorityRepository userAuthorityRepo;
-	
-	PasswordEncoder passwordEncoder;
-	
-	BookShelfRepository bookShelfRepo;
-	
-	CustomUserDetailsService userDetailsService;
+	private UserService userService;
 	
 	@GetMapping("/create")
 	public String createUser(Model model) {
@@ -55,33 +58,34 @@ public class UserController {
 	@PostMapping("/create")
 	public String processCreateUserForm(@ModelAttribute("createUserFormDTO") SiteUserDTO createUserFormDTO) {
 		
+		userService.createNewUser(createUserFormDTO);
 		
-		createUserFormDTO.setPassword(
-				passwordEncoder.encode(createUserFormDTO.getPassword())
-				);
-		
-		SiteUser newUser = SiteUser.newSiteUserFromDTO(createUserFormDTO);
-		
-
-		
-		SiteUserAuthority userAuthority = SiteUserAuthority.builder()
-											.authorityType(AuthorityType.NORMAL).build();
-				
-		userRepo.save(newUser);
-		
-		
-		SecurityContext ctx = SecurityContextHolder.createEmptyContext();
-		
-		
-		UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getUsername());
-		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "" ,userDetails.getAuthorities());
-		ctx.setAuthentication(authentication);
-		SecurityContextHolder.setContext(ctx);
-		
-		userAuthorityRepo.save(userAuthority);
-		
-		bookShelfRepo.save(BookShelf.builder().name("default").build());
-				
+//		createUserFormDTO.setPassword(
+//				passwordEncoder.encode(createUserFormDTO.getPassword())
+//				);
+//		
+//		SiteUser newUser = SiteUser.newSiteUserFromDTO(createUserFormDTO);
+//		
+//
+//		
+//		SiteUserAuthority userAuthority = SiteUserAuthority.builder()
+//											.authorityType(AuthorityType.NORMAL).build();
+//				
+//		userRepo.save(newUser);
+//		
+//		
+//		SecurityContext ctx = SecurityContextHolder.createEmptyContext();
+//		
+//		
+//		UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getUsername());
+//		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "" ,userDetails.getAuthorities());
+//		ctx.setAuthentication(authentication);
+//		SecurityContextHolder.setContext(ctx);
+//		
+//		userAuthorityRepo.save(userAuthority);
+//		
+//		bookShelfRepo.save(BookShelf.builder().name("default").build());
+//				
 
 		return "redirect:/";
 	}
