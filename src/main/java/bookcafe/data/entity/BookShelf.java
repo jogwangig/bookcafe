@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -19,7 +20,10 @@ public class BookShelf extends ItemBase {
 	private String name;
 	
 	@Getter
+	@Setter
 	@Builder
+	@AllArgsConstructor
+	@NoArgsConstructor
 	public static class BookShelfDTO{
 		private String name;
 		
