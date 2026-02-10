@@ -17,15 +17,19 @@ body{
 
 header{
 	display: flex;
-	justify-content: right;
+	justify-content: start;
 	font-size: 15px;
+	padding: 5px 0;
 	background-color: #F4F4F4;
+}
+
+header > a{
+	margin-left: 30px;
 }
 
 header > a, aside a{
 	display: flex;
 	align-items: center;
-	margin-right: 15px;
 	color: #333333;
 	text-decoration: none;
 }
