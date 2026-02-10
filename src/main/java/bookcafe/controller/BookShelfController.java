@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import bookcafe.data.entity.Book;
+import bookcafe.data.entity.BookShelf;
 import bookcafe.data.entity.BookShelf.BookShelfDTO;
 import bookcafe.data.repository.BookShelfRepository;
-import bookcafe.data.valueobject.BookInfo;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -28,6 +27,7 @@ public class BookShelfController {
 	
 	@PostMapping("/create")
 	public String processBookShelfCreation(@ModelAttribute("bookShelfDTO")BookShelfDTO bookShelfDTO) {
+		bookShelfRepo.save(BookShelf.builder().name(bookShelfDTO.getName()).build());
 		return "redirect:/";
 	}
 

@@ -1,24 +1,42 @@
-*{
-	border: rebeccapurple 3px solid;
-}
-
-p{	display: flex;
-	padding: 0;
+#content > div{
+	display: flex;
+	flex-direction: column;
+	background-color: #F4F4F4;
+	gap: 20px;
+	justify-content: center;
 	align-items: center;
-	justify-items: center;
 }
 
-form{
-	justify-items: center;
-	padding: 0;
+form > p{	
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 15px;
 }
 
-label{
-	width: 200px;
+form *{
+	line-height: 1.5rem;
 }
 
-label, input{
-	height: 1.5rem;
-	padding: 0;
-	margin : 0;
+form > p > label{
+	flex: 0 0 150px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #E0E0E0;
 }
+
+form > p > input{
+	flex : 1 0 200px;
+}
+
+form > p > input[type = "submit"]{
+	margin-left: 160px;
+}
+
+.form-title{
+	font-size: 30px;
+	font-weight: bold;
+}
+

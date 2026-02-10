@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<div layout:fragment="Content">
-		<p>책 등록!!</p>
+		<p class="form-title">책 등록!!</p>
 		<form th:action="@{/book/create}" method="post" th:object = ${bookInfo}>
 			<p>
 			<label for="title" th:text = "'title'"></label>

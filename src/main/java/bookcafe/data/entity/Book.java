@@ -1,9 +1,13 @@
 package bookcafe.data.entity;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import bookcafe.data.ItemBase;
 import bookcafe.data.valueobject.BookInfo;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -25,7 +29,7 @@ public class Book extends ItemBase{
 	@Embedded
 	private BookInfo bookInfo;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private BookShelf bookShelf;
 	
 }
