@@ -1,5 +1,4 @@
 *{
-	/*border: 1px black solid;*/
 	box-sizing: border-box;
 	padding: 0;
 	margin: 0;
@@ -8,51 +7,17 @@
 body{
 	min-height: 100vh;
 	min-width: 95vw;
-	/*background-color: #F9F9F9;*/
 	font-family: Arial, Helvetica, sans-serif;
+	background-color: white;
 	display: flex;
 	flex-direction: column;
 	gap : 30px;
 }
 
 header{
-	display: flex;
-	justify-content: start;
 	font-size: 15px;
 	padding: 5px 0;
 	background-color: #F4F4F4;
-}
-
-header > a{
-	margin-left: 30px;
-}
-
-header > a, aside a{
-	display: flex;
-	align-items: center;
-	color: #333333;
-	text-decoration: none;
-}
-
-header > a:visited, aside a:visited{
-	color: #333333;
-}
-
-aside li{
-	margin-top: 15px;
-	font-size: 18px;
-	font-weight: bold;
-}
-
-aside li:first-child{
-	margin-top: 30px;
-}
-
-main{
-	flex : 1  1  0;
-	display: flex;
-	margin: 0 30px;
-	background-color: #F9F9F9;
 }
 
 aside{
@@ -63,9 +28,39 @@ aside{
 	align-items: center;
 }
 
-
-ul{
+.guide-link-list{
 	list-style: none;
+}
+
+.guide-link-list a, .guide-link-list a:visited{
+	color: #333333;
+	text-decoration: none;
+}
+
+
+.header-link-list{
+	display: flex;
+}
+
+.header-link-list > li{
+	margin-left: 30px;
+}
+
+.side-link-list > li{
+	margin-top: 15px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.side-link-list > li:first-child{
+	margin-top: 30px;
+}
+
+main{
+	flex : 1  1  0;
+	display: flex;
+	margin: 0 30px;
+	background-color: #F9F9F9;
 }
 
 

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{/layout/form-layout}">
+		
+	<head>
+		<link rel="stylesheet" th:href = @{/creation-form.css}/>
+		<title>사용자 계정 생성</title>
+	</head>
+	
+	<body>
+		<div layout:fragment="Content">
+		<p class="form-title">독서 기록 등록!!</p>
+		<form th:action="@{/reading-record/create}" method="post" th:object = ${readingRecord}>
+			<p>
+			<label for="content" th:text = "'내용'"></label>
+			<input type="text" th:field="*{content}"> 
+			</p>
+			<p>
+			    <label for="book-select">등록 할 책 :</label>
+			    <select id="book-select" name="book-select">
+			      <option th:each = "b : ${books}" th:value="${b.id}" th:text="${b.bookInfo.title}">option</option>
+			    </select>
+			 </p>
+			<p>
+			<input type="submit"> 
+			</p>
+		</form>
+		</div>
+	</body>
+</html>
