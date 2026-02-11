@@ -20,11 +20,11 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 		.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers("/book/**", "/library/**").hasAnyAuthority("NORMAL", "ADMIN")
+				.requestMatchers("/book/**", "/library/**", "/reading-record/**").hasAnyAuthority("NORMAL", "ADMIN")
 				.requestMatchers("/board/create").hasAnyAuthority("ADMIN")
 				.anyRequest().permitAll())
 		
-		.formLogin(Customizer.withDefaults())
+		.formLogin(Customizer.withDefaults()).logout(logout->logout.logoutSuccessUrl("/"))
 		
 		.csrf((csrf)->csrf
 				.ignoringRequestMatchers("/h2-console/**"))

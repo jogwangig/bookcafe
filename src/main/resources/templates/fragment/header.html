@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	<head>
 	</head>
 	<body>
 		<header th:fragment="header" >
 			<ul class="guide-link-list header-link-list">
 				<li><a th:href = @{/}  th:text ="'시작 화면'"></a></li>
-				<li><a th:href = @{/login}  th:text ="'로그인'"></a></li>
+				<li sec:authorize="isAnonymous()"><a th:href = @{/login}  th:text ="'로그인'"></a></li>
+				<li sec:authorize="isAuthenticated()"><a th:href = @{/logout}  th:text ="'로그아웃'"></a></li>
 			</ul>
 		</header>
 	</body>
