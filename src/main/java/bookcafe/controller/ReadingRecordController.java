@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import bookcafe.data.entity.Book;
 import bookcafe.data.entity.ReadingRecord;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.ReadingRecordRepository;
-import bookcafe.data.valueobject.BookInfo;
 import bookcafe.security.CustomUserDetails;
 import lombok.AllArgsConstructor;
 
@@ -25,6 +23,12 @@ public class ReadingRecordController {
 	
 	ReadingRecordRepository readingRecordRepo;
 	
+	
+	@GetMapping
+	public String displayReadingRecords(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+		model.addAttribute("readingRecords", readingRecordRepo.findByUserId(userDetails.getId()));
+		return "/reading-record-list";
+	}
 	
 	@GetMapping("/create")
 	public String createReadingRecord(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {

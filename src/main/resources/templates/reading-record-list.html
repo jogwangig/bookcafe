@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{/layout/layout}">
+	<head>
+		<link rel="stylesheet" th:href = @{/item-list.css}/>
+		<title>대문</title>
+	</head>
+	<body>
+	<div layout:fragment="Content" class="content-fragment" >
+		<p class="list-title" >나의 독서 기록</p>		
+		<ul class="item-list">
+			<li class="item" th:each = "readingRecord : ${readingRecords}" th:text = "${readingRecord.content}"></li>
+		</ul>
+			
+	</div>
+	</body>
+	
+</html>

@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<main>
-		<div layout:fragment="Content">
+		<div layout:fragment="Content" class="content-fragment">
 		<p>사용자 계정 생성!!</p>
 		<form th:action="@{/user/create}" method="post" th:object = "${createUserFormDTO}">
 			<p>

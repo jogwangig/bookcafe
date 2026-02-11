@@ -1,8 +1,6 @@
-#content > div{
+.content-fragment{
 	display: flex;
 	flex-direction: column;
-	background-color: #F4F4F4;
-	gap: 20px;
 	justify-content: center;
 	align-items: center;
 }
@@ -27,7 +25,7 @@ form > p > label{
 	background-color: #E0E0E0;
 }
 
-form > p > input{
+form > p > input, form > p > select{
 	flex : 1 0 200px;
 }
 

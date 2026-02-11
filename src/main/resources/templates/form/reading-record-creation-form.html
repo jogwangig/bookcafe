@@ -10,7 +10,7 @@
 	</head>
 	
 	<body>
-		<div layout:fragment="Content">
+		<div layout:fragment="Content" class="content-fragment">
 		<p class="form-title">독서 기록 등록!!</p>
 		<form th:action="@{/reading-record/create}" method="post" th:object = ${readingRecord}>
 			<p>
