@@ -1,0 +1,13 @@
+header{
+	font-size: 15px;
+	padding: 5px 0;
+	background-color: #F4F4F4;
+}
+
+.header-link-list{
+	display: flex;
+}
+
+.header-link-list > li{
+	margin-left: 30px;
+}

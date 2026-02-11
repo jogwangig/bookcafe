@@ -3,8 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-    <head>
-		<link rel="stylesheet" th:href = @{/layout.css}/>
+    <head th:replace="~{/fragment/config::config}">
     </head>
 
     <body>

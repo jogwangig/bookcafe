@@ -1,0 +1,16 @@
+aside{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-height: 100vh;
+}
+
+.side-link-list > li{
+	margin-top: 15px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.side-link-list > li:first-child{
+	margin-top: 30px;
+}
