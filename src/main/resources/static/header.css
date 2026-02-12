@@ -1,4 +1,5 @@
 header{
+	display: flex;
 	font-size: 15px;
 	padding: 5px 50px;
 	background-color: #F4F4F4;
@@ -9,7 +10,6 @@ header{
 	gap: 20px;
 }
 
-.right-start-item{
+.right-link-list{
 	margin-left: auto;
 }
-

@@ -9,7 +9,17 @@
 	<body>
 	<div layout:fragment="Content" class="content-fragment" >
 		<p class="title" th:text = "|제목 : ${post.title}|"></p>		
-		<p th:text = "|내용  ${post.content}|"></p>		
+		<p th:text = "|내용  ${post.content}|"></p>
+		<br/>
+		<form th:action="@{|/comment/create?postId=${post.id}|}" method="post" th:object = ${comment}>
+			<p>
+			<label for="content" th:text = "'내용'"></label>
+			<input type="text" th:field="*{content}"> 
+			</p>
+			<p>
+			<input type="submit"> 
+			</p>
+		</form>	
 
 	</div>
 	</body>

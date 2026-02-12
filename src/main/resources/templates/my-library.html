@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-		layout:decorate="~{/layout/library-layout}">
+		layout:decorate="~{/layout/layout}">
 	<head>
 		<link rel="stylesheet" th:href = @{/item-list.css}/>
 		<title>대문</title>
 	</head>
 	<body>
 	<div layout:fragment="Content" class="content-fragment">
-		<p class="title" >나의 도서관</p>
+		<p class="title">나의 도서관</p>
 		<div class="item-list-container" th:each = "bookShelf : ${bookShelfDTOs}">
 				
 			<p class="list-title">
