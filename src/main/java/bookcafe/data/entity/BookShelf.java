@@ -25,6 +25,8 @@ public class BookShelf extends ItemBase {
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class BookShelfDTO{
+		private long id;
+		
 		private String name;
 		
 		private List<Book> books;

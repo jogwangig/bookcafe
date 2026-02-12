@@ -3,17 +3,22 @@
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{/layout/library-layout}">
 	<head>
+		<link rel="stylesheet" th:href = @{/item-list.css}/>
 		<title>대문</title>
 	</head>
 	<body>
 	<div layout:fragment="Content" class="content-fragment">
-		<p class="list-title" >나의 도서관</p>
-		<div th:each = "bookShelf : ${bookShelfDTOs}">
+		<p class="title" >나의 도서관</p>
+		<div class="item-list-container" th:each = "bookShelf : ${bookShelfDTOs}">
 				
-			<p class="list-sub-title" th:text = "|책장 이름 : ${bookShelf.name}|"></p>
+			<p class="list-title">
+				<a th:href="@{|/book-shelf?bookShelfId=${bookShelf.id}|}" th:text = "|📚 책장 ${bookShelf.name}|"></a>
+			</p>
 					
 			<ul class="item-list">
-				<li class="item" th:each = "book : ${bookShelf.books}" th:text = "${book.bookInfo.title}"></li>
+				<li class="item" th:each = "book : ${bookShelf.books}">
+					<a th:href="@{|/book?bookId=${book.id}|}" th:text = "|📖 ${book.bookInfo.title}|"></a>
+				</li>
 			</ul>
 			
 		</div>

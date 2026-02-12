@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import bookcafe.data.entity.Book;
 import bookcafe.data.entity.BookShelf;
@@ -26,6 +27,16 @@ public class BookController {
 	BookRepository bookRepo;
 	
 	BookShelfRepository bookShelfRepo;
+	
+	
+	@GetMapping
+	public String getBookShelfById(Model model, @RequestParam("bookId")long bookId) {
+		model.addAttribute("book", bookRepo.findById(bookId).get());
+		
+		return "/book";
+	}
+	
+	
 	
 	@GetMapping("/create")
 	public String createBook(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {

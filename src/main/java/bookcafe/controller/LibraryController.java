@@ -31,7 +31,7 @@ public class LibraryController {
 		List<BookShelfDTO> bookShelfDTOs = new ArrayList<>();
 		
 		for(BookShelf bookShelf : bookShelfList) {
-			BookShelfDTO b = BookShelfDTO.builder().name(bookShelf.getName())
+			BookShelfDTO b = BookShelfDTO.builder().id(bookShelf.getId()).name(bookShelf.getName())
 													.books(bookRepo.findByBookShelfId(bookShelf.getId())).build();
 			bookShelfDTOs.add(b);
 		}
