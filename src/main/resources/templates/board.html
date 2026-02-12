@@ -4,13 +4,16 @@
 		layout:decorate="~{/layout/board-layout}">
 		
 	<head>
+		<link rel="stylesheet" th:href = @{/item-list.css}/>
 		<title>게시판</title>
 	</head>
 	<body>
 		<div layout:fragment="Content" class="content-fragment">
-		<p>게시판</p>
+		<p class="title">게시판</p>
 		<ul>
-			<li th:each = "post : ${posts}" th:text = "|글 제목 : ${post.title}|"></li>
+			<li class="item" th:each = "post : ${posts}" >
+				<a class="item-link" th:href="@{|/post?postId=${post.id}|}" th:text = "|제목 : ${post.title}|"></a>
+			</li>
 		</ul>
 		</div>
 	</body>

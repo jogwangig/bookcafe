@@ -22,6 +22,15 @@ public class PostController {
 	
 	private BoardRepository boardRepo;
 	
+	@GetMapping(params = "postId")
+	public String displayPostById(Model model, @RequestParam("postId") long postId) {
+		Post post = postRepo.findById(postId).get();
+		
+		model.addAttribute("post", post);
+		return "post";
+	}
+	
+	
 	@GetMapping("/create")
 	public String createPost(Model model, @RequestParam("boardId")long boardId) {
 		
