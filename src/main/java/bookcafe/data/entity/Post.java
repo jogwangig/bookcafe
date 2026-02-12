@@ -1,6 +1,7 @@
 package bookcafe.data.entity;
 
 import bookcafe.data.ItemBase;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
@@ -20,6 +21,7 @@ public class Post extends ItemBase{
 	
 	private String title;
 	
+	@Column(length=1000)
 	private String content;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
