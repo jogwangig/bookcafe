@@ -1,5 +1,7 @@
 package bookcafe.controller;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import bookcafe.data.entity.Book;
 import bookcafe.data.entity.BookShelf;
@@ -31,7 +34,14 @@ public class BookController {
 	
 	@GetMapping
 	public String getBookShelfById(Model model, @RequestParam("bookId")long bookId) {
-		model.addAttribute("book", bookRepo.findById(bookId).get());
+		Book book = bookRepo.findById(bookId).get();
+		
+		if(book.getCoverImage() != null) {
+			String coverImg = Base64.getEncoder().encodeToString(book.getCoverImage());
+			model.addAttribute("coverImg", coverImg);
+		}
+		
+		model.addAttribute("book", book);
 		
 		return "/book";
 	}
@@ -49,11 +59,20 @@ public class BookController {
 	}
 	
 	@PostMapping("/create")
-	public String createBook(@ModelAttribute("bookInfo")BookInfo bookInfo, @ModelAttribute("bookshelf-select")Long bookShelfId) {
+	public String createBook(@ModelAttribute("bookInfo")BookInfo bookInfo, @ModelAttribute("bookshelf-select")Long bookShelfId
+			,@RequestParam("coverImage")MultipartFile coverImg) throws IOException{
 		
-		bookRepo.save(Book.builder().
-				bookInfo(bookInfo).
-				bookShelf(bookShelfRepo.getReferenceById(bookShelfId)).build());
+		if(!coverImg.isEmpty()) {
+			bookRepo.save(Book.builder().
+					coverImage(coverImg.getBytes()).
+					bookInfo(bookInfo).
+					bookShelf(bookShelfRepo.getReferenceById(bookShelfId)).build());
+		}else {
+			bookRepo.save(Book.builder().
+					bookInfo(bookInfo).
+					bookShelf(bookShelfRepo.getReferenceById(bookShelfId)).build());
+		}
+		
 		return "redirect:/";
 	}
 }
