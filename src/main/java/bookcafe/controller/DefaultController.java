@@ -8,16 +8,13 @@ import bookcafe.data.entity.Book;
 import bookcafe.data.entity.BookShelf;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
-import bookcafe.data.repository.SiteUserRepository;
 import bookcafe.data.valueobject.BookInfo;
 import lombok.AllArgsConstructor;
 
 @Controller
 @AllArgsConstructor
 public class DefaultController {
-	
-	private SiteUserRepository userRepo;
-	
+		
 	private BookRepository bookRepo;
 	
 	private BookShelfRepository bookShelfRepo;	

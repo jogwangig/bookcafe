@@ -13,12 +13,6 @@ body{
 	flex-direction: column;
 	gap : 30px;
 }
-/*
-header{
-	font-size: 15px;
-	padding: 5px 0;
-	background-color: #F4F4F4;
-}*/
 
 main{
 	flex : 1  0  0;
@@ -31,19 +25,13 @@ main{
 aside{
 	flex: 0 0 200px;
 	background-color: #E0E0E0;
-	/*
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	max-height: 100vh;
-	*/
 }
 
 .guide-link-list{
 	list-style: none;
 }
 
-.guide-link-list a, .guide-link-list a:visited{
+.guide-link-list a{
 	color: #333333;
 	text-decoration: none;
 }
@@ -52,26 +40,6 @@ aside{
 	color: blue;
 }
 
-/*
-.header-link-list{
-	display: flex;
-}
-
-.header-link-list > li{
-	margin-left: 30px;
-}
-
-.side-link-list > li{
-	margin-top: 15px;
-	font-size: 18px;
-	font-weight: bold;
-}
-
-.side-link-list > li:first-child{
-	margin-top: 30px;
-}
-
-*/
 
 #content{
 	flex: 1 0 auto;

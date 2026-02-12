@@ -12,12 +12,12 @@
 		<div class="item-list-container" th:each = "bookShelf : ${bookShelfDTOs}">
 				
 			<p class="list-title">
-				<a th:href="@{|/book-shelf?bookShelfId=${bookShelf.id}|}" th:text = "|📚 책장 ${bookShelf.name}|"></a>
+				<a class="item-link" th:href="@{|/book-shelf?bookShelfId=${bookShelf.id}|}" th:text = "|📚 책장 ${bookShelf.name}|"></a>
 			</p>
 					
 			<ul class="item-list">
 				<li class="item" th:each = "book : ${bookShelf.books}">
-					<a th:href="@{|/book?bookId=${book.id}|}" th:text = "|📖 ${book.bookInfo.title}|"></a>
+					<a class="item-link" th:href="@{|/book?bookId=${book.id}|}" th:text = "|📖 ${book.bookInfo.title}|"></a>
 				</li>
 			</ul>
 			

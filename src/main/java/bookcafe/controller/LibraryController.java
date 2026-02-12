@@ -27,10 +27,10 @@ public class LibraryController {
 	
 	@GetMapping
 	public String myLibrary(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-		List<BookShelf> bookShelfList = bookShelfRepo.findByUserId(userDetails.getId());
+		List<BookShelf> bookShelfs = bookShelfRepo.findByUserId(userDetails.getId());
 		List<BookShelfDTO> bookShelfDTOs = new ArrayList<>();
 		
-		for(BookShelf bookShelf : bookShelfList) {
+		for(BookShelf bookShelf : bookShelfs) {
 			BookShelfDTO b = BookShelfDTO.builder().id(bookShelf.getId()).name(bookShelf.getName())
 													.books(bookRepo.findByBookShelfId(bookShelf.getId())).build();
 			bookShelfDTOs.add(b);

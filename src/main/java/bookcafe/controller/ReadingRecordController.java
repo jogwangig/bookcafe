@@ -24,11 +24,15 @@ public class ReadingRecordController {
 	
 	ReadingRecordRepository readingRecordRepo;
 	
+	
+	
 	@GetMapping(params = "bookId")
 	public String displayReadingRecordsByBookId(Model model,@RequestParam("bookId")long bookId) {
 		model.addAttribute("readingRecords", readingRecordRepo.findByBookId(bookId));
 		return "/reading-record-list";
 	}
+	
+	
 	
 	@GetMapping
 	public String displayReadingRecords(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -36,12 +40,16 @@ public class ReadingRecordController {
 		return "/reading-record-list";
 	}
 	
+	
+	
 	@GetMapping("/create")
 	public String createReadingRecord(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		model.addAttribute("readingRecord", new ReadingRecord());
 		model.addAttribute("books", bookRepo.findByUserId(userDetails.getId()));
 		return "/form/reading-record-creation-form";
 	}
+	
+	
 	
 	@PostMapping("/create")
 	public String createBook(@ModelAttribute("readingRecord")ReadingRecord readingRecord, @ModelAttribute("book-select")Long bookId) {

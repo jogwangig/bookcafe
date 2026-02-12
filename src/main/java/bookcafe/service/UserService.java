@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import bookcafe.data.entity.BookShelf;
 import bookcafe.data.entity.SiteUser;
-import bookcafe.data.entity.SiteUserAuthority;
 import bookcafe.data.entity.SiteUser.SiteUserDTO;
+import bookcafe.data.entity.SiteUserAuthority;
 import bookcafe.data.entity.SiteUserAuthority.AuthorityType;
 import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.data.repository.SiteUserAuthorityRepository;
