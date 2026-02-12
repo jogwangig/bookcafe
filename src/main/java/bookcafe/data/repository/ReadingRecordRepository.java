@@ -9,5 +9,6 @@ import bookcafe.data.entity.ReadingRecord;
 
 @Repository
 public interface ReadingRecordRepository extends JpaRepository<ReadingRecord, Long>{
+	List<ReadingRecord> findByBookId(Long id);
 	List<ReadingRecord> findByUserId(Long id);
 }

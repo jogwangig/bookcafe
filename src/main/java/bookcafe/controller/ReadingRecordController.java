@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import bookcafe.data.entity.ReadingRecord;
 import bookcafe.data.repository.BookRepository;
@@ -23,6 +24,11 @@ public class ReadingRecordController {
 	
 	ReadingRecordRepository readingRecordRepo;
 	
+	@GetMapping(params = "bookId")
+	public String displayReadingRecordsByBookId(Model model,@RequestParam("bookId")long bookId) {
+		model.addAttribute("readingRecords", readingRecordRepo.findByBookId(bookId));
+		return "/reading-record-list";
+	}
 	
 	@GetMapping
 	public String displayReadingRecords(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {

@@ -9,9 +9,10 @@
 	<body>
 	<div layout:fragment="Content" class="content-fragment">
 		<p class="title" >책</p>
-		<img th:if="${coverImg}" th:src="|data:jpg;base64,${coverImg}|" width="200px" height="400px" />
+		<img th:if="${coverImg}" th:src="|data:jpg;base64,${coverImg}|" width="250px" height="auto" />
 		<p th:text = "|📖 ${book.bookInfo.title}|"></p>
 		<p th:text = "|ISBN ${book.bookInfo.ISBN}|"></p>
+		<a th:text = "'독서 기록 보기'" th:href="@{|/reading-record?bookId=${book.id}|}"></a>
 		
 	</div>
 	</body>
