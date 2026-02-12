@@ -2,7 +2,7 @@
 
 <html xmlns:th="http://www.thymeleaf.org"
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-		layout:decorate="~{/layout/form-layout}">
+		layout:decorate="~{/layout/board-form-layout}">
 		
 	<head>
 		<title>사용자 계정 생성</title>
@@ -11,7 +11,7 @@
 	<body>
 		<div layout:fragment="Content" class="content-fragment">
 		<p class="form-title">게시글 등록!!</p>
-		<form th:action="@{/post/create}" method="post" th:object = ${post}>
+		<form th:action="@{|/post/create?boardId=${boardId}|}" method="post" th:object = ${post}>
 			<p>
 				<label for="title" th:text = "'제목'"></label>
 				<input type="text" th:field="*{title}"> 

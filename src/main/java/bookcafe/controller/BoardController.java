@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import bookcafe.data.entity.Board;
 import bookcafe.data.repository.BoardRepository;
+import bookcafe.data.repository.PostRepository;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -18,8 +19,15 @@ public class BoardController {
 	
 	private BoardRepository boardRepo;
 	
+	private PostRepository postRepo;
+	
 	@GetMapping
-	public String main() {
+	public String main(Model model) {
+		Board board = boardRepo.findByName("main");
+		model.addAttribute("boardId", board.getId());
+		model.addAttribute("board", board);
+		model.addAttribute("posts", postRepo.findByBoardId(board.getId()));
+		
 		return "/board";
 	}
 	

@@ -2,7 +2,7 @@
 
 <html xmlns:th="http://www.thymeleaf.org"
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-		layout:decorate="~{/layout/form-layout}">
+		layout:decorate="~{/layout/board-form-layout}">
 	<head>
 		<title>게시판 생성</title>
 	</head>
@@ -11,7 +11,7 @@
 		<p>게시판 등록!!</p>
 		<form th:action="@{/board/create}" method="post" th:object = ${board}>
 			<p>
-			<label for="name" th:text = "'board name'"></label>
+			<label for="name" th:text = "'게시판 이름'"></label>
 			<input type="text" th:field="*{name}"> 
 			</p>
 			<p>

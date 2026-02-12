@@ -7,5 +7,5 @@ import bookcafe.data.entity.Board;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long>{
-
+	Board findByName(String name);
 }
