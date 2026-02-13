@@ -36,7 +36,11 @@
 			<ul th:if="${currentURI != null and currentURI.matches('^(/board|/post).*' )}"
 			 class="guide-link-list  header-link-list right-link-list">	
 			 
-			 	<li><a th:href = @{|/post/create?boardId=${boardId}|} th:text="'글 등록'" /></li>
+			 	<li th:if= "${!currentURI.matches('/board/board-list|/post/create')}">
+					<a th:href = @{|/post/create?boardId=${boardId}|} th:text="'글 등록'" /></li>
+					
+				<li th:if= "${!currentURI.matches('/board/board-list')}">
+					<a th:href = @{|/board/board-list|} th:text="'게시판 목록'" /></li>
 				
 			</ul>
 			

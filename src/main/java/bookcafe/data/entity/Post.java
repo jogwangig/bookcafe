@@ -19,6 +19,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Post extends ItemBase{
 	
+	private String anonymousUsername;
+	
+	private String anonymousUserPwd;
+	
 	private String title;
 	
 	@Column(length=1000)

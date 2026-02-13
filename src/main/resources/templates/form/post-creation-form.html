@@ -12,6 +12,17 @@
 		<div layout:fragment="Content" class="content-fragment">
 		<p class="form-title">게시글 등록!!</p>
 		<form th:action="@{|/post/create?boardId=${boardId}|}" method="post" th:object = ${post}>
+			
+			<p sec:authorize="isAnonymous()">
+				<label for="annonymousUsername" th:text = "'id'"></label>
+				<input type="text" th:field="*{anonymousUsername}"> 
+			</p>
+				
+			<p sec:authorize="isAnonymous()">
+				<label for="annonymousUserPwd" th:text = "'비밀 번호'"></label>
+				<input type="password" th:field="*{anonymousUserPwd}"> 
+			</p>
+			
 			<p>
 				<label for="title" th:text = "'제목'"></label>
 				<input type="text" th:field="*{title}"> 

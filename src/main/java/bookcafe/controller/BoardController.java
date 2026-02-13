@@ -1,5 +1,7 @@
 package bookcafe.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import bookcafe.data.entity.Board;
-import bookcafe.data.entity.Post;
 import bookcafe.data.repository.BoardRepository;
 import bookcafe.data.repository.PostRepository;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,14 @@ public class BoardController {
 		model.addAttribute("posts", postRepo.findByBoardId(board.getId()));
 		
 		return "/board";
+	}
+	
+	@GetMapping("/board-list")
+	public String displayBoards(Model model) {
+		List<Board> boards = boardRepo.findAll();
+		model.addAttribute("boards", boards);
+		
+		return "/board-list";
 	}
 	
 	@GetMapping("/create")

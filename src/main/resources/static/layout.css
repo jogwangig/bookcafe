@@ -19,13 +19,17 @@ main{
 	flex : 1  0  0;
 	display: flex;
 	margin: 0 30px;
+	/*
 	background-color: #F9F9F9;
+	*/
 }
 
 
 aside{
 	flex: 0 0 200px;
-	background-color: #E0E0E0;
+	border-right: 1px solid black;
+	/*background-color: #E0E0E0;*/
+	background-color: #F4F4F4;
 }
 
 .guide-link-list{
