@@ -27,7 +27,7 @@ public class ReadingRecordController {
 	
 	
 	@GetMapping(params = "bookId")
-	public String displayReadingRecordsByBookId(Model model,@RequestParam("bookId")long bookId) {
+	public String displayReadingRecordsByBookId(Model model, @RequestParam("bookId")long bookId) {
 		model.addAttribute("readingRecords", readingRecordRepo.findByBookId(bookId));
 		return "/reading-record-list";
 	}

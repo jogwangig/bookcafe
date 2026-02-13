@@ -4,14 +4,13 @@
 		layout:decorate="~{/layout/layout}">
 		
 	<head>
-		<!--
-		<link rel="stylesheet" th:href = @{/index.css}/>
-		-->
+		<script th:src="@{/js/test.js}" defer></script>
 		<title>대문</title>
 	</head>
 	<body>
 		<div layout:fragment="Content" class="content-fragment">
-		<p>시작 화면</p>
+		<p id="btn">시작 화면</p>
+		<img id = "img" />
 		</div>
 	</body>
 	
