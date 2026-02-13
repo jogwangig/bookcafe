@@ -44,7 +44,7 @@ public class AuditingConfig {
 				return Optional.ofNullable(u);
 			}
 			
-			System.out.println("AuditorAware<SiteUser> 반환에 문제가 생겼습니다");
+			System.out.println("익명 사용자입니다.");
 			return Optional.empty();
 				
 		}

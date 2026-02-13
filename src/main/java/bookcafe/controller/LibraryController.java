@@ -26,7 +26,7 @@ public class LibraryController {
 	private BookRepository bookRepo;
 	
 	@GetMapping
-	public String myLibrary(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+	public String displayMyLibrary(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		List<BookShelf> bookShelfs = bookShelfRepo.findByUserId(userDetails.getId());
 		List<BookShelfDTO> bookShelfDTOs = new ArrayList<>();
 		

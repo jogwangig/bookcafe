@@ -22,7 +22,7 @@ public class CommentController {
 	
 	
 	@PostMapping(path = "/create" , params = "postId")
-	public String processCommentCreation(@ModelAttribute("newComment")Comment comment, @RequestParam("postId")long postId) {
+	public String processCommentCreationForm(@ModelAttribute("newComment")Comment comment, @RequestParam("postId")long postId) {
 		commentRepo.save(Comment.builder().
 				post(postRepo.getReferenceById(postId)).
 				content(comment.getContent()).build());

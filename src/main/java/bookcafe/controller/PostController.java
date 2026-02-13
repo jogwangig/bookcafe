@@ -40,7 +40,7 @@ public class PostController {
 	
 	
 	@GetMapping("/create")
-	public String createPost(Model model, @RequestParam("boardId")long boardId) {
+	public String getPostCreationForm(Model model, @RequestParam("boardId")long boardId) {
 		
 		model.addAttribute("post", new Post());
 		model.addAttribute("boardId", boardId);

@@ -33,7 +33,7 @@ public class BookController {
 	
 	
 	@GetMapping
-	public String getBookShelfById(Model model, @RequestParam("bookId")long bookId) {
+	public String displayBookById(Model model, @RequestParam("bookId")long bookId) {
 		Book book = bookRepo.findById(bookId).get();
 		
 		if(book.getCoverImage() != null) {
@@ -49,7 +49,7 @@ public class BookController {
 	
 	
 	@GetMapping("/create")
-	public String createBook(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+	public String getBookCreationForm(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		
 		List<BookShelf> bookShelfs = bookShelfRepo.findByUserId(userDetails.getId());
 
@@ -59,7 +59,7 @@ public class BookController {
 	}
 	
 	@PostMapping("/create")
-	public String createBook(@ModelAttribute("bookInfo")BookInfo bookInfo, @ModelAttribute("bookshelf-select")Long bookShelfId
+	public String processBookCreationForm(@ModelAttribute("bookInfo")BookInfo bookInfo, @ModelAttribute("bookshelf-select")Long bookShelfId
 			,@RequestParam("coverImage")MultipartFile coverImg) throws IOException{
 		
 		if(!coverImg.isEmpty()) {

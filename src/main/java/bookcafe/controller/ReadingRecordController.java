@@ -35,7 +35,7 @@ public class ReadingRecordController {
 	
 	
 	@GetMapping
-	public String displayReadingRecords(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+	public String displayAllReadingRecords(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		model.addAttribute("readingRecords", readingRecordRepo.findByUserId(userDetails.getId()));
 		return "/reading-record-list";
 	}
@@ -43,7 +43,7 @@ public class ReadingRecordController {
 	
 	
 	@GetMapping("/create")
-	public String createReadingRecord(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+	public String getReadingRecordCreationForm(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		model.addAttribute("readingRecord", new ReadingRecord());
 		model.addAttribute("books", bookRepo.findByUserId(userDetails.getId()));
 		return "/form/reading-record-creation-form";
@@ -52,7 +52,7 @@ public class ReadingRecordController {
 	
 	
 	@PostMapping("/create")
-	public String createBook(@ModelAttribute("readingRecord")ReadingRecord readingRecord, @ModelAttribute("book-select")Long bookId) {
+	public String processReadingRecordCreationForm(@ModelAttribute("readingRecord")ReadingRecord readingRecord, @ModelAttribute("book-select")Long bookId) {
 		
 		readingRecordRepo.save(ReadingRecord.builder().
 				content(readingRecord.getContent()).

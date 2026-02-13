@@ -24,7 +24,7 @@ public class BookShelfController {
 	BookShelfRepository bookShelfRepo;
 	
 	@GetMapping
-	public String getBookShelfById(Model model, @RequestParam("bookShelfId")long bookShelfId) {
+	public String displayBookShelfById(Model model, @RequestParam("bookShelfId")long bookShelfId) {
 		model.addAttribute("bookShelf", bookShelfRepo.findById(bookShelfId).get());
 		model.addAttribute("books", bookRepo.findByBookShelfId(bookShelfId));
 		
@@ -32,13 +32,13 @@ public class BookShelfController {
 	}
 	
 	@GetMapping("/create")
-	public String createBookShelf(Model model) {
+	public String getBookShelfCreationForm(Model model) {
 		model.addAttribute("bookShelfDTO", new BookShelfDTO());
 		return "/form/book-shelf-creation-form";
 	}
 	
 	@PostMapping("/create")
-	public String processBookShelfCreation(@ModelAttribute("bookShelfDTO")BookShelfDTO bookShelfDTO) {
+	public String processBookShelfCreationForm(@ModelAttribute("bookShelfDTO")BookShelfDTO bookShelfDTO) {
 		bookShelfRepo.save(BookShelf.builder().name(bookShelfDTO.getName()).build());
 		return "redirect:/";
 	}

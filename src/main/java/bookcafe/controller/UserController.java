@@ -25,7 +25,7 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping("/create")
-	public String createUser(Model model) {
+	public String getUserCreationForm(Model model) {
 		model.addAttribute("createUserFormDTO", new SiteUser.SiteUserDTO());
 		return "/form/user-creation-form";
 	}
@@ -33,7 +33,7 @@ public class UserController {
 	
 	
 	@PostMapping("/create")
-	public String processCreateUserForm(@ModelAttribute("createUserFormDTO") SiteUserDTO createUserFormDTO) {
+	public String processUserCreationForm(@ModelAttribute("createUserFormDTO") SiteUserDTO createUserFormDTO) {
 		
 		userService.createNewUser(createUserFormDTO);		
 
