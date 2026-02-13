@@ -3,26 +3,62 @@
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{/layout/layout}">
 	<head>
-		<link rel="stylesheet" th:href = @{/item-list.css}/>
+		<link rel="stylesheet" th:href = @{/post.css}/>
 		<title>대문</title>
 	</head>
 	<body>
-	<div layout:fragment="Content" class="content-fragment" >
-		<p class="title" th:text = "|제목 : ${post.title}|"></p>	
 		
-		<p style="display: flex; gap: 30px; padding: 0 10px; justify-content: right;">
+	<div layout:fragment="Content" class="content-fragment" >
+		
+		
+		<div class="post-head">
+			
+		<p class="post-title" th:text = "|제목 : ${post.title}|"></p>	
+		
+		
+		<p class="post-audit" style="display: flex; gap: 30px; padding: 0 10px; justify-content: right;">
 		<span th:text = "|작성자 : ${post.user.username}|"></span>
 		<span th:text = "|작성 시각 : ${#temporals.format(post.cratedAt, 'yyyy-MM-dd HH:mm')}|"></span>
 		</p>	
-		<p th:text = "'내용'"></p>
-		<br/>
-		<p th:text = "|${post.content}|" style="word-break: break-all; white-space: pre-wrap;"></p>
-		<br/>
-		<form th:action="@{|/comment/create?postId=${post.id}|}" method="post" th:object = ${comment}>
+		
+		</div>
+		
+		
+		<div class="post-main">
+			
+		<p  class="post-content" th:text = "|${post.content}|"></p>
+		
+		</div>
+		
+			
+		<div class="comment-container">
+		
+		<p class="comment-head" th:text="|댓글|"></p>
+		
+		<ul class="comment-list">
+			<li th:each = "comment : ${comments}">
+				<p th:text="|${comment.content}|" > </p>
+				<p class="comment-audit"> 
+					<span th:text = "|작성자 : ${comment.user.username}|"></span>
+					<span th:text = "|작성 시각 : ${#temporals.format(comment.cratedAt, 'yyyy-MM-dd HH:mm')}|"></span>
+				</p>
+				
+			</li> 
+		</ul>
+		
+		</div>
+			
+			
+			
+		<form class="comment-form"
+		th:action="@{|/comment/create?postId=${post.id}|}" method="post" th:object = ${newComment}>
+			
 			<p>
-			<label for="content" th:text = "'내용'"></label>
-			<input type="text" th:field="*{content}"> 
+			<label for="content" th:text = "'댓글 작성하기'"></label>
+			<br/>
+			<textarea th:field="*{content}" rows="8" cols="40"/> 
 			</p>
+			
 			<p>
 			<input type="submit"> 
 			</p>

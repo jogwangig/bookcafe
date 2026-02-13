@@ -1,0 +1,62 @@
+.content-fragment{
+	padding: 50px;
+	display: flex;
+	flex-direction: column;
+	gap : 30px;
+}
+
+
+.post-head{
+	border-bottom : 1px solid black;
+}
+
+
+.post-title{
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.post-audit{
+	display: flex;
+	gap: 30px;
+	justify-content: right;
+}
+
+.post-main{
+	margin-bottom: 50px;
+}
+
+.post-content{
+	word-break: break-all; 
+	white-space: pre-wrap;
+}
+
+.comment-head{
+	font-size: 18px;
+	font-weight: bold;
+	border-top: 1px solid black;
+	margin-bottom: 10px;
+}
+
+.comment-list{
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.comment-audit{
+	font-size: 13px;
+	color: gray;
+	margin-top: 5px;
+	border-bottom: 1px solid black;
+	display: flex;
+	gap: 20px;
+}
+
+
+
+
+
+
+

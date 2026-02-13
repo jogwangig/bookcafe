@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import bookcafe.data.entity.Comment;
 import bookcafe.data.entity.Post;
 import bookcafe.data.repository.BoardRepository;
+import bookcafe.data.repository.CommentRepository;
 import bookcafe.data.repository.PostRepository;
 import lombok.AllArgsConstructor;
 
@@ -21,15 +22,18 @@ public class PostController {
 	
 	private PostRepository postRepo;
 	
+	private CommentRepository commentRepo;
+	
 	private BoardRepository boardRepo;
 	
 	@GetMapping(params = "postId")
 	public String displayPostById(Model model, @RequestParam("postId") long postId) {
 		Post post = postRepo.findById(postId).get();
 		
-		model.addAttribute("comment", new Comment());
+		model.addAttribute("newComment", new Comment());
 		model.addAttribute("post", post);
 		model.addAttribute("boardId", post.getBoard().getId());
+		model.addAttribute("comments", commentRepo.findByPostId(postId));
 		
 		return "post";
 	}
