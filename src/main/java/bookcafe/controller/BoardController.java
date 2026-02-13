@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import bookcafe.data.entity.Board;
+import bookcafe.data.entity.Post;
 import bookcafe.data.repository.BoardRepository;
 import bookcafe.data.repository.PostRepository;
 import lombok.AllArgsConstructor;

@@ -51,6 +51,7 @@
 	margin-top: 5px;
 	border-bottom: 1px solid black;
 	display: flex;
+	justify-content: right;
 	gap: 20px;
 }
 

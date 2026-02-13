@@ -13,10 +13,10 @@
 		
 		<div class="post-head">
 			
-		<p class="post-title" th:text = "|제목 : ${post.title}|"></p>	
+		<p class="post-title" th:text = "|${post.title}|"></p>	
 		
 		
-		<p class="post-audit" style="display: flex; gap: 30px; padding: 0 10px; justify-content: right;">
+		<p class="post-audit">
 		<span th:text = "|작성자 : ${post.user.username}|"></span>
 		<span th:text = "|작성 시각 : ${#temporals.format(post.cratedAt, 'yyyy-MM-dd HH:mm')}|"></span>
 		</p>	
@@ -37,7 +37,9 @@
 		
 		<ul class="comment-list">
 			<li th:each = "comment : ${comments}">
+				
 				<p th:text="|${comment.content}|" > </p>
+				
 				<p class="comment-audit"> 
 					<span th:text = "|작성자 : ${comment.user.username}|"></span>
 					<span th:text = "|작성 시각 : ${#temporals.format(comment.cratedAt, 'yyyy-MM-dd HH:mm')}|"></span>

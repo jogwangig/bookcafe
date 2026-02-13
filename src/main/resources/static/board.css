@@ -1,0 +1,56 @@
+.content-fragment{
+	padding: 30px 50px;
+}
+
+.board-title{
+	font-size: 30px;
+	font-weight: bold;
+	margin-bottom: 50px;
+}
+
+.post-list-item, .post-list-head{
+	display: flex;
+}
+
+.post-list-item > p, .post-list-head > p{
+	border-bottom : 1px solid black;
+	padding: 3px;
+}
+
+.post-list-head{
+	font-weight: bold;
+	background-color: lightgray;
+}
+
+.post-title{
+	flex: 1 0 0;
+}
+
+.post-writer{
+	flex: 0 0 150px;
+}
+
+.post-create-time{
+	flex: 0 0 200px;
+}
+
+p{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.item-link{
+	color: #333333;
+	text-decoration: none;
+}
+
+.item-link:active{
+	color: blue;
+}
+
+
+
+
+
+

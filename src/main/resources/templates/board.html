@@ -4,15 +4,28 @@
 		layout:decorate="~{/layout/board-layout}">
 		
 	<head>
-		<link rel="stylesheet" th:href = @{/item-list.css}/>
+		<link rel="stylesheet" th:href = @{/board.css}/>
 		<title>게시판</title>
 	</head>
 	<body>
 		<div layout:fragment="Content" class="content-fragment">
-		<p class="title">게시판</p>
-		<ul>
-			<li class="item" th:each = "post : ${posts}" >
-				<a class="item-link" th:href="@{|/post?postId=${post.id}|}" th:text = "|제목 : ${post.title}|"></a>
+			
+		<p class="board-title" th:text = "|${board.name}|">게시판 이름</p>
+		
+		<ul class="post-list">
+			<li class="post-list-head">
+				<p class="post-title" th:text = "'제목'"></p>
+				<p class="post-writer" th:text = "'작성자'"></p>
+				<p class="post-create-time" th:text = "'작성 날짜'"></p>
+			</li>
+			
+			<li class="post-list-item" th:each = "post : ${posts}" >
+				<p class="post-title">
+				<a class="item-link" th:href="@{|/post?postId=${post.id}|}" th:text = "|${post.title}|"></a>
+				</p>
+				
+				<p class="post-writer" th:text = "|${post.user.username}|"></p>
+				<p class="post-create-time" th:text = "|${#temporals.format(post.cratedAt, 'yyyy-MM-dd HH:mm')}|"></p>
 			</li>
 		</ul>
 		</div>
