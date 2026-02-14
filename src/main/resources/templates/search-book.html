@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{/layout/form-alone-layout}">
+		
+	<head>
+		<script th:src="@{/js/book-search.js}" defer></script>
+		<title>책 검색</title>
+		<style>
+			#search-btn{
+				width: 80px;
+			}
+			
+			.content-fragment{
+				display: flex;
+				flex-wrap: wrap;
+				flex-direction: row;
+			}
+			
+			.content-fragment>div{
+				width: 250px;
+				height: 400px;
+			}
+			
+			p{
+				margin-top : auto;
+				overflow: clip;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div layout:fragment="Content" class="content-fragment">
+			<div class="search-container">
+			<p>
+				<label for="title" th:text = "'제목'"></label>
+				<input type="text" name="title" id="title"> 
+			</p>
+			
+			<p>
+				<label for="author" th:text = "'저자'"></label>
+				<input type="text" name="author" id="author"> 
+			</p>
+			
+			<p>
+				<label for="isbn" th:text = "'ISBN'"></label>
+				<input type="text" name="isbn" id="isbn"> 
+			</p>
+			
+			<button id="search-btn">검색</button>
+			</div>
+		</div>
+	</body>
+</html>

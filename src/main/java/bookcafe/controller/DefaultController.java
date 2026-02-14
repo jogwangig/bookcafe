@@ -24,6 +24,14 @@ public class DefaultController {
 		return "/index";
 	}
 	
+	
+	@GetMapping("/search-book")
+	public String searchBookByOpenLibraryApi() {
+		return "/search-book";
+	}
+	
+	
+	
 	@GetMapping("/init")
 	public String init() {
 				
