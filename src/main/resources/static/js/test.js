@@ -1,10 +1,10 @@
-const url = "https://openlibrary.org/search.json?title=how+the+mind+works&language=eng&fields=title,author_name,isbn,cover_i";
+const searchUrl = "https://openlibrary.org/search.json?title=how+the+mind+works&language=eng&fields=title,author_name,isbn,cover_i";
 
 
-const coverUrl = "https://covers.openlibrary.org/b/isbn/0385472579-S.jpg";
+const coverImgUrl = "https://covers.openlibrary.org/b/isbn/0385472579-S.jpg";
 
-const createdUrl = createUrl("how the mind works", "Steven Pinker", "638999");
-console.log(createdUrl);
+const createdUrl = createUrl("how the mind works", "", "");
+//console.log(createdUrl);
 
 const options = {
     method: 'GET'
@@ -27,110 +27,41 @@ fetch(createdUrl, options)
 
 	
 
-	
-const p = document.getElementById('btn');
-
-const img = document.getElementById('img');
-
-
-
-async function queryApi(){
-	
-	const url = "https://openlibrary.org/search.json?title=how+the+mind+works&language=eng&fields=title,author_name,isbn,cover_i";
-
-	const options = {
-	    method: 'GET'
-	};
-	
-	try{
-		const response = await fetch(url, options)
-								    .then(response => response.json());
-
-		
-		const result = response.docs.reduce((a, c) =>{
-			if('cover_i' in c){
-					a.push(c);
-				}
-				
-			return	a;
-			
-		}, []);
-		
-		const result2 = result.reduce((a,c)=>{
-			
-			if('cover_i' in c){
-				a.push(
-					"https://covers.openlibrary.org/b/id/" + c.cover_i + "-M.jpg"
-				);
-			}
-			
-			return a;
-		}, []);
-		
-		const container = document.querySelector('.content-fragment');
-		
-		result2.forEach((url)=>{
-			const img = document.createElement('img');
-			img.src = url;
-			container.appendChild(img);
-			
-		});
-		
-		
-		p.innerHTML = result2;
-
-		
-		const url2 = "https://covers.openlibrary.org/b/id/" + p.innerHTML + "-M.jpg";
-		
-		/*
-		p.innerHTML = url2;
-		
-		img.src = url2;
-		
-		*/
-		
-								
-	}catch(error){
-		console.error(error);
-	}
-}
-
 
 function createUrl(title, author_name, isbn){
-	const queryTitle = title.replaceAll(" ", "+");
-	const queryAuthorName = author_name.replaceAll(" ", "+");
-	const queryIsbn = isbn.replaceAll(" ", "+");
 	
-	const result = "https://openlibrary.org/search.json?";
+	const conditions = ['title', 'author', 'isbn'];
 	
-	return "https://openlibrary.org/search.json?" + "title=" + queryTitle
-										+ "&fields=title,author_name,isbn,cover_i";
-	 
-	/*
-	+ "&author_name=" + queryAuthorName +"&isbn=" + queryIsbn;
-	"title=" + queryTitle
-	*/
+	const conditionValues = [title, author_name, isbn].map(v=>v.replaceAll(" ","+"));
+	
+	let result = "https://openlibrary.org/search.json?";
+	
+	let conditionResults = "";
+	
+	for(let i = 0; i <conditions.length; i++){
+		if(conditionValues[i] == "") continue;
+				
+		if(conditionResults != "") conditionResults += "&";
+		
+		conditionResults += conditions[i] + "=" + conditionValues[i];
+
+	}
+	
+	return result + conditionResults + "&fields=title,author_name,isbn,cover_i";
+	
 }
 
 
 
 function filterCoverId(docs){
-	const result = docs.reduce((a, c) =>{
-				if('cover_i' in c)
-						a.push(c);
-						
-				return	a;
-			}, [])
-				
-				.reduce((a,c)=>{
-						if('cover_i' in c)	
-							a.push("https://covers.openlibrary.org/b/id/" + c.cover_i + "-M.jpg");
-								
-						return a;
-					}, []);
+	const url = "https://covers.openlibrary.org/b/id/";
+	const imgSize = "-M.jpg";
+	const result = docs.filter(c => 'cover_i' in c)
+						.map(c => url + c.cover_i + imgSize);
 					
 	return result;
 }
+
 
 function fetchCoverImgs(imgUrls){
 	const container = document.querySelector('.content-fragment');
@@ -145,8 +76,8 @@ function fetchCoverImgs(imgUrls){
 
 
 
-
-p.addEventListener('click', queryApi);
+/*
+p.addEventListener('click', queryApi);*/
 
 
 
