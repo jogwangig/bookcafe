@@ -4,10 +4,11 @@
 	margin: 0;
 }
 
+
 body{
 	height: 100vh;
 	margin : auto;
-	width: 1500px;
+	width: 1400px;
 	font-family: Arial, Helvetica, sans-serif;
 	background-color: white;
 	display: flex;

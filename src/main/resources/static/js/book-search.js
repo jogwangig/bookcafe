@@ -21,7 +21,9 @@ fetch(createdUrl, options)
 					  .then(response => response.json())
 					    .then(data => console.log(filterCoverId(data.docs)))
 					    .catch(error => console.error('Error:', error));*/
+			
 						
+									
 async function searchBook(){
 	const title = document.getElementById('title').value;
 	const author = document.getElementById('author').value;
@@ -30,7 +32,8 @@ async function searchBook(){
 	const createdUrl = createUrl(title, author, isbn);
 	
 	document.querySelector('.search-container').style.display = 'none';
-	
+	//document.querySelector('#bookshelf-select-container').style.display = "";
+	document.querySelector('.black-box').style.display = 'none';
 	await fetch(createdUrl, options)
 				.then(response => response.json())
 				.then(data=>{
@@ -81,14 +84,25 @@ function displayWithCoverImg(docs){
 					const title = document.createElement('p');
 					const author = document.createElement('p');
 					const isbn = document.createElement('p');
+					const coverId = document.createElement('p');
+					
+					title.classList.add('title');
+					author.classList.add('author');
+					coverId.classList.add('cover-id');
+					
+					con.classList.add('book-container');
+					con.addEventListener('click', addBook);
 					
 					img.src = coverImgUrl + c.cover_i + imgSize;
-					title.innerHTML = "제목 : " +  c.title;
-					author.innerHTML = "저자 : " + c.author_name.slice(0 ,3);
+					title.innerHTML = c.title;
+					author.innerHTML = c.author_name.slice(0 ,3);
+					coverId.innerHTML = c.cover_i;
+					coverId.style.display = 'none';
 					
 					con.appendChild(img);
 					con.appendChild(title);
 					con.appendChild(author);
+					con.appendChild(coverId);
 					
 					container.appendChild(con);
 				
@@ -102,9 +116,43 @@ function filterCoverId(docs){
 	return result;
 }
 
+let imgSrc;
+let titleValue;
+let authorValue;
+
+
+function addBook(event){
+	const a = event.currentTarget;
+	const img = a.querySelector('.cover-id');
+	const b = a.querySelector('.title');
+	const c = a.querySelector('.author');
+	
+	document.querySelector('#bookshelf-select-container').style.display = 'block';
+
+	imgSrc = img.innerHTML;
+	titleValue = b.innerHTML;
+	authorValue = c.innerHTML;
+	
+	console.log(imgSrc + "  " + titleValue  +  "   "  +  authorValue);
+}
+
+function fetchToServer(){
+	const selectValue = document.querySelector('#bookshelf-select');
+	
+	//console.log(imgSrc + "  " + titleValue  +  "   "  +  authorValue  +  "      "  + selectValue.value);
+	let query = "coverId=" + imgSrc  + "&title=" + titleValue  +  "&author=" + authorValue + "&bookShelfId=" + selectValue.value;
+	console.log(query);
+	document.querySelector('#bookshelf-select-container').style.display = 'none';
+}
+
+
+
+
 
 const btn = document.getElementById('search-btn');
+const fetchBtn = document.getElementById('register-btn');
 btn.addEventListener('click', searchBook);
+fetchBtn.addEventListener('click', fetchToServer);
 
 
 

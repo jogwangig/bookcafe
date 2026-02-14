@@ -18,15 +18,37 @@
 				flex-direction: row;
 			}
 			
-			.content-fragment>div{
-				width: 250px;
-				height: 400px;
+			.book-container{
+				width: 300px;
+				height: 350px;
 			}
 			
 			p{
 				margin-top : auto;
 				overflow: clip;
 			}
+			
+			#bookshelf-select-container{
+				width: 400px;
+				height: 300px;
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+				display: none;
+			}
+			#black-box{
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100vw;
+				height: 100vh;
+				z-index: 100;
+				background-color: black;
+				opacity: 0.5;
+				display: none;
+			}
+			
 		</style>
 	</head>
 	
@@ -50,6 +72,18 @@
 			
 			<button id="search-btn">검색</button>
 			</div>
+			
+			<div class="black-box" id="black-box">aaa</div>
+			
+			<div id="bookshelf-select-container">
+			    <label for="bookshelf-select">등록 할 책장 :</label>
+			    <select id="bookshelf-select" name="bookshelf-select">
+			      <option th:each = "b : ${bookShelves}" th:value="${b.id}" th:text="${b.name}">option</option>
+			    </select>
+				<button id="register-btn">검색</button>
+			</div>			
 		</div>
+		
+		
 	</body>
 </html>

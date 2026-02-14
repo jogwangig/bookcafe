@@ -1,7 +1,9 @@
 package bookcafe.controller;
 
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import bookcafe.data.entity.Book;
@@ -9,6 +11,7 @@ import bookcafe.data.entity.BookShelf;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.data.valueobject.BookInfo;
+import bookcafe.security.CustomUserDetails;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -26,7 +29,9 @@ public class DefaultController {
 	
 	
 	@GetMapping("/search-book")
-	public String searchBookByOpenLibraryApi() {
+	public String searchBookByOpenLibraryApi(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+		
+		model.addAttribute("bookShelves" , bookShelfRepo.findByUserId(userDetails.getId()));
 		return "/search-book";
 	}
 	
