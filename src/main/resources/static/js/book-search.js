@@ -136,13 +136,18 @@ function addBook(event){
 	console.log(imgSrc + "  " + titleValue  +  "   "  +  authorValue);
 }
 
-function fetchToServer(){
+async function fetchToServer(){
 	const selectValue = document.querySelector('#bookshelf-select');
 	
 	//console.log(imgSrc + "  " + titleValue  +  "   "  +  authorValue  +  "      "  + selectValue.value);
 	let query = "coverId=" + imgSrc  + "&title=" + titleValue  +  "&author=" + authorValue + "&bookShelfId=" + selectValue.value;
 	console.log(query);
 	document.querySelector('#bookshelf-select-container').style.display = 'none';
+	
+	await fetch("/api/book/create?" + query)
+		.then(res=>res.text())
+		.then(data=>console.log(data))
+		.catch(err=>console.error(err));
 }
 
 
