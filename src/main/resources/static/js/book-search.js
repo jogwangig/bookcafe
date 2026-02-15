@@ -3,6 +3,9 @@ const searchUrl = "https://openlibrary.org/search.json?";
 
 const coverImgUrl = "https://covers.openlibrary.org/b/id/";
 
+const imgSize = "-M.jpg";
+
+
 const createdUrl = createUrl("how the mind works", "", "");
 //console.log(createdUrl);
 
@@ -75,10 +78,10 @@ function createUrl(title, author_name, isbn){
 
 function displayWithCoverImg(docs){
 	const container = document.querySelector('.content-fragment');
-	const imgSize = "-M.jpg";
 	
-			docs.filter(c => 'cover_i' in c)
-				.forEach((c)=>{
+			docs.filter(doc => 'cover_i' in doc)
+				.forEach((doc)=>{
+					/*
 					const con = document.createElement('div');
 					const img = document.createElement('img');
 					const title = document.createElement('p');
@@ -93,18 +96,18 @@ function displayWithCoverImg(docs){
 					con.classList.add('book-container');
 					con.addEventListener('click', addBook);
 					
-					img.src = coverImgUrl + c.cover_i + imgSize;
-					title.innerHTML = c.title;
-					author.innerHTML = c.author_name.slice(0 ,3);
-					coverId.innerHTML = c.cover_i;
+					img.src = coverImgUrl + doc.cover_i + imgSize;
+					title.innerHTML = doc.title;
+					author.innerHTML = doc.author_name.slice(0 ,3);
+					coverId.innerHTML = doc.cover_i;
 					coverId.style.display = 'none';
 					
 					con.appendChild(img);
 					con.appendChild(title);
 					con.appendChild(author);
-					con.appendChild(coverId);
-					
-					container.appendChild(con);
+					con.appendChild(coverId);*/
+					//crateBookTag(doc)
+					container.appendChild(crateBookTag(doc));
 				
 			});
 }
@@ -134,22 +137,47 @@ function addBook(event){
 async function fetchToServer(){
 	const selectValue = document.querySelector('#bookshelf-select');
 	
-	//console.log(imgSrc + "  " + titleValue  +  "   "  +  authorValue  +  "      "  + selectValue.value);
 	let query = "coverId=" + imgSrc  + "&title=" + titleValue  +  "&author=" + authorValue + "&bookShelfId=" + selectValue.value;
 	console.log(query);
 	document.querySelector('#bookshelf-select-container').style.display = 'none';
 
 	
 	await fetch("/api/book/create?" + query)
-		.then(res=>{
-			(res.ok)?alert("책이 성공적으로 등록 되었습니다"):alert("책 등록에 실패했습니다.");
-		})
+		.then(res=>{(res.ok)?alert("책이 성공적으로 등록 되었습니다"):alert("책 등록에 실패했습니다.");})
 		.catch(err=>console.error(err));
 		
 		document.querySelector('.black-box').style.display = 'none';
 }
 
 
+function crateBookTag(doc){		
+		const bookContainer = document.createElement('div');
+		const img = document.createElement('img');
+		const title = document.createElement('p');
+		const author = document.createElement('p');
+		const isbn = document.createElement('p');
+		const coverId = document.createElement('p');
+		
+		title.classList.add('title');
+		author.classList.add('author');
+		coverId.classList.add('cover-id');
+		
+		bookContainer.classList.add('book-container');
+		bookContainer.addEventListener('click', addBook);
+		
+		img.src = coverImgUrl + doc.cover_i + imgSize;
+		title.innerHTML = doc.title;
+		author.innerHTML = doc.author_name.slice(0 ,3);
+		coverId.innerHTML = doc.cover_i;
+		coverId.style.display = 'none';
+		
+		bookContainer.appendChild(img);
+		bookContainer.appendChild(title);
+		bookContainer.appendChild(author);
+		bookContainer.appendChild(coverId);
+		
+		return bookContainer;
+}
 
 
 

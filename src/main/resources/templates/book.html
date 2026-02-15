@@ -4,11 +4,23 @@
 		layout:decorate="~{/layout/layout}">
 	<head>
 		<link rel="stylesheet" th:href = @{/item-list.css}/>
+		<style>
+			.content-fragment{
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding: 0;
+				gap: 20px;
+			}
+			a{
+				color: inherit;
+				text-decoration: none;
+			}
+		</style>
 		<title>대문</title>
 	</head>
 	<body>
 	<div layout:fragment="Content" class="content-fragment">
-		<p class="title" >책</p>
 		<img th:if="${coverImg}" th:src="|data:jpg;base64,${coverImg}|" width="250px" height="auto" />
 		<p th:text = "|📖 ${book.bookInfo.title}|"></p>
 		<p th:text = "|ISBN ${book.bookInfo.ISBN}|"></p>
