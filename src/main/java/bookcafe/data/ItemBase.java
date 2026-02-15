@@ -5,6 +5,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import bookcafe.data.entity.SiteUser;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import lombok.ToString;
 public class ItemBase extends Base{
 	
 	@CreatedBy
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private SiteUser user;
 
 }
