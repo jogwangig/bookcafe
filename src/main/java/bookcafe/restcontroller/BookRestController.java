@@ -28,13 +28,6 @@ public class BookRestController {
 	
 	@GetMapping("/create")
 	public ApiBookCreationDto createBookFromApi(@ModelAttribute ApiBookCreationDto dto) {
-	/*	System.out.println(dto.title);
-		System.out.println(dto.coverId);
-		
-		for(String s :dto.author.split(","))
-			System.out.println(s);
-		
-		System.out.println(dto.bookShelfId);*/
 		
 		System.out.println("OpenLibrary Api을 사용하여 조회된 책으로부터 책 생성을 요청 받았습니다.");
 		

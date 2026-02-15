@@ -35,24 +35,15 @@ public class UserService {
 	
 	public void createNewUser(SiteUserDTO userDTO) {
 		
-		userDTO.setPassword(
-				passwordEncoder.encode(userDTO.getPassword())
-				);
+		encodeUserPwd(userDTO);
 		
-		SiteUser newUser = SiteUser.newSiteUserFromDTO(userDTO);
-	
+		SiteUser newUser = userDTO.toEntity();
+					
 		userRepo.save(newUser);
+		
 		setSecurityContextByNewUser(newUser);
 		
-		SiteUserAuthority defaultAuthority = SiteUserAuthority.builder()
-											.authorityType(AuthorityType.NORMAL).build();
-		
-		BookShelf defaultBookShelf = BookShelf.builder().name("default").build();
-				
-		
-		userAuthorityRepo.save(defaultAuthority);
-		
-		bookShelfRepo.save(defaultBookShelf);
+		doUserDefaultSetting();
 		
 	}
 	
@@ -64,6 +55,26 @@ public class UserService {
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "" ,userDetails.getAuthorities());
 		ctx.setAuthentication(authentication);
 		SecurityContextHolder.setContext(ctx);
+	}
+	
+	private void encodeUserPwd(SiteUserDTO userDto) {
+		String pwd = userDto.getPassword();
+		pwd = passwordEncoder.encode(pwd);
+		userDto.setPassword(pwd);
+		
+	}
+	
+	private void doUserDefaultSetting() {
+		
+		SiteUserAuthority defaultAuthority = SiteUserAuthority.builder()
+											.authorityType(AuthorityType.NORMAL).build();
+
+		BookShelf defaultBookShelf = BookShelf.builder().name("default").build();
+
+
+		userAuthorityRepo.save(defaultAuthority);
+			
+		bookShelfRepo.save(defaultBookShelf);
 	}
 
 }

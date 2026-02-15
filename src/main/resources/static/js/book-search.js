@@ -110,12 +110,6 @@ function displayWithCoverImg(docs){
 }
 
 
-function filterCoverId(docs){
-	const result = docs.filter(c => 'cover_i' in c);
-
-	return result;
-}
-
 let imgSrc;
 let titleValue;
 let authorValue;
@@ -127,6 +121,7 @@ function addBook(event){
 	const b = a.querySelector('.title');
 	const c = a.querySelector('.author');
 	
+	document.querySelector('.black-box').style.display = 'block';
 	document.querySelector('#bookshelf-select-container').style.display = 'block';
 
 	imgSrc = img.innerHTML;
@@ -143,10 +138,12 @@ async function fetchToServer(){
 	let query = "coverId=" + imgSrc  + "&title=" + titleValue  +  "&author=" + authorValue + "&bookShelfId=" + selectValue.value;
 	console.log(query);
 	document.querySelector('#bookshelf-select-container').style.display = 'none';
+	document.querySelector('.black-box').style.display = 'none';
 	
 	await fetch("/api/book/create?" + query)
-		.then(res=>res.text())
-		.then(data=>console.log(data))
+		.then(res=>{
+			(res.ok)?alert("책이 성공적으로 등록 되었습니다"):alert("책 등록에 실패했습니다.");
+		})
 		.catch(err=>console.error(err));
 }
 
