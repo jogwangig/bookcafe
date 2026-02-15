@@ -1,11 +1,16 @@
 package bookcafe.restcontroller;
 
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import bookcafe.data.entity.Book;
+import bookcafe.data.repository.BookRepository;
+import bookcafe.data.repository.BookShelfRepository;
+import bookcafe.data.valueobject.BookInfo;
+import bookcafe.service.OpenLibraryApiService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,16 +20,36 @@ import lombok.Setter;
 @AllArgsConstructor
 public class BookRestController {
 	
+	private OpenLibraryApiService olApiService;
+	
+	private BookRepository bookRepo;
+	
+	private BookShelfRepository bookShelfRepo;
+	
 	@GetMapping("/create")
-	public String createBookFromApi(@ModelAttribute ApiBookCreationDto dto) {
-		System.out.println(dto.title);
+	public ApiBookCreationDto createBookFromApi(@ModelAttribute ApiBookCreationDto dto) {
+	/*	System.out.println(dto.title);
 		System.out.println(dto.coverId);
 		
 		for(String s :dto.author.split(","))
 			System.out.println(s);
 		
-		System.out.println(dto.bookShelfId);
-		return dto.author;
+		System.out.println(dto.bookShelfId);*/
+		
+		System.out.println("OpenLibrary Api을 사용하여 조회된 책으로부터 책 생성을 요청 받았습니다.");
+		
+		byte[] coverImg = olApiService.fetchCoverImgByCoverId(dto.coverId);
+		
+		Book book = Book.builder().bookInfo(BookInfo.builder().
+									title(dto.title).build()).
+									bookShelf(bookShelfRepo.getReferenceById(dto.bookShelfId)).
+									coverImage(coverImg).build();
+		
+		bookRepo.save(book);
+									
+									
+		
+		return dto;
 	}
 	
 	
@@ -34,7 +59,7 @@ public class BookRestController {
 		private String title;
 		private String coverId;
 		private String author;
-		private String bookShelfId;
+		private long bookShelfId;
 	}
 	
 }
