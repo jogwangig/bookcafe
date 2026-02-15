@@ -4,6 +4,7 @@ import java.util.List;
 
 import bookcafe.data.ItemBase;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +19,9 @@ import lombok.Setter;
 public class BookShelf extends ItemBase {
 	
 	private String name;
+	
+	@OneToMany(mappedBy = "bookShelf")
+	private List<Book> books;
 	
 	@Getter
 	@Setter

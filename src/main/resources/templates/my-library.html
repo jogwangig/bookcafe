@@ -9,15 +9,16 @@
 	<body>
 	<div layout:fragment="Content" class="content-fragment">
 		<p class="title">나의 도서관</p>
-		<div class="item-list-container" th:each = "bookShelf : ${bookShelfDTOs}">
+		<div class="item-list-container" th:each = "bookShelfWithBooksDto : ${bookShelfWithBooksDtos}">
 				
 			<p class="list-title">
-				<a class="item-link" th:href="@{|/book-shelf?bookShelfId=${bookShelf.id}|}" th:text = "|📚 책장 ${bookShelf.name}|"></a>
+				<a class="item-link" th:href="@{|/book-shelf?bookShelfId=${bookShelfWithBooksDto.id}|}" 
+				th:text = "|📚 책장 ${bookShelfWithBooksDto.name}|"></a>
 			</p>
 					
 			<ul class="item-list">
-				<li class="item" th:each = "book : ${bookShelf.books}">
-					<a class="item-link" th:href="@{|/book?bookId=${book.id}|}" th:text = "|📖 ${book.bookInfo.title}|"></a>
+				<li class="item" th:each = "book : ${bookShelfWithBooksDto.books}">
+					<a class="item-link" th:href="@{|/book?bookId=${book.id}|}" th:text = "|📖 ${book.title}|"></a>
 				</li>
 			</ul>
 		</div>

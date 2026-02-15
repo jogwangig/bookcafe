@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
@@ -29,6 +30,7 @@ public class Book extends ItemBase{
 	private BookInfo bookInfo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "BOOK_SHELF_ID")
 	private BookShelf bookShelf;
 	
 	@Lob
