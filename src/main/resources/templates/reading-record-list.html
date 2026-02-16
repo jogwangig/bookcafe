@@ -17,7 +17,7 @@
 		<ul class="item-list">
 			<p th:text = "|총 개수 ${readingRecordPage.totalElements}|"></p>
 			<p th:text = "|총 page ${readingRecordPage.totalPages}|"></p>
-			<p th:text = "|page 개수 ${readingRecordPage.size}|"></p>
+			<p th:text = "|page 개수 ${readingRecordPage.numberOfElements}|"></p>
 			<li class="item" th:each = "readingRecord : ${readingRecordPage}">
 				<p th:text = "|📝 ${readingRecord.content}|"></p>
 				<p th:text = "|작성 시각 : ${#temporals.format(readingRecord.cratedAt, 'yyyy-MM-dd HH:mm')}|"

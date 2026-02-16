@@ -39,13 +39,13 @@ public class ReadingRecordController {
 	
 	@GetMapping
 	public String displayAllReadingRecords(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-		PageRequest pageRequest = PageRequest.of(0 ,3 , Sort.by("cratedAt").descending());
+		PageRequest pageRequest = PageRequest.of(0 ,20 , Sort.by("cratedAt").descending());
 		
 		Page<ReadingRecord> readingRecordPage = readingRecordRepo.findByUserId(userDetails.getId(), pageRequest);
 		readingRecordRepo.findByUserId(userDetails.getId(), pageRequest).forEach(p->{
 			System.out.println(p.getContent() + " " + p.getCratedAt());
 		});
-//		readingRecordPage.get
+//		readingRecordPage.getNumberOfElements()
 		model.addAttribute("readingRecordPage", readingRecordPage);
 		model.addAttribute("readingRecords", readingRecordRepo.findByUserId(userDetails.getId()));
 		return "/reading-record-list";

@@ -8,6 +8,21 @@
 	margin-bottom: 50px;
 }
 
+.page-link-list{
+	padding: 20px;
+	list-style: none;
+	display: flex;
+	justify-content: center;
+	gap : 20px;
+	font-size: 20px;
+}
+
+.page-link-list>li{
+	border: 1px solid black;
+	padding: 3px;
+}
+
+
 .post-list-item, .post-list-head{
 	display: flex;
 }
@@ -40,12 +55,12 @@ p{
 	align-items: center;
 }
 
-.item-link{
+.item-link, .page-link-list>li>a{
 	color: #333333;
-	text-decoration: none;
+	text-decoration : none;
 }
 
-.item-link:active{
+.item-link:active , .page-link-list>li>a:active{
 	color: blue;
 }
 
