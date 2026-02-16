@@ -3,8 +3,6 @@ package bookcafe.controller;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import bookcafe.data.dto.PostPageDto;
 import bookcafe.data.entity.Board;
 import bookcafe.data.repository.BoardRepository;
-import bookcafe.data.repository.PostRepository;
+import bookcafe.service.BoardPagingService;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -25,15 +23,14 @@ import lombok.AllArgsConstructor;
 public class BoardController {
 	
 	private BoardRepository boardRepo;
-	
-	private PostRepository postRepo;
+		
+	private BoardPagingService boardPagingService;
 	
 	@GetMapping
 	public String main(Model model) {
 		Board board = boardRepo.findByName("main");
 		
-		PageRequest pageRequest = PageRequest.of(0 ,5 , Sort.by("cratedAt").descending());
-		Page<PostPageDto> postPageDto = postRepo.findByBoardId(board.getId(), pageRequest);
+		Page<PostPageDto> postPageDto = boardPagingService.getPostPageOfBoard(board.getId(), 1);
 		
 		
 		model.addAttribute("boardId", board.getId());
@@ -47,12 +44,10 @@ public class BoardController {
 	public String displayBoard(Model model, @RequestParam("boardId") long boardId, 
 			@RequestParam("pageNum")int pageNum) {
 		
-		int adjustedpageNum = pageNum-1;
 		
 		Board board = boardRepo.findById(boardId).get();
 		
-		PageRequest pageRequest = PageRequest.of(adjustedpageNum ,10 , Sort.by("cratedAt").descending());
-		Page<PostPageDto> postPageDto = postRepo.findByBoardId(board.getId(), pageRequest);
+		Page<PostPageDto> postPageDto = boardPagingService.getPostPageOfBoard(boardId, pageNum);
 		
 		
 		model.addAttribute("boardId", board.getId());

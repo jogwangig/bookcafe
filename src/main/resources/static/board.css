@@ -17,9 +17,9 @@
 	font-size: 20px;
 }
 
-.page-link-list>li{
+.page-link-list>li>a{
 	border: 1px solid black;
-	padding: 3px;
+	padding: 3px 8px;
 }
 
 
