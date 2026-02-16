@@ -1,5 +1,8 @@
 package bookcafe.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +39,14 @@ public class ReadingRecordController {
 	
 	@GetMapping
 	public String displayAllReadingRecords(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+		PageRequest pageRequest = PageRequest.of(0 ,3 , Sort.by("cratedAt").descending());
+		
+		Page<ReadingRecord> readingRecordPage = readingRecordRepo.findByUserId(userDetails.getId(), pageRequest);
+		readingRecordRepo.findByUserId(userDetails.getId(), pageRequest).forEach(p->{
+			System.out.println(p.getContent() + " " + p.getCratedAt());
+		});
+//		readingRecordPage.get
+		model.addAttribute("readingRecordPage", readingRecordPage);
 		model.addAttribute("readingRecords", readingRecordRepo.findByUserId(userDetails.getId()));
 		return "/reading-record-list";
 	}

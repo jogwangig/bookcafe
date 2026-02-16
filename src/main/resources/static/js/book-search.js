@@ -81,34 +81,7 @@ function displayWithCoverImg(docs){
 	
 			docs.filter(doc => 'cover_i' in doc)
 				.forEach((doc)=>{
-					/*
-					const con = document.createElement('div');
-					const img = document.createElement('img');
-					const title = document.createElement('p');
-					const author = document.createElement('p');
-					const isbn = document.createElement('p');
-					const coverId = document.createElement('p');
-					
-					title.classList.add('title');
-					author.classList.add('author');
-					coverId.classList.add('cover-id');
-					
-					con.classList.add('book-container');
-					con.addEventListener('click', addBook);
-					
-					img.src = coverImgUrl + doc.cover_i + imgSize;
-					title.innerHTML = doc.title;
-					author.innerHTML = doc.author_name.slice(0 ,3);
-					coverId.innerHTML = doc.cover_i;
-					coverId.style.display = 'none';
-					
-					con.appendChild(img);
-					con.appendChild(title);
-					con.appendChild(author);
-					con.appendChild(coverId);*/
-					//crateBookTag(doc)
-					container.appendChild(crateBookTag(doc));
-				
+					container.appendChild(createBookTag(doc));			
 			});
 }
 
@@ -150,7 +123,7 @@ async function fetchToServer(){
 }
 
 
-function crateBookTag(doc){		
+function createBookTag(doc){		
 		const bookContainer = document.createElement('div');
 		const img = document.createElement('img');
 		const title = document.createElement('p');
