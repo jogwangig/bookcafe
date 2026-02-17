@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import bookcafe.data.dto.ReadingRecordDto;
 import bookcafe.data.entity.ReadingRecord;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.ReadingRecordRepository;
@@ -31,7 +32,12 @@ public class ReadingRecordController {
 	
 	@GetMapping(params = "bookId")
 	public String displayReadingRecordsByBookId(Model model, @RequestParam("bookId")long bookId) {
-		model.addAttribute("readingRecords", readingRecordRepo.findByBookId(bookId));
+		PageRequest pageRequest = PageRequest.of(0 ,20 , Sort.by("cratedAt").descending());
+		
+		
+		Page<ReadingRecordDto> readingRecordPage = readingRecordRepo.findByBookId(bookId, pageRequest);
+
+		model.addAttribute("readingRecordPage", readingRecordPage);
 		return "/reading-record-list";
 	}
 	
@@ -41,13 +47,10 @@ public class ReadingRecordController {
 	public String displayAllReadingRecords(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		PageRequest pageRequest = PageRequest.of(0 ,20 , Sort.by("cratedAt").descending());
 		
-		Page<ReadingRecord> readingRecordPage = readingRecordRepo.findByUserId(userDetails.getId(), pageRequest);
-		readingRecordRepo.findByUserId(userDetails.getId(), pageRequest).forEach(p->{
-			System.out.println(p.getContent() + " " + p.getCratedAt());
-		});
-//		readingRecordPage.getNumberOfElements()
+		Page<ReadingRecordDto> readingRecordPage = readingRecordRepo.findByUserId(userDetails.getId(), pageRequest);
+
 		model.addAttribute("readingRecordPage", readingRecordPage);
-		model.addAttribute("readingRecords", readingRecordRepo.findByUserId(userDetails.getId()));
+
 		return "/reading-record-list";
 	}
 	

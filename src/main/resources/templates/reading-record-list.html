@@ -3,25 +3,28 @@
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{/layout/layout}">
 	<head>
-		<link rel="stylesheet" th:href = @{/item-list.css}/>
+		<link rel="stylesheet" th:href = @{/css/reading-record-list.css}/>
 		<title>대문</title>
+		<style>
+
+		</style>
 	</head>
 	<body>
 	<div layout:fragment="Content" class="content-fragment" >
 		<p class="title" >나의 독서 기록</p>		
-		<!--
-		<ul class="item-list">
-			<li class="item" th:each = "readingRecord : ${readingRecords}" th:text = "|📝 ${readingRecord.content}|"></li>
-		</ul>-->
 		
 		<ul class="item-list">
 			<p th:text = "|총 개수 ${readingRecordPage.totalElements}|"></p>
+			<!--
 			<p th:text = "|총 page ${readingRecordPage.totalPages}|"></p>
 			<p th:text = "|page 개수 ${readingRecordPage.numberOfElements}|"></p>
+			-->
 			<li class="item" th:each = "readingRecord : ${readingRecordPage}">
 				<p th:text = "|📝 ${readingRecord.content}|"></p>
-				<p th:text = "|작성 시각 : ${#temporals.format(readingRecord.cratedAt, 'yyyy-MM-dd HH:mm')}|"
-				 style="margin-left: auto; color: gray; font-size: 13px; margin-bottom: 20px;"></p>
+				<p class="audit">
+					<span th:text = "|책 : ${readingRecord.bookTitle}|"></span>
+					<span th:text = "|작성 시각 : ${#temporals.format(readingRecord.createdAt, 'yyyy-MM-dd HH:mm')}|"></span>
+				</p>
 			</li>
 		</ul>
 			

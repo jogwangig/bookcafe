@@ -15,11 +15,12 @@ public class BoardPagingService {
 	
 	private PostRepository postRepo;
 	
+	
 	public Page<PostPageDto> getPostPageOfBoard(long boardId, int pageNum) {
 		
 		int adjustedpageNum = pageNum-1;
 				
-		PageRequest pageRequest = PageRequest.of(adjustedpageNum ,10 , Sort.by("cratedAt").descending());
+		PageRequest pageRequest = PageRequest.of(adjustedpageNum ,5 , Sort.by("cratedAt").descending());
 		Page<PostPageDto> postPageDto = postRepo.findByBoardId(boardId, pageRequest);
 		
 		return postPageDto;
