@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{/layout/form-alone-layout}">
+	<head>
+		<title>독서 모임 생성</title>
+	</head>
+	<body>
+		<div layout:fragment="Content" class="content-fragment">
+		<p class="form-title">책 등록!!</p>
+		<form th:action="@{/book-meeting/create}" method="post" th:object = ${bookMeeting} enctype="multipart/form-data">
+			
+			<p>
+			<label for="title" th:text = "'name'"></label>
+			<input type="text" th:field="*{name}"> 
+			</p>
+			
+			<p>
+			<label for="title" th:text = "'title'"></label>
+			<input type="text" th:field="*{bookInfo.title}"> 
+			</p>
+			
+			<p>
+			<label for="ISBN" th:text = "'ISBN'"></label>
+			<input type="text" th:field= "*{bookInfo.ISBN}"> 
+			</p>
+			
+			<p>
+				<input type="file" name = "coverImage" accept="image/*"> 
+			</p>
+			
+			<p>
+			<input type="submit"> 
+			</p>
+		</form>
+		</div>
+	</body>
+</html>
