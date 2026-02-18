@@ -39,7 +39,6 @@ public class AuditingConfig {
 			if(p.getPrincipal() instanceof CustomUserDetails) {
 				
 				CustomUserDetails c = (CustomUserDetails)p.getPrincipal();
-//				SiteUser u = userRepo.findByUsername(a.getUsername());
 				SiteUser u = userRepo.getReferenceById(c.getId());
 				return Optional.ofNullable(u);
 			}

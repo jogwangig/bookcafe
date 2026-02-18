@@ -3,12 +3,18 @@
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{/layout/layout}">
 	<head>
-		<link rel="stylesheet" th:href = @{/item-list.css}/>
-		<title>대문</title>
+		<link rel="stylesheet" th:href = @{/css/my-library.css}/>
+		<title>나의 도서관</title>
 	</head>
 	<body>
 	<div layout:fragment="Content" class="content-fragment">
+		
+		<p class="reading-record-link-container" >
+			<a class="item-link reading-record-link" th:href="@{|/reading-record|}" th:text = "|독서 기록 보기|" ></a>
+		</p>
+		
 		<p class="title">나의 도서관</p>
+		
 		<div class="item-list-container" th:each = "bookShelfWithBooksDto : ${bookShelfWithBooksDtos}">
 				
 			<p class="list-title">
