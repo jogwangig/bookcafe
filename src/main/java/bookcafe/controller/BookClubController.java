@@ -38,7 +38,7 @@ public class BookClubController {
 	@PostMapping("/create")
 	public String processBookClubCreationForm(BookClubDto bookClubDto) throws IOException {
 
-		bookClubService.createNewBookMeeting(bookClubDto);
+		bookClubService.createNewBookClub(bookClubDto);
 		return "redirect:/";
 	}
 }

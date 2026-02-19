@@ -11,7 +11,8 @@
 		<main>
 		<div layout:fragment="Content" class="content-fragment">
 		<p>사용자 계정 생성!!</p>
-		<form th:action="@{/user/create}" method="post" th:object = "${createUserFormDTO}">
+		<form th:action="${(currentURI.matches('/user/create'))?
+						'/user/create':'/user/modify'}" method="post" th:object = "${createUserFormDTO}">
 			<p>
 			<label for="username" th:text = "'id'">id</label>
 			<input type="text" th:field="*{username}"> 

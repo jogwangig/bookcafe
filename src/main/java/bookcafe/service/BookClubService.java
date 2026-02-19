@@ -16,7 +16,7 @@ public class BookClubService {
 	private BookClubRepository bookClubRepo;
 
 	
-	public void createNewBookMeeting(BookClubDto bookClubDto) throws IOException {
+	public void createNewBookClub(BookClubDto bookClubDto) throws IOException {
 		BookClub bm = toEntity(bookClubDto);
 		
 		System.out.println(bm);

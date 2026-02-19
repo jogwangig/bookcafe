@@ -33,6 +33,7 @@ public class UserService {
 	
 	private CustomUserDetailsService userDetailsService;
 	
+	
 	public void createNewUser(SiteUserDTO userDTO) {
 		
 		encodeUserPwd(userDTO);
@@ -46,6 +47,24 @@ public class UserService {
 		doUserDefaultSetting();
 		
 	}
+	
+	public void modifyUserInfo(SiteUserDTO userDTO, long userId) {
+		
+		encodeUserPwd(userDTO);
+		
+		SiteUser user = userRepo.findById(userId).get();
+		
+		user.setUsername(userDTO.getUsername());
+		
+		user.setPassword(userDTO.getPassword());
+		
+		user.setNickName(userDTO.getNickName());
+				
+		userRepo.save(user);
+		
+		
+	}
+	
 	
 	private void setSecurityContextByNewUser(SiteUser newUser) {
 		

@@ -1,5 +1,6 @@
 package bookcafe.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import bookcafe.data.entity.SiteUser;
 import bookcafe.data.entity.SiteUser.SiteUserDTO;
 import bookcafe.data.repository.SiteUserRepository;
+import bookcafe.security.CustomUserDetails;
 import bookcafe.service.UserService;
 import lombok.AllArgsConstructor;
 
@@ -37,6 +39,32 @@ public class UserController {
 		
 		userService.createNewUser(createUserFormDTO);		
 
+		return "redirect:/";
+	}
+	
+	@GetMapping("/modify")
+	public String getUserModificationForm(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+		model.addAttribute("createUserFormDTO", userRepo.findById(userDetails.getId()));
+		return "/form/user-creation-form";
+	}
+	
+	
+	@PostMapping("/modify")
+	public String processUserModificationForm(@ModelAttribute("createUserFormDTO") SiteUserDTO createUserFormDTO,
+			@AuthenticationPrincipal CustomUserDetails userDetails) {
+		
+//		SiteUser user = userRepo.findById(userDetails.getId()).get();
+//		
+//		user.setUsername(createUserFormDTO.getUsername());
+//		
+//		user.setPassword(createUserFormDTO.getPassword());
+//		
+//		user.setNickName(createUserFormDTO.getNickName());
+//		
+//		userRepo.save(user);
+		
+		userService.modifyUserInfo(createUserFormDTO, userDetails.getId());
+		
 		return "redirect:/";
 	}
 	
