@@ -53,15 +53,6 @@ public class UserController {
 	public String processUserModificationForm(@ModelAttribute("createUserFormDTO") SiteUserDTO createUserFormDTO,
 			@AuthenticationPrincipal CustomUserDetails userDetails) {
 		
-//		SiteUser user = userRepo.findById(userDetails.getId()).get();
-//		
-//		user.setUsername(createUserFormDTO.getUsername());
-//		
-//		user.setPassword(createUserFormDTO.getPassword());
-//		
-//		user.setNickName(createUserFormDTO.getNickName());
-//		
-//		userRepo.save(user);
 		
 		userService.modifyUserInfo(createUserFormDTO, userDetails.getId());
 		

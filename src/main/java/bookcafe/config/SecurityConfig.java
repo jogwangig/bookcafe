@@ -21,6 +21,7 @@ public class SecurityConfig {
 		http
 		.authorizeHttpRequests((authorize) -> authorize
 				.requestMatchers("/book/**", "/library/**", "/reading-record/**").hasAnyAuthority("NORMAL", "ADMIN")
+				.requestMatchers("/user/modify").authenticated()
 				.requestMatchers("/board/create").hasAnyAuthority("ADMIN")
 				.anyRequest().permitAll())
 		
