@@ -20,7 +20,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookMeeting extends ItemBase {
+public class BookClub extends ItemBase {
 	private String name;
 	
 	@Embedded

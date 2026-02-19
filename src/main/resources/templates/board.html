@@ -12,27 +12,7 @@
 			
 		<p class="board-title" th:text = "|${board.name}|">게시판 이름</p>
 		
-		<!--
-		<ul class="post-list">
-			<li class="post-list-head">
-				<p class="post-title" th:text = "'제목'"></p>
-				<p class="post-writer" th:text = "'작성자'"></p>
-				<p class="post-create-time" th:text = "'작성 날짜'"></p>
-			</li>
-			
-			<li class="post-list-item" th:each = "post : ${posts}" >
-				<p class="post-title">
-				<a class="item-link" th:href="@{|/post?postId=${post.id}|}" th:text = "|${post.title}|"></a>
-				</p>
-				
-				<p th:if="${post.user != null}" class="post-writer" th:text = "|${post.user.username}|"></p>
-				<p th:if="${post.user == null}" class="post-writer" th:text = "|${post.anonymousUsername}|"></p>
 
-				<p class="post-create-time" th:text = "|${#temporals.format(post.cratedAt, 'yyyy-MM-dd HH:mm')}|"></p>
-				
-			</li>
-		</ul>
-		-->
 		<ul class="post-list">
 				<li class="post-list-head">
 					<p class="post-title" th:text = "'제목'"></p>

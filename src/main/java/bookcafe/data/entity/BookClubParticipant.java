@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookMeetingParticipant extends ItemBase {
+public class BookClubParticipant extends ItemBase {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	private BookMeeting bookMeeting;
+	private BookClub bookClub;
 
 }

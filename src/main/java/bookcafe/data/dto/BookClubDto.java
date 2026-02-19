@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookMeetingDto {
+public class BookClubDto {
 	private String name;
 	
 	private BookInfo bookInfo;
