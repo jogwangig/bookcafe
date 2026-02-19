@@ -32,5 +32,16 @@ public class BookClubRestController {
 		
 		return "틍록완료";
 	}
+	
+	@GetMapping("/unregister")
+	public String unregisterUser(@RequestParam("bookClubId") long bookClubId, @AuthenticationPrincipal CustomUserDetails userDetails) {
+		bookClubParticipantRepo.findByUserIdAndBookClubId(userDetails.getId(), bookClubId)
+		.ifPresentOrElse(e->{
+			bookClubParticipantRepo.delete(e);},
+				()->{
+					System.out.println("등록 되지않은 사용자입니다");});
+		
+		return "틍록해제";
+	}
 
 }

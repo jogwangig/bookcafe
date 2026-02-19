@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{/layout/layout}">
+		
+	<head>
+		<script th:src="@{/js/book-club-list.js}" defer></script>
+		<title>독서 모임 목록</title>
+	</head>
+	<body>
+		<div layout:fragment="Content" class="content-fragment">
+		<ul>
+			<li class="book-club-container" th:each = "bookClub : ${bookClubs}">
+				<a class="item-link" th:href="@{|/book-club?bookClubId=${bookClub.id}|}" th:text = "|${bookClub.name}|"></a>
+				<button class="register-btn" th:text = "${(bookClub.isParticipated)?'탈퇴하기':'등록하기'}"></button>
+			</li>
+		</ul>
+		</div>
+	</body>
+	
+</html>

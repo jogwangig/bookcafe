@@ -2,20 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org"
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{/layout/layout}">
-		
 	<head>
-		<script th:src="@{/js/book-club.js}" defer></script>
-		<title>독서 모임 목록</title>
+		<link rel="stylesheet" th:href = @{/css/book-club.css}/>
+		<title>대문</title>
 	</head>
 	<body>
-		<div layout:fragment="Content" class="content-fragment">
-		<ul>
-			<li class="book-club-container" th:each = "bookClub : ${bookClubs}">
-				<a class="item-link" th:href="@{|/book-club?bookClubId=${bookClub.id}|}" th:text = "|${bookClub.name}|"></a>
-				<button class="register-btn" th:text = "|등록|"></button>
-			</li>
-		</ul>
-		</div>
+	<div layout:fragment="Content" class="content-fragment">
+		<p th:text = "| ${bookClub.name}|"></p>
+		<img th:if="${bookClub.coverImage}" th:src="|data:jpg;base64,${bookClub.coverImage}|" width="250px" height="auto" />
+		<p th:text = "|📖 ${bookClub.bookInfo.title}|"></p>
+		<p th:text = "|ISBN ${bookClub.bookInfo.ISBN}|"></p>
+		
+	</div>
 	</body>
 	
 </html>
