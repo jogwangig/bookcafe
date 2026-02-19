@@ -8,9 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import bookcafe.data.dto.creation.UserCreationDto;
 import bookcafe.data.entity.BookShelf;
 import bookcafe.data.entity.SiteUser;
-import bookcafe.data.entity.SiteUser.SiteUserDTO;
 import bookcafe.data.entity.SiteUserAuthority;
 import bookcafe.data.entity.SiteUserAuthority.AuthorityType;
 import bookcafe.data.repository.BookShelfRepository;
@@ -34,11 +34,11 @@ public class UserService {
 	private CustomUserDetailsService userDetailsService;
 	
 	
-	public void createNewUser(SiteUserDTO userDTO) {
+	public void createNewUser(UserCreationDto userCreationDto) {
 		
-		encodeUserPwd(userDTO);
+		encodeUserPwd(userCreationDto);
 		
-		SiteUser newUser = userDTO.toEntity();
+		SiteUser newUser = userCreationDto.toEntity();
 					
 		userRepo.save(newUser);
 		
@@ -48,7 +48,7 @@ public class UserService {
 		
 	}
 	
-	public void modifyUserInfo(SiteUserDTO userDTO, long userId) {
+	public void modifyUserInfo(UserCreationDto userDTO, long userId) {
 		
 		encodeUserPwd(userDTO);
 		
@@ -76,7 +76,7 @@ public class UserService {
 		SecurityContextHolder.setContext(ctx);
 	}
 	
-	private void encodeUserPwd(SiteUserDTO userDto) {
+	private void encodeUserPwd(UserCreationDto userDto) {
 		String pwd = userDto.getPassword();
 		pwd = passwordEncoder.encode(pwd);
 		userDto.setPassword(pwd);

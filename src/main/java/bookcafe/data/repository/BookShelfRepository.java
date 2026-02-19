@@ -22,7 +22,10 @@ public interface BookShelfRepository extends JpaRepository<BookShelf, Long>{
 	List<BookShelfWithBooksDto> findDtoByUserId(@Param("userId") Long userId);
 	
 	
-	@Query("SELECT new bookcafe.data.dto.BookShelfWithBooksFlatDto(bs.id, bs.name, b.id, b.bookInfo.title) "
+	@Query("SELECT new bookcafe.data.dto.BookShelfWithBooksFlatDto(bs.id, bs.name, "
+			+ "CASE WHEN b IS NOT NULL THEN b.id ELSE null END, "
+			+ "CASE WHEN b IS NOT NULL THEN b.bookInfo.title ELSE null END "
+			+ ") "
 			+"FROM BookShelf bs LEFT JOIN bs.books b "
 			+"WHERE bs.user.id = :userId")
 	List<BookShelfWithBooksFlatDto> findByUserIdWithBooks(@Param("userId") Long userId);

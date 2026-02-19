@@ -9,9 +9,9 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class BookShelfWithBooksFlatDto {
-	private long id;
+	private Long id;
 	private String name;
-	private long bookId;
+	private Long bookId;
 	private String bookTitle;
 
 }

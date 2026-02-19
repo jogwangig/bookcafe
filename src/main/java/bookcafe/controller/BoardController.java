@@ -33,7 +33,6 @@ public class BoardController {
 		Page<PostPageDto> postPageDto = boardPagingService.getPostPageOfBoard(board.getId(), 1);
 		
 		
-//		model.addAttribute("boardId", board.getId());
 		model.addAttribute("board", board);
 		model.addAttribute("postPage", postPageDto);
 		
@@ -50,7 +49,6 @@ public class BoardController {
 		Page<PostPageDto> postPageDto = boardPagingService.getPostPageOfBoard(boardId, pageNum);
 		
 		
-//		model.addAttribute("boardId", board.getId());
 		model.addAttribute("board", board);
 		model.addAttribute("postPage", postPageDto);
 		
@@ -67,17 +65,20 @@ public class BoardController {
 		return "/board-list";
 	}
 	
+	
 	@GetMapping("/create")
 	public String getBoardCreationForm(Model model) {
 		model.addAttribute("board", new Board());
 		return "/form/board-creation-form";
 	}
 	
+	
 	@PostMapping("/create")
 	public String processBoardCreationForm(@ModelAttribute("board")Board newBoard) {
 		boardRepo.save(newBoard);
 		return "redirect:/";
 	}
+	
 	
 	@ModelAttribute("boardId")
 	public long addBoardId(@RequestParam(value = "boardId", required = false)Long boardId) {

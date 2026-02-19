@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import bookcafe.data.dto.creation.UserCreationDto;
 import bookcafe.data.entity.SiteUser;
-import bookcafe.data.entity.SiteUser.SiteUserDTO;
 import bookcafe.data.repository.SiteUserRepository;
 import bookcafe.security.CustomUserDetails;
 import bookcafe.service.UserService;
@@ -28,33 +28,38 @@ public class UserController {
 	
 	@GetMapping("/create")
 	public String getUserCreationForm(Model model) {
-		model.addAttribute("createUserFormDTO", new SiteUser.SiteUserDTO());
+		model.addAttribute("userCreationDto", new UserCreationDto());
 		return "/form/user-creation-form";
 	}
 	
 	
 	
 	@PostMapping("/create")
-	public String processUserCreationForm(@ModelAttribute("createUserFormDTO") SiteUserDTO createUserFormDTO) {
+	public String processUserCreationForm(@ModelAttribute("userCreationDto")UserCreationDto userCreationDto) {
 		
-		userService.createNewUser(createUserFormDTO);		
+		userService.createNewUser(userCreationDto);		
 
 		return "redirect:/";
 	}
 	
 	@GetMapping("/modify")
 	public String getUserModificationForm(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-		model.addAttribute("createUserFormDTO", userRepo.findById(userDetails.getId()));
+		
+		SiteUser user = userRepo.findById(userDetails.getId()).get();
+		
+		UserCreationDto userCreationDto = UserCreationDto.fromEntity(user);
+		
+		model.addAttribute("userCreationDto", userCreationDto);
 		return "/form/user-creation-form";
 	}
 	
 	
 	@PostMapping("/modify")
-	public String processUserModificationForm(@ModelAttribute("createUserFormDTO") SiteUserDTO createUserFormDTO,
+	public String processUserModificationForm(@ModelAttribute("userCreationDto") UserCreationDto userCreationDto,
 			@AuthenticationPrincipal CustomUserDetails userDetails) {
 		
 		
-		userService.modifyUserInfo(createUserFormDTO, userDetails.getId());
+		userService.modifyUserInfo(userCreationDto, userDetails.getId());
 		
 		return "redirect:/";
 	}

@@ -1,6 +1,7 @@
 package bookcafe.controller;
 
 import java.io.IOException;
+import java.util.Base64;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import bookcafe.data.dto.BookClubDto;
+import bookcafe.data.entity.BookClub;
 import bookcafe.data.repository.BookClubRepository;
 import bookcafe.security.CustomUserDetails;
 import bookcafe.service.BookClubService;
@@ -34,7 +36,14 @@ public class BookClubController {
 	
 	@GetMapping(params = "bookClubId")
 	public String displayBookClub(Model model , @RequestParam("bookClubId")long bookClubId) {
-		model.addAttribute("bookClub", bookClubRepo.findById(bookClubId).get());
+		BookClub bookClub = bookClubRepo.findById(bookClubId).get();
+		
+		if(bookClub.getCoverImage() != null) {
+			String coverImg = Base64.getEncoder().encodeToString(bookClub.getCoverImage());
+			model.addAttribute("coverImg", coverImg);
+		}
+		
+		model.addAttribute("bookClub", bookClub);
 		return "book-club";
 	}
 	
