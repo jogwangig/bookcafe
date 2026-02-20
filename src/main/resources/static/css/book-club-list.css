@@ -1,0 +1,39 @@
+.content-fragment{
+	padding: 30px 50px;
+}
+
+
+ul{
+	list-style: none;
+}
+
+.book-club-container{
+	display: flex;
+	border: 1px solid blue;
+	padding: 5px;
+	margin-bottom: 10px;
+	border-radius: 20px;
+}
+
+
+.item-link{
+	flex : 1 0 0;
+	padding-left: 30px;
+	font-size: 25px;
+	color: inherit;
+	text-decoration: none;
+}
+
+.book-info{
+	flex : 0 0 150px;
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+	font-size: 13px;
+	color: gray;
+}
+
+.register-btn{
+	flex: 0 0 200px;
+	border-radius: 10px;
+}

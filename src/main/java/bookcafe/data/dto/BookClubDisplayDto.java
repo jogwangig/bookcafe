@@ -17,5 +17,7 @@ public class BookClubDisplayDto {
 	
 	private String name;
 	
+	private String bookTitle;
+	
 	private boolean isParticipated;
 }

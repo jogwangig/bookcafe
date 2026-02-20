@@ -13,7 +13,8 @@ import bookcafe.data.entity.BookClub;
 @Repository
 public interface BookClubRepository extends JpaRepository<BookClub, Long>{
 	
-	@Query("SELECT new bookcafe.data.dto.BookClubDisplayDto(bc.id ,bc.name , CASE WHEN bcp IS NULL THEN false ELSE true END) "+
+	@Query("SELECT new bookcafe.data.dto.BookClubDisplayDto(bc.id ,bc.name ,bc.bookInfo.title , "+
+			"CASE WHEN bcp IS NULL THEN false ELSE true END) "+
 			"FROM BookClub bc "+
 			"LEFT JOIN BookClubParticipant bcp ON bcp.bookClub.id = bc.id and bcp.user.id = :userId ")
 	List<BookClubDisplayDto> findDtos(@Param("userId")long userId);

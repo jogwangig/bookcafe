@@ -4,6 +4,7 @@
 		layout:decorate="~{/layout/layout}">
 		
 	<head>
+		<link rel="stylesheet" th:href = @{/css/book-club-list.css}/>
 		<script th:src="@{/js/book-club-list.js}" defer></script>
 		<title>독서 모임 목록</title>
 	</head>
@@ -12,6 +13,7 @@
 		<ul>
 			<li class="book-club-container" th:each = "bookClub : ${bookClubs}">
 				<a class="item-link" th:href="@{|/book-club?bookClubId=${bookClub.id}|}" th:text = "|${bookClub.name}|"></a>
+				<p class="book-info" th:text = "|책 제목 : ${bookClub.bookTitle}|"></p>
 				<button class="register-btn" th:text = "${(bookClub.isParticipated)?'탈퇴하기':'등록하기'}"></button>
 			</li>
 		</ul>

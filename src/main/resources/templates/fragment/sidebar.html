@@ -7,6 +7,7 @@
 			<ul class="guide-link-list side-link-list">
 			<li sec:authorize="isAuthenticated()"><a th:href = @{/library} th:text = "'내 서재'" /></li>
 			<li><a th:href = @{/board} th:text="'게시판'" /></li>	
+			<li sec:authorize="isAuthenticated()"><a th:href = @{/book-club} th:text = "'독서 모임'" /></li>
 			</ul>
 		</aside>
 	</body>
