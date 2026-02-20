@@ -1,0 +1,23 @@
+.content-fragment{
+	padding: 30px 50px;
+}
+
+
+ul{
+	list-style: none;
+}
+
+.board-container{
+	border: 1px solid blue;
+	padding: 5px;
+	margin-bottom: 10px;
+	border-radius: 20px;
+}
+
+
+.item-link{
+	padding-left: 30px;
+	font-size: 25px;
+	color: inherit;
+	text-decoration: none;
+}

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import bookcafe.data.dto.BookShelfWithBooksDto;
 import bookcafe.data.dto.BookShelfWithBooksFlatDto;
+import bookcafe.data.dto.creation.BookShelfCreationDto;
 import bookcafe.data.entity.BookShelf;
 
 @Repository
@@ -29,4 +30,17 @@ public interface BookShelfRepository extends JpaRepository<BookShelf, Long>{
 			+"FROM BookShelf bs LEFT JOIN bs.books b "
 			+"WHERE bs.user.id = :userId")
 	List<BookShelfWithBooksFlatDto> findByUserIdWithBooks(@Param("userId") Long userId);
+	
+	
+	@Query("SELECT new bookcafe.data.dto.BookShelfWithBooksFlatDto(bs.id, bs.name, "
+			+ "CASE WHEN b IS NOT NULL THEN b.id ELSE null END, "
+			+ "CASE WHEN b IS NOT NULL THEN b.bookInfo.title ELSE null END "
+			+ ") "
+			+"FROM BookShelf bs LEFT JOIN bs.books b "
+			+"WHERE bs.id = :id")
+	List<BookShelfWithBooksFlatDto> findByIdWithBooks(@Param("id") Long id);
+	
+	
+	@Query("SELECT new bookcafe.data.dto.creation.BookShelfCreationDto(bs.name) FROM BookShelf bs WHERE bs.id = :id")
+	BookShelfCreationDto findCreationDtoById(@Param("id") Long id);
 }

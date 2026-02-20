@@ -45,8 +45,6 @@ public class BoardController {
 			@RequestParam(value = "boardId", required = false, defaultValue = "2") long boardId, 
 			@RequestParam(value = "pageNum", required = false, defaultValue = "1" )int pageNum) {
 		
-		if(pageNum < 1) pageNum = 1;
-		System.out.println("ddddd");
 		BoardDto board = boardRepo.findDtoById(boardId);
 		
 		Page<PostPageDto> postPageDto = boardPagingService.getPostPageOfBoard(boardId, pageNum);
@@ -62,7 +60,7 @@ public class BoardController {
 	
 	@GetMapping("/board-list")
 	public String displayBoards(Model model) {
-		List<Board> boards = boardRepo.findAll();
+		List<BoardDto> boards = boardRepo.findAllDtos();
 		model.addAttribute("boards", boards);
 		
 		return "/board-list";

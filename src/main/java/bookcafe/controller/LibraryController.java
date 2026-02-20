@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import bookcafe.data.dto.BookShelfWithBooksDto;
-import bookcafe.data.repository.BookRepository;
-import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.security.CustomUserDetails;
 import bookcafe.service.BookShelfDtoService;
 import lombok.AllArgsConstructor;
@@ -20,17 +18,17 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class LibraryController {
 	
-	private BookShelfRepository  bookShelfRepo;
+//	private BookShelfRepository  bookShelfRepo;
 	
 	private BookShelfDtoService bsDtoService;
 	
-	private BookRepository bookRepo;
+//	private BookRepository bookRepo;
 	
 	@GetMapping
 	public String displayMyLibrary(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		
 		List<BookShelfWithBooksDto> bookShelfWithBooksDtos = 
-				bsDtoService.getDtoForBookShelfDisplay(userDetails.getId());
+				bsDtoService.getAllBookShelfDtosForDisplay(userDetails.getId());
 
 		
 		model.addAttribute("bookShelfWithBooksDtos", bookShelfWithBooksDtos);
