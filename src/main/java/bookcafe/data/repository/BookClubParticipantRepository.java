@@ -1,5 +1,6 @@
 package bookcafe.data.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +11,6 @@ import bookcafe.data.entity.BookClubParticipant;
 @Repository
 public interface BookClubParticipantRepository extends JpaRepository<BookClubParticipant, Long> {
 	Optional<BookClubParticipant> findByUserIdAndBookClubId(long userId, long bookClubId);
+	
+	List<BookClubParticipant> findByBookClubId(long bookClubId);
 }

@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import bookcafe.data.dto.BookDto;
-import bookcafe.data.dto.BookShelfWithBooksDto;
-import bookcafe.data.dto.BookShelfWithBooksFlatDto;
+import bookcafe.data.dto.display.BookShelfWithBooksDto;
+import bookcafe.data.dto.display.BookShelfWithBooksFlatDto;
 import bookcafe.data.repository.BookShelfRepository;
 import lombok.AllArgsConstructor;
 
@@ -20,22 +20,6 @@ public class BookShelfDtoService {
 		
 	public List<BookShelfWithBooksDto> getAllBookShelfDtosForDisplay(long userId){
 		List<BookShelfWithBooksFlatDto> flatDtos = bookShelfRepo.findByUserIdWithBooks(userId);
-				
-//		Map<Long, List<BookShelfWithBooksFlatDto>> bookShelfDtosGroupedById = flatDtos.stream()
-//																	.collect(Collectors.groupingBy(BookShelfWithBooksFlatDto::getId));
-		
-//		return bookShelfDtosGroupedById.values().stream()
-//						.map(list -> {
-//							BookShelfWithBooksFlatDto first = list.get(0);
-//							
-//							List<BookDto> bookDtos = list.stream()
-//							.filter(bsd->bsd.getBookId() != null)
-//							.map(bsd -> {
-//								return new BookDto(bsd.getBookId(), bsd.getBookTitle());
-//							}).toList();
-//							
-//							return new BookShelfWithBooksDto(first.getId(), first.getName(), bookDtos);
-//						}).toList();
 		
 		return generateFromFlat(flatDtos);
 	

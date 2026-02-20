@@ -5,7 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import bookcafe.data.dto.PostPageDto;
+import bookcafe.data.dto.display.PostPageDto;
 import bookcafe.data.repository.PostRepository;
 import lombok.AllArgsConstructor;
 

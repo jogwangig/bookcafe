@@ -1,4 +1,4 @@
-package bookcafe.data.dto;
+package bookcafe.data.dto.display;
 
 import java.time.LocalDateTime;
 

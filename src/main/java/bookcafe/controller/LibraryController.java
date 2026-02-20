@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import bookcafe.data.dto.BookShelfWithBooksDto;
+import bookcafe.data.dto.display.BookShelfWithBooksDto;
 import bookcafe.security.CustomUserDetails;
 import bookcafe.service.BookShelfDtoService;
 import lombok.AllArgsConstructor;

@@ -2,6 +2,7 @@ package bookcafe.controller;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import bookcafe.data.dto.BookClubDto;
 import bookcafe.data.entity.BookClub;
+import bookcafe.data.entity.BookClubParticipant;
+import bookcafe.data.entity.SiteUser;
+import bookcafe.data.repository.BookClubParticipantRepository;
 import bookcafe.data.repository.BookClubRepository;
 import bookcafe.security.CustomUserDetails;
 import bookcafe.service.BookClubService;
@@ -26,6 +30,7 @@ public class BookClubController {
 	private BookClubService bookClubService;
 	
 	private BookClubRepository bookClubRepo;
+		
 	
 	@GetMapping
 	public String displayBookClubs(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -33,6 +38,7 @@ public class BookClubController {
 		model.addAttribute("bookClubs",bookClubRepo.findDtos(userDetails.getId()));
 		return "/book-club-list";
 	}
+	
 	
 	@GetMapping(params = "bookClubId")
 	public String displayBookClub(Model model , @RequestParam("bookClubId")long bookClubId) {
@@ -45,6 +51,13 @@ public class BookClubController {
 		
 		model.addAttribute("bookClub", bookClub);
 		return "book-club";
+	}
+	
+	
+	@PostMapping("/register")
+	public String registerCommentToBookClub(@RequestParam("bookClubId")Long bookClubId) {
+		
+		return "";
 	}
 	
 	

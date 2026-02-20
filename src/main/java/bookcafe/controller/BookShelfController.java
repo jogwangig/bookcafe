@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import bookcafe.data.dto.BookShelfWithBooksDto;
 import bookcafe.data.dto.creation.BookShelfCreationDto;
+import bookcafe.data.dto.display.BookShelfWithBooksDto;
 import bookcafe.data.entity.BookShelf;
-import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.service.BookShelfDtoService;
 import lombok.AllArgsConstructor;
