@@ -13,7 +13,7 @@ public class PostPageDto {
 	
 	private long id;
 	
-	private LocalDateTime cratedAt;
+	private LocalDateTime createdAt;
 	
 	private String username;
 	

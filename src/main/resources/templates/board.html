@@ -32,13 +32,13 @@
 						<p th:if="${post.username != null}" class="post-writer" th:text = "|${post.username}|"></p>
 						<p th:if="${post.username == null}" class="post-writer" th:text = "|${post.anonymousUsername}|"></p>
 
-						<p class="post-create-time" th:text = "|${#temporals.format(post.cratedAt, 'yyyy-MM-dd HH:mm')}|"></p>
+						<p class="post-create-time" th:text = "|${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}|"></p>
 						
 				</li>
 			</ul>
 			
-			<ul class="page-link-list" th:with="start = ${(postPage.number/5)*5 + 1 }, 
-			end = ${(start + 4 < postPage.totalPages?start + 4:postPage.totalPages)}">
+			<ul class="page-link-list"  th:if="${postPage.totalPages != 0}"
+			th:with="start = ${(postPage.number/5)*5 + 1 }, end = ${(start + 4 < postPage.totalPages?start + 4:postPage.totalPages)}">
 			
 				<li th:if = "${start != 1}">
 					<a th:href = @{|/board?boardId=${boardId}&pageNum=${start-1}|} th:text="'<'" />

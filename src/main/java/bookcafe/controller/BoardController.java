@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import bookcafe.data.dto.BoardDto;
 import bookcafe.data.dto.PostPageDto;
 import bookcafe.data.entity.Board;
 import bookcafe.data.repository.BoardRepository;
@@ -26,25 +27,27 @@ public class BoardController {
 		
 	private BoardPagingService boardPagingService;
 	
-	@GetMapping
-	public String main(Model model) {
-		Board board = boardRepo.findByName("main");
-		
-		Page<PostPageDto> postPageDto = boardPagingService.getPostPageOfBoard(board.getId(), 1);
-		
-		
-		model.addAttribute("board", board);
-		model.addAttribute("postPage", postPageDto);
-		
-		return "/board";
-	}
+//	@GetMapping
+//	public String main(Model model) {
+//		BoardDto board = boardRepo.findDtoById(2);
+//		
+//		Page<PostPageDto> postPageDto = boardPagingService.getPostPageOfBoard(board.getId(), 1);
+//		
+//		
+//		model.addAttribute("board", board);
+//		model.addAttribute("postPage", postPageDto);
+//		
+//		return "/board";
+//	}
 	
-	@GetMapping(params = {"boardId", "pageNum"})
-	public String displayBoard(Model model, @RequestParam("boardId") long boardId, 
-			@RequestParam("pageNum")int pageNum) {
+	@GetMapping
+	public String displayBoard(Model model,
+			@RequestParam(value = "boardId", required = false, defaultValue = "2") long boardId, 
+			@RequestParam(value = "pageNum", required = false, defaultValue = "1" )int pageNum) {
 		
-		
-		Board board = boardRepo.findById(boardId).get();
+		if(pageNum < 1) pageNum = 1;
+		System.out.println("ddddd");
+		BoardDto board = boardRepo.findDtoById(boardId);
 		
 		Page<PostPageDto> postPageDto = boardPagingService.getPostPageOfBoard(boardId, pageNum);
 		
