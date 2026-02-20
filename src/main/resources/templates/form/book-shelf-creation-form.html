@@ -9,7 +9,11 @@
 	<body>
 		<div layout:fragment="Content" class="content-fragment">
 		<p>책장 등록!!</p>
-		<form th:action="@{/book-shelf/create}" method="post" th:object = ${bookShelfCreationDto}>
+
+		<form th:action="${(currentURI != null and currentURI.matches('/book-shelf/modify.*'))}
+			? @{/book-shelf/modify(bookShelfId=${bookShelfId})} 
+			: @{/book-shelf/create}"  method="post" th:object="${bookShelfCreationDto}">
+
 			<p>
 			<label for="name" th:text = "'name'"></label>
 			<input type="text" th:field="*{name}"> 

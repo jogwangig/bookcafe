@@ -35,9 +35,6 @@ public class BookShelfController {
 				
 		model.addAttribute("bookShelfWithBooks", bookShelfWithBooks);
 		
-//		model.addAttribute("bookShelf", bookShelfRepo.findById(bookShelfId).get());
-//		model.addAttribute("books", bookRepo.findByBookShelfId(bookShelfId));
-		
 		return "/book-shelf";
 	}
 	
@@ -58,8 +55,23 @@ public class BookShelfController {
 	@GetMapping(value = "/modify", params = "bookShelfId")
 	public String getBookShelfModificationForm(Model model, @RequestParam("bookShelfId")Long bookShelfId) {
 		
+		model.addAttribute("bookShelfId",bookShelfId);
 		model.addAttribute("bookShelfCreationDto", bookShelfRepo.findCreationDtoById(bookShelfId));
 		return "/form/book-shelf-creation-form";
+	}
+	
+	@PostMapping(value = "/modify", params = "bookShelfId")
+	public String processBookShelfModificationForm(@RequestParam("bookShelfId")Long bookShelfId,
+			@ModelAttribute("bookShelfCreationDto")BookShelfCreationDto bookShelfDTO) {
+		
+		BookShelf bs = bookShelfRepo.findById(bookShelfId).get();
+		
+		bs.setName(bookShelfDTO.getName());
+		
+		bookShelfRepo.save(bs);
+		
+		
+		return "redirect:/";
 	}
 	
 
