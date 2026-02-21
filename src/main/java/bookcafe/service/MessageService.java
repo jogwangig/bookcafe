@@ -18,17 +18,17 @@ public class MessageService {
 	
 	private MessageRepository msgRepo;
 	
-	public void sendMessageFromAdmin(SiteUser user, String msgContent) {
+	public void sendMessageFromAdmin(SiteUser receipient, String msgContent) {
 		Message msg = Message.builder().sender(userRepo.getReferenceById(2l))
-										.receipient(user).conntent(msgContent).build();
+										.receipient(receipient).content(msgContent).build();
 		
 		msgRepo.save(msg);
 		
 	}
 	
-	public void sendMessageFromAdmin(List<SiteUser> users, String msgContent) {
-		for(SiteUser u : users)
-			sendMessageFromAdmin(u, msgContent);
+	public void sendMessageFromAdmin(List<SiteUser> receipients, String msgContent) {
+		for(SiteUser r : receipients)
+			sendMessageFromAdmin(r, msgContent);
 		
 	}
 	

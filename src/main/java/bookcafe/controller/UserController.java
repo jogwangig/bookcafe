@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import bookcafe.data.dto.creation.UserCreationDto;
 import bookcafe.data.entity.SiteUser;
+import bookcafe.data.repository.MessageRepository;
 import bookcafe.data.repository.SiteUserRepository;
 import bookcafe.security.CustomUserDetails;
 import bookcafe.service.UserService;
@@ -22,6 +23,8 @@ import lombok.AllArgsConstructor;
 public class UserController {
 	
 	SiteUserRepository userRepo;
+	
+	MessageRepository msgRepo;
 
 	
 	private UserService userService;
@@ -65,12 +68,19 @@ public class UserController {
 	}
 	
 	
-	
-	
 	@GetMapping("/delete")
 	public String deleteUser(@RequestParam("id") long id) {
 		userRepo.deleteById(id);
 		return "redirect:/";
 	}
+	
+	@GetMapping("/msg")
+	public String displayMsgBox(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+		model.addAttribute("msgs", msgRepo.findByReceipientId(userDetails.getId()));
+		
+		return "msg-box";
+	}
+	
+	
 
 }

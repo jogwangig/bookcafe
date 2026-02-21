@@ -22,5 +22,5 @@ public class Message extends Base{
 	@ManyToOne(fetch = FetchType.LAZY)
 	private SiteUser receipient;
 	
-	private String conntent;
+	private String content;
 }
