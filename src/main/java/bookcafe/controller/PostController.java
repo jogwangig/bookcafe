@@ -57,7 +57,6 @@ public class PostController {
 		
 		Post newPost = post.toEntity();
 		
-//		System.out.println(post.getBoardId());
 		
 		newPost.setBoard(boardRepo.getReferenceById(boardId));
 		postRepo.save(newPost);

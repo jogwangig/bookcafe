@@ -19,7 +19,7 @@
 			<p>
 			    <label for="book-select">등록 할 책 :</label>
 			    <select id="book-select" name="book-select">
-			      <option th:each = "b : ${books}" th:value="${b.id}" th:text="${b.bookInfo.title}">option</option>
+			      <option th:each = "b : ${books}" th:value="${b.id}" th:text="${b.title}">option</option>
 			    </select>
 			 </p>
 			<p>

@@ -1,5 +1,7 @@
 package bookcafe.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import bookcafe.data.dto.ReadingRecordDto;
+import bookcafe.data.dto.display.BookDisplayDto;
 import bookcafe.data.entity.ReadingRecord;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.ReadingRecordRepository;
@@ -58,8 +61,10 @@ public class ReadingRecordController {
 	
 	@GetMapping("/create")
 	public String getReadingRecordCreationForm(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+		List<BookDisplayDto> books = bookRepo.findDisplayDtosByUserId(userDetails.getId());
+				
 		model.addAttribute("readingRecord", new ReadingRecord());
-		model.addAttribute("books", bookRepo.findByUserId(userDetails.getId()));
+		model.addAttribute("books", books);
 		return "/form/reading-record-creation-form";
 	}
 	
