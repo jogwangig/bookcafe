@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @AllArgsConstructor
-public class PostDto {
+public class PostDetailDto {
 	
 	private Long id;
 	

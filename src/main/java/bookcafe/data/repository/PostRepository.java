@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import bookcafe.data.dto.PostDto;
+import bookcafe.data.dto.PostDetailDto;
 import bookcafe.data.dto.display.PostPageDto;
 import bookcafe.data.entity.Post;
 
@@ -22,11 +22,11 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 			+"WHERE p.board.id = :boardId")
 	Page<PostPageDto> findPostPageByBoardId(@Param("boardId") long id, Pageable pageable);
 	
-	@Query("SELECT new bookcafe.data.dto.PostDto(p.id, p.cratedAt , p.board.id , "
+	@Query("SELECT new bookcafe.data.dto.PostDetailDto(p.id, p.cratedAt , p.board.id , "
 			+ "CASE WHEN u IS NOT NULL THEN u.username ELSE null END , "
 			+ "CASE WHEN u IS NOT NULL THEN null ELSE p.anonymousUsername END ,"
 			+ "p.title , p.content ) "
 			+"FROM Post p LEFT JOIN p.user u "
 			+"WHERE p.id = :postId")
-	PostDto findPostDtoById(@Param("postId")long postId);
+	PostDetailDto findPostDetailDtoById(@Param("postId")long postId);
 }

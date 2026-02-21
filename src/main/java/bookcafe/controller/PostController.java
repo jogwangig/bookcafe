@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import bookcafe.data.dto.PostDto;
+import bookcafe.data.dto.PostDetailDto;
 import bookcafe.data.dto.creation.PostCreationDto;
 import bookcafe.data.entity.Comment;
 import bookcafe.data.entity.Post;
@@ -30,7 +30,7 @@ public class PostController {
 	
 	@GetMapping(params = "postId")
 	public String displayPostById(Model model, @RequestParam("postId") long postId) {
-		PostDto post = postRepo.findPostDtoById(postId);
+		PostDetailDto post = postRepo.findPostDetailDtoById(postId);
 				
 		
 		
@@ -61,7 +61,7 @@ public class PostController {
 		newPost.setBoard(boardRepo.getReferenceById(boardId));
 		postRepo.save(newPost);
 
-		return "redirect:/board";
+		return "redirect:/board?boardId="+boardId;
 	}
 
 }

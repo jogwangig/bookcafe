@@ -29,7 +29,7 @@
 						<a class="item-link" th:href="@{|/post?postId=${post.id}|}" th:text = "|${post.title}|"></a>
 						</p>
 						
-						<p th:if="${post.username != null}" class="post-writer" th:text = "|${post.username}|"></p>
+						<p th:if="${post.username != null}" class="post-writer" th:text = "|🙍‍♂️  ${post.username}|"></p>
 						<p th:if="${post.username == null}" class="post-writer" th:text = "|${post.anonymousUsername}|"></p>
 
 						<p class="post-create-time" th:text = "|${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}|"></p>

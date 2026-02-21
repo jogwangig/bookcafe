@@ -1,7 +1,6 @@
 package bookcafe.data.dto.creation;
 
 import bookcafe.data.entity.Post;
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +15,6 @@ public class PostCreationDto implements CreationDto<Post>{
 	
 	private String title;
 	
-	@Column(length=1000)
 	private String content;
 	
 	private long boardId;
