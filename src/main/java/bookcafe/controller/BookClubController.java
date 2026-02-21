@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import bookcafe.data.dto.BookClubDto;
 import bookcafe.data.entity.BookClub;
 import bookcafe.data.entity.BookClubComment;
+import bookcafe.data.repository.BookClubCommentRepository;
 import bookcafe.data.repository.BookClubRepository;
 import bookcafe.security.CustomUserDetails;
 import bookcafe.service.BookClubService;
@@ -26,6 +27,8 @@ import lombok.AllArgsConstructor;
 public class BookClubController {
 	
 	private BookClubService bookClubService;
+	
+	private BookClubCommentRepository bookClubCommentRepo;
 	
 	private BookClubRepository bookClubRepo;
 		
@@ -47,6 +50,7 @@ public class BookClubController {
 			model.addAttribute("coverImg", coverImg);
 		}
 		
+		model.addAttribute("comments", bookClubCommentRepo.findByBookClubId(bookClubId));
 		model.addAttribute("newComment", new BookClubComment());
 		model.addAttribute("bookClub", bookClub);
 		return "book-club";

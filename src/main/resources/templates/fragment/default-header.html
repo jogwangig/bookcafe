@@ -27,7 +27,7 @@
 			<ul sec:authorize="isAuthenticated()" th:if="${currentURI != null and currentURI.matches('/')}"
 			 						class="guide-link-list  header-link-list right-link-list">	
 									
-			 	<li><a th:href = @{/user/message} th:text="'메시지 함'" /></li>
+			 	<li><a th:href = @{/user/message} th:text="|메시지 함 : ${msgNum}|" /></li>
 	
 			</ul>
 			

@@ -10,6 +10,7 @@ import bookcafe.data.entity.Book;
 import bookcafe.data.entity.BookShelf;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
+import bookcafe.data.repository.MessageRepository;
 import bookcafe.data.valueobject.BookInfo;
 import bookcafe.security.CustomUserDetails;
 import lombok.AllArgsConstructor;
@@ -21,9 +22,14 @@ public class DefaultController {
 	private BookRepository bookRepo;
 	
 	private BookShelfRepository bookShelfRepo;	
+	
+	private MessageRepository msgRepo;
 		
 	@GetMapping("/")
-	public String index() {
+	public String index(Model model, @AuthenticationPrincipal Object principal) {
+		if(principal instanceof CustomUserDetails)
+			model.addAttribute("msgNum", msgRepo.countByReceipientId( ((CustomUserDetails)principal).getId() ));
+		
 		return "/index";
 	}
 	
