@@ -32,6 +32,8 @@
 			<label for="content" th:text = "'내용'"></label>
 			<textarea th:field="*{content}"/> 
 			</p>
+			
+			<input type="hidden" name="boardId" th:value="${boardId}"/>
 
 			<p>
 			<input type="submit"> 

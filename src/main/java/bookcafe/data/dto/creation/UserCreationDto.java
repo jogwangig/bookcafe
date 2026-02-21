@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCreationDto {
+public class UserCreationDto implements CreationDto<SiteUser>{
 	
 	private String username;
 	

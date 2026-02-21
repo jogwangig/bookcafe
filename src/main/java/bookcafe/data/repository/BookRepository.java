@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import bookcafe.data.dto.display.BookDto;
+import bookcafe.data.dto.display.BookDisplayDto;
 import bookcafe.data.entity.Book;
 
 @Repository
@@ -18,8 +18,8 @@ public interface BookRepository extends JpaRepository<Book, Long>{
 	List<Book> findByBookShelfId(long id);
 	List<Book> findByUserId(Long id);
 	
-	@Query("SELECT new bookcafe.data.dto.display.BookDto(b.id, b.bookInfo.title) FROM Book b WHERE b.bookShelf.id = :id")
-	List<BookDto> findDtoByBookShelfId(@Param("id")long id);
+//	@Query("SELECT new bookcafe.data.dto.display.BookDto(b.id, b.bookInfo.title) FROM Book b WHERE b.bookShelf.id = :id")
+//	List<BookDisplayDto> findDtoByBookShelfId(@Param("id")long id);
 	
 	
 //	@Query("SELECT new bookcafe.data.dto.display.BookWithBookShelfIdDto(b.bookShelf.id, b.id ,b.bookInfo.title) FROM Book b "

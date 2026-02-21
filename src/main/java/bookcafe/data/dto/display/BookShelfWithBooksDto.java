@@ -12,5 +12,5 @@ import lombok.ToString;
 public class BookShelfWithBooksDto {
 	private long id;
 	private String name;
-	private List<BookDto> books;
+	private List<BookDisplayDto> books;
 }

@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 @ToString
-public class BookDto {
+public class BookDisplayDto {
 	private Long id;
 	private String title;
 }

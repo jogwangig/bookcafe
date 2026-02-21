@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class BoardDto {
+public class BoardDisplayDto {
 	private Long id;
 	
 	private String name;

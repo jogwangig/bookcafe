@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import bookcafe.data.dto.display.BookDto;
+import bookcafe.data.dto.display.BookDisplayDto;
 import bookcafe.data.dto.display.BookShelfWithBooksDto;
 import bookcafe.data.dto.display.BookShelfWithBooksFlatDto;
 import bookcafe.data.repository.BookShelfRepository;
@@ -42,12 +42,12 @@ public class BookShelfDisplayService {
 					.map(list -> {
 							BookShelfWithBooksFlatDto first = list.get(0);
 					
-							List<BookDto> bookDtos = list.stream()
+							List<BookDisplayDto> bookDisplayDtos = list.stream()
 										.filter(bsd->bsd.getBookId() != null)
-										.map(bsd -> new BookDto(bsd.getBookId(), bsd.getBookTitle()))
+										.map(bsd -> new BookDisplayDto(bsd.getBookId(), bsd.getBookTitle()))
 										.toList();
 					
-							return new BookShelfWithBooksDto(first.getId(), first.getName(), bookDtos);
+							return new BookShelfWithBooksDto(first.getId(), first.getName(), bookDisplayDtos);
 					}).toList();
 	
 	}

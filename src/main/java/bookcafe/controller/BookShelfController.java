@@ -47,9 +47,10 @@ public class BookShelfController {
 	
 	@PostMapping("/create")
 	public String processBookShelfCreationForm(@ModelAttribute("bookShelfCreationDto")BookShelfCreationDto bookShelfDTO) {
-		bookShelfRepo.save(BookShelf.builder().name(bookShelfDTO.getName()).build());
+		bookShelfRepo.save(bookShelfDTO.toEntity());
 		return "redirect:/";
 	}
+	
 	
 	@GetMapping(value = "/modify", params = "bookShelfId")
 	public String getBookShelfModificationForm(Model model, @RequestParam("bookShelfId")Long bookShelfId) {
@@ -58,6 +59,8 @@ public class BookShelfController {
 		model.addAttribute("bookShelfCreationDto", bookShelfRepo.findCreationDtoById(bookShelfId));
 		return "/form/book-shelf-creation-form";
 	}
+	
+	
 	
 	@PostMapping(value = "/modify", params = "bookShelfId")
 	public String processBookShelfModificationForm(@RequestParam("bookShelfId")Long bookShelfId,

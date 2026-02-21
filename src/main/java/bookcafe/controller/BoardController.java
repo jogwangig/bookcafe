@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import bookcafe.data.dto.display.BoardDto;
+import bookcafe.data.dto.display.BoardDisplayDto;
 import bookcafe.data.dto.display.PostPageDto;
 import bookcafe.data.entity.Board;
 import bookcafe.data.repository.BoardRepository;
@@ -45,7 +45,7 @@ public class BoardController {
 			@RequestParam(value = "boardId", required = false, defaultValue = "2") long boardId, 
 			@RequestParam(value = "pageNum", required = false, defaultValue = "1" )int pageNum) {
 		
-		BoardDto board = boardRepo.findDtoById(boardId);
+		BoardDisplayDto board = boardRepo.findDtoById(boardId);
 		
 		Page<PostPageDto> postPageDto = boardPagingService.getPostPageOfBoard(boardId, pageNum);
 		
@@ -60,7 +60,7 @@ public class BoardController {
 	
 	@GetMapping("/board-list")
 	public String displayBoards(Model model) {
-		List<BoardDto> boards = boardRepo.findAllDtos();
+		List<BoardDisplayDto> boards = boardRepo.findAllDtos();
 		model.addAttribute("boards", boards);
 		
 		return "/board-list";
