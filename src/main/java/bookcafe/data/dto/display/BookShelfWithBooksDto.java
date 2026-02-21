@@ -2,7 +2,6 @@ package bookcafe.data.dto.display;
 
 import java.util.List;
 
-import bookcafe.data.dto.BookDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

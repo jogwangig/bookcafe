@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import bookcafe.data.dto.BookDto;
+import bookcafe.data.dto.display.BookDto;
 import bookcafe.data.dto.display.BookShelfWithBooksDto;
 import bookcafe.data.dto.display.BookShelfWithBooksFlatDto;
 import bookcafe.data.repository.BookShelfRepository;

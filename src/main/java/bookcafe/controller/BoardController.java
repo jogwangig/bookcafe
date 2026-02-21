@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import bookcafe.data.dto.BoardDto;
+import bookcafe.data.dto.display.BoardDto;
 import bookcafe.data.dto.display.PostPageDto;
 import bookcafe.data.entity.Board;
 import bookcafe.data.repository.BoardRepository;
