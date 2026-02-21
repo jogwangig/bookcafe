@@ -13,6 +13,8 @@
 		<p th:text = "|📖 ${bookClub.bookInfo.title}|"></p>
 		<p th:text = "|ISBN ${bookClub.bookInfo.ISBN}|"></p>
 		
+		
+		<!--
 		<ul class="comment-list">
 			<li th:each = "comment : ${comments}">
 				
@@ -25,6 +27,31 @@
 				
 			</li> 
 		</ul>
+		-->
+		
+		
+		<div class="comment-container">
+
+		<p class="comment-head" th:text="|댓글|"></p>
+
+		<ul class="comment-list">
+			<li th:each = "comment : ${comments}">
+				
+				<p th:text="|${comment.content}|" > </p>
+				
+				<p class="comment-audit"> 
+					<span th:if="${comment.user != null}" th:text = "|작성자 : ${comment.user.username}|"></span>
+					<span th:if="${comment.user == null}" th:text = "|작성자 : ${comment.anonymousUsername}|"></span>
+					<span th:text = "|작성 시각 : ${#temporals.format(comment.cratedAt, 'yyyy-MM-dd HH:mm')}|"></span>
+				</p>
+				
+			</li> 
+		</ul>
+
+		</div>
+		
+		
+		
 		
 		
 		<form class="comment-form"
