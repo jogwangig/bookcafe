@@ -24,6 +24,13 @@
 				</li>
 			</ul>
 			
+			<ul sec:authorize="isAuthenticated()" th:if="${currentURI != null and currentURI.matches('/')}"
+			 						class="guide-link-list  header-link-list right-link-list">	
+									
+			 	<li><a th:href = @{/user/message} th:text="'메시지 함'" /></li>
+	
+			</ul>
+			
 			
 			<!-------------------------------------내 서재--------------------------------------------------------------->
 			<ul th:if="${currentURI != null and currentURI.matches('^(/library|/book/|/book-shelf|/reading-record).*' )}"

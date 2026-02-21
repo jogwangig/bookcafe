@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import bookcafe.data.dto.display.BookShelfWithBooksDto;
 import bookcafe.security.CustomUserDetails;
-import bookcafe.service.BookShelfDtoService;
+import bookcafe.service.BookShelfDisplayService;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -20,7 +20,7 @@ public class LibraryController {
 	
 //	private BookShelfRepository  bookShelfRepo;
 	
-	private BookShelfDtoService bsDtoService;
+	private BookShelfDisplayService bsService;
 	
 //	private BookRepository bookRepo;
 	
@@ -28,7 +28,7 @@ public class LibraryController {
 	public String displayMyLibrary(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		
 		List<BookShelfWithBooksDto> bookShelfWithBooksDtos = 
-				bsDtoService.getAllBookShelfDtosForDisplay(userDetails.getId());
+				bsService.getAllBookShelfDtosForDisplay(userDetails.getId());
 
 		
 		model.addAttribute("bookShelfWithBooksDtos", bookShelfWithBooksDtos);

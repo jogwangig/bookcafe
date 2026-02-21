@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class BookShelfDtoService {
+public class BookShelfDisplayService {
 	
 	private BookShelfRepository  bookShelfRepo;
 		

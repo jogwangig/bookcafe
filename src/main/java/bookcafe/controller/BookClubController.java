@@ -2,21 +2,19 @@ package bookcafe.controller;
 
 import java.io.IOException;
 import java.util.Base64;
-import java.util.List;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import bookcafe.data.dto.BookClubDto;
 import bookcafe.data.entity.BookClub;
-import bookcafe.data.entity.BookClubParticipant;
-import bookcafe.data.entity.SiteUser;
-import bookcafe.data.repository.BookClubParticipantRepository;
+import bookcafe.data.entity.BookClubComment;
 import bookcafe.data.repository.BookClubRepository;
 import bookcafe.security.CustomUserDetails;
 import bookcafe.service.BookClubService;
@@ -49,16 +47,22 @@ public class BookClubController {
 			model.addAttribute("coverImg", coverImg);
 		}
 		
+		model.addAttribute("newComment", new BookClubComment());
 		model.addAttribute("bookClub", bookClub);
 		return "book-club";
 	}
 	
 	
+	
 	@PostMapping("/register")
-	public String registerCommentToBookClub(@RequestParam("bookClubId")Long bookClubId) {
+	public String registerCommentToBookClub(@RequestParam("bookClubId")Long bookClubId,
+										@ModelAttribute("newComment") BookClubComment newComment) {
+				
+		bookClubService.registerCommentToBookClub(bookClubId, newComment);
 		
-		return "";
+		return "redirect:/";
 	}
+	
 	
 	
 	@GetMapping("/create")

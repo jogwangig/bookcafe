@@ -12,7 +12,7 @@ import bookcafe.data.dto.creation.BookShelfCreationDto;
 import bookcafe.data.dto.display.BookShelfWithBooksDto;
 import bookcafe.data.entity.BookShelf;
 import bookcafe.data.repository.BookShelfRepository;
-import bookcafe.service.BookShelfDtoService;
+import bookcafe.service.BookShelfDisplayService;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -24,13 +24,13 @@ public class BookShelfController {
 	
 	BookShelfRepository bookShelfRepo;
 	
-	private BookShelfDtoService bsDtoService;
+	private BookShelfDisplayService bsService;
 	
 	@GetMapping
 	public String displayBookShelfById(Model model, @RequestParam("bookShelfId")long bookShelfId) {
 		
 		BookShelfWithBooksDto bookShelfWithBooks = 
-				bsDtoService.getBookShelfDtosForDisplay(bookShelfId);
+				bsService.getBookShelfDtosForDisplay(bookShelfId);
 				
 		model.addAttribute("bookShelfWithBooks", bookShelfWithBooks);
 		
