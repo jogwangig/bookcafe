@@ -1,0 +1,16 @@
+.content-fragment{
+	padding: 30px 50px;
+}
+
+
+ul{
+	list-style: none;
+}
+
+.msg-container{
+	display: flex;
+	border: 1px solid blue;
+	padding: 5px;
+	margin-bottom: 10px;
+	border-radius: 20px;
+}

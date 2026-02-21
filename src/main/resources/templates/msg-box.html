@@ -3,14 +3,14 @@
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{/layout/layout}">
 	<head>
-		<link rel="stylesheet" th:href = @{/css/my-library.css}/>
+		<link rel="stylesheet" th:href = @{/css/msg-box.css}/>
 		<title>나의 도서관</title>
 	</head>
 	<body>
 	<div layout:fragment="Content" class="content-fragment">
 		
 		<ul>
-			<li th:each = "msg : ${msgs}">
+			<li class="msg-container" th:each = "msg : ${msgs}">
 				<p th:text="|${msg.content} : ${msg.cratedAt}|"></p>
 			</li>
 		</ul>
