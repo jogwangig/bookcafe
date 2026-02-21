@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import bookcafe.data.dto.PostDto;
 import bookcafe.data.dto.creation.PostCreationDto;
 import bookcafe.data.entity.Comment;
 import bookcafe.data.entity.Post;
@@ -29,11 +30,13 @@ public class PostController {
 	
 	@GetMapping(params = "postId")
 	public String displayPostById(Model model, @RequestParam("postId") long postId) {
-		Post post = postRepo.findById(postId).get();
+		PostDto post = postRepo.findPostDtoById(postId);
+				
 		
-		model.addAttribute("newComment", new Comment());
+		
 		model.addAttribute("post", post);
-		model.addAttribute("boardId", post.getBoard().getId());
+		model.addAttribute("newComment", new Comment());
+		model.addAttribute("boardId", post.getBoardId());
 		model.addAttribute("comments", commentRepo.findByPostId(postId));
 		
 		return "post";

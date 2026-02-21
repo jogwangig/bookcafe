@@ -17,10 +17,10 @@
 		
 		
 		<p class="post-audit">
-		<span th:if="${post.user != null}" th:text = "|작성자 : ${post.user.username}|"></span>
-		<span th:if="${post.user == null}" th:text = "|작성자 : ${post.anonymousUsername}|"></span>
+		<span th:if="${post.username != null}" th:text = "|작성자 : ${post.username}|"></span>
+		<span th:if="${post.username == null}" th:text = "|작성자 : ${post.anonymousUsername}|"></span>
 
-		<span th:text = "|작성 시각 : ${#temporals.format(post.cratedAt, 'yyyy-MM-dd HH:mm')}|"></span>
+		<span th:text = "|작성 시각 : ${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}|"></span>
 		</p>	
 		
 		</div>

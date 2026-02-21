@@ -21,7 +21,7 @@ public class BoardPagingService {
 		int adjustedpageNum = pageNum-1;
 				
 		PageRequest pageRequest = PageRequest.of(adjustedpageNum ,5 , Sort.by("cratedAt").descending());
-		Page<PostPageDto> postPageDto = postRepo.findByBoardId(boardId, pageRequest);
+		Page<PostPageDto> postPageDto = postRepo.findPostPageByBoardId(boardId, pageRequest);
 		
 		return postPageDto;
 		
