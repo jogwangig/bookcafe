@@ -73,4 +73,33 @@ public class BookController {
 	
 		return "redirect:/";
 	}
+	
+	
+	@GetMapping("/modify")
+	public String getBookModificationForm(Model model, @AuthenticationPrincipal CustomUserDetails userDetails,
+			@RequestParam("bookId")long bookId) {
+		
+		List<BookShelfWithBooksDto> bookShelves = bookShelfRepo.findDtoByUserId(userDetails.getId());
+		
+		Book book = bookRepo.findById(bookId).get();
+		
+		model.addAttribute("bookInfo", book.getBookInfo());
+		model.addAttribute("bookId", book.getId());
+		model.addAttribute("bookShelves", bookShelves);
+		
+		return "/form/book-creation-form";
+	}
+	
+	
+	@PostMapping("/modify")
+	public String processBookModificationForm(@ModelAttribute("bookInfo")BookInfo bookInfo, 
+			@ModelAttribute("bookshelf-select")Long bookShelfId,
+			@ModelAttribute("bookId")Long bookId,
+			@RequestParam("coverImage")MultipartFile coverImg) throws IOException{
+	
+		
+		bookService.modifyBookInfo(bookInfo, bookShelfId, bookId ,coverImg);
+	
+		return "redirect:/";
+	}
 }

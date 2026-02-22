@@ -34,5 +34,27 @@ public class BookService {
 			e.printStackTrace();
 		}
 	}
+	
+	public void modifyBookInfo(BookInfo bookInfo, long bookShelfId, long bookId,MultipartFile coverImg) {
+		
+		try {
+			
+			Book book =	bookRepo.findById(bookId).get();
+					
+					//Book.builder().bookInfo(bookInfo).
+						//				bookShelf(bookShelfRepo.getReferenceById(bookShelfId)).build();
+			
+			if(!coverImg.isEmpty()) book.setCoverImage(coverImg.getBytes());
+			
+			book.setBookInfo(bookInfo);
+			
+			book.setBookShelf(bookShelfRepo.getReferenceById(bookShelfId));
+			
+			bookRepo.save(book);
+	
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
