@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PostCreationDto implements CreationDto<Post>{
+	
 	private String anonymousUsername;
 	
 	private String anonymousUserPwd;

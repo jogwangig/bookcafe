@@ -76,6 +76,7 @@ public class ReadingRecordController {
 		readingRecordRepo.save(ReadingRecord.builder().
 				content(readingRecord.getContent()).
 				book(bookRepo.getReferenceById(bookId)).build());
+		
 		return "redirect:/reading-record?bookId=" + bookId;
 	}
 

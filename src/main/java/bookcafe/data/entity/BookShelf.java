@@ -24,18 +24,5 @@ public class BookShelf extends ItemBase {
 	
 	@OneToMany(mappedBy = "bookShelf", fetch = FetchType.LAZY)
 	private List<Book> books;
-	
-//	@Getter
-//	@Setter
-//	@Builder
-//	@AllArgsConstructor
-//	@NoArgsConstructor
-//	public static class BookShelfDTO{
-//		private long id;
-//		
-//		private String name;
-//		
-//		private List<Book> books;
-//	}
 
 }

@@ -1,6 +1,5 @@
 package bookcafe.controller;
 
-import java.io.IOException;
 import java.util.Base64;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import bookcafe.data.dto.BookClubDto;
-import bookcafe.data.entity.BookClub;
+import bookcafe.data.dto.BookClubDetailDto;
+import bookcafe.data.dto.creation.BookClubCreationDto;
 import bookcafe.data.entity.BookClubComment;
 import bookcafe.data.repository.BookClubCommentRepository;
 import bookcafe.data.repository.BookClubRepository;
@@ -36,17 +35,18 @@ public class BookClubController {
 	@GetMapping
 	public String displayBookClubs(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		
-		model.addAttribute("bookClubs",bookClubRepo.findDtos(userDetails.getId()));
+		model.addAttribute("bookClubs",bookClubRepo.findAllDisplayDtos(userDetails.getId()));
+		
 		return "/book-club-list";
 	}
 	
 	
 	@GetMapping(params = "bookClubId")
 	public String displayBookClub(Model model , @RequestParam("bookClubId")long bookClubId) {
-		BookClub bookClub = bookClubRepo.findById(bookClubId).get();
+		BookClubDetailDto bookClub = bookClubRepo.findDetailDtoById(bookClubId);
 		
-		if(bookClub.getCoverImage() != null) {
-			String coverImg = Base64.getEncoder().encodeToString(bookClub.getCoverImage());
+		if(bookClub.getCoverImg() != null) {
+			String coverImg = Base64.getEncoder().encodeToString(bookClub.getCoverImg());
 			model.addAttribute("coverImg", coverImg);
 		}
 		
@@ -71,15 +71,16 @@ public class BookClubController {
 	
 	@GetMapping("/create")
 	public String getBookClubCreationForm(Model model) {
-		model.addAttribute("bookClub", new BookClubDto());
+		model.addAttribute("bookClub", new BookClubCreationDto());
 		return "/form/book-club-creation-form";
 	}
 	
 	
 	@PostMapping("/create")
-	public String processBookClubCreationForm(BookClubDto bookClubDto) throws IOException {
+	public String processBookClubCreationForm(BookClubCreationDto bookClubCreationDto){
 
-		bookClubService.createNewBookClub(bookClubDto);
+		bookClubService.createNewBookClub(bookClubCreationDto);
+		
 		return "redirect:/";
 	}
 }

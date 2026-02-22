@@ -8,8 +8,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ReadingRecordDto {
+	
 	private LocalDateTime createdAt;
+	
 	private String content;
+	
 	private String bookTitle;
 
 }
