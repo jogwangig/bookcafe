@@ -9,6 +9,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ReadingRecordDto {
 	
+	private Long id;
+	
 	private LocalDateTime createdAt;
 	
 	private String content;

@@ -34,7 +34,7 @@ public class BookController {
 	
 	
 	@GetMapping
-	public String displayBookById(Model model, @RequestParam("bookId")long bookId) {
+	public String displayBookDetailById(Model model, @RequestParam("bookId")long bookId) {
 		Book book = bookRepo.findById(bookId).get();
 		
 		if(book.getCoverImage() != null) {

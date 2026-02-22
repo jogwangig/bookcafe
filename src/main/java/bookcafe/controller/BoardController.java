@@ -27,23 +27,11 @@ public class BoardController {
 		
 	private BoardPagingService boardPagingService;
 	
-//	@GetMapping
-//	public String main(Model model) {
-//		BoardDto board = boardRepo.findDtoById(2);
-//		
-//		Page<PostPageDto> postPageDto = boardPagingService.getPostPageOfBoard(board.getId(), 1);
-//		
-//		
-//		model.addAttribute("board", board);
-//		model.addAttribute("postPage", postPageDto);
-//		
-//		return "/board";
-//	}
 	
 	@GetMapping
 	public String displayBoard(Model model,
 			@RequestParam(value = "boardId", required = false, defaultValue = "2") long boardId, 
-			@RequestParam(value = "pageNum", required = false, defaultValue = "1" )int pageNum) {
+			@RequestParam(value = "pageNum", required = false, defaultValue = "${paging.default.page}" )int pageNum) {
 		
 		BoardDisplayDto board = boardRepo.findDtoById(boardId);
 		

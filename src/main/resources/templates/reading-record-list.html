@@ -25,6 +25,11 @@
 					<span th:text = "|책 : ${readingRecord.bookTitle}|"></span>
 					<span th:text = "|작성 시각 : ${#temporals.format(readingRecord.createdAt, 'yyyy-MM-dd HH:mm')}|"></span>
 				</p>
+				
+				<p>
+					<a th:href = "@{/reading-record/modify(readingRecordId=${readingRecord.id})}"
+					th:text = "수정"></a>
+				</p>
 			</li>
 		</ul>
 			

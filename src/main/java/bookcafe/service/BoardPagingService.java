@@ -1,5 +1,7 @@
 package bookcafe.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -15,12 +17,21 @@ public class BoardPagingService {
 	
 	private PostRepository postRepo;
 	
+	@Value("${paging.default.size}") 
+	private int pageSize;
+	
+	@Autowired
+	public BoardPagingService(PostRepository postRepo) {
+		this.postRepo = postRepo;
+	}
+	
 	
 	public Page<PostPageDto> getPostPageOfBoard(long boardId, int pageNum) {
 		
 		int adjustedpageNum = pageNum-1;
+		
 				
-		PageRequest pageRequest = PageRequest.of(adjustedpageNum ,5 , Sort.by("cratedAt").descending());
+		PageRequest pageRequest = PageRequest.of(adjustedpageNum , pageSize , Sort.by("cratedAt").descending());
 		Page<PostPageDto> postPageDto = postRepo.findPostPageByBoardId(boardId, pageRequest);
 		
 		return postPageDto;

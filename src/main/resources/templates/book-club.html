@@ -55,7 +55,7 @@
 		
 		
 		<form class="comment-form"
-		th:action="@{|/book-club/register?bookClubId=${bookClub.id}|}" method="post" th:object = ${newComment}>
+		th:action="@{|/book-club/comment?bookClubId=${bookClub.id}|}" method="post" th:object = ${newComment}>
 			
 			<p>
 			<label for="content" th:text = "'댓글 작성하기'"></label>

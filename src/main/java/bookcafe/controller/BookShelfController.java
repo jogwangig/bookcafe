@@ -20,7 +20,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class BookShelfController {
 	
-//	BookRepository bookRepo;
 	
 	BookShelfRepository bookShelfRepo;
 	

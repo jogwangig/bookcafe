@@ -58,13 +58,13 @@ public class BookClubController {
 	
 	
 	
-	@PostMapping("/register")
+	@PostMapping("/comment")
 	public String registerCommentToBookClub(@RequestParam("bookClubId")Long bookClubId,
 										@ModelAttribute("newComment") BookClubComment newComment) {
 				
 		bookClubService.registerCommentToBookClub(bookClubId, newComment);
 		
-		return "redirect:/";
+		return "redirect:/book-club?bookClubId="+bookClubId;
 	}
 	
 	

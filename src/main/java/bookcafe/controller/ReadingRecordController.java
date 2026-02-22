@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import bookcafe.data.dto.ReadingRecordDto;
+import bookcafe.data.dto.creation.ReadingRecordCreationDto;
 import bookcafe.data.dto.display.BookDisplayDto;
 import bookcafe.data.entity.ReadingRecord;
 import bookcafe.data.repository.BookRepository;
@@ -34,7 +35,7 @@ public class ReadingRecordController {
 	
 	
 	@GetMapping(params = "bookId")
-	public String displayReadingRecordsByBookId(Model model, @RequestParam("bookId")long bookId) {
+	public String displayReadingRecordsOfBook(Model model, @RequestParam("bookId")long bookId) {
 		PageRequest pageRequest = PageRequest.of(0 ,20 , Sort.by("cratedAt").descending());
 		
 		
@@ -63,7 +64,7 @@ public class ReadingRecordController {
 	public String getReadingRecordCreationForm(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		List<BookDisplayDto> books = bookRepo.findDisplayDtosByUserId(userDetails.getId());
 				
-		model.addAttribute("readingRecord", new ReadingRecord());
+		model.addAttribute("readingRecord", new ReadingRecordCreationDto());
 		model.addAttribute("books", books);
 		return "/form/reading-record-creation-form";
 	}
@@ -71,13 +72,45 @@ public class ReadingRecordController {
 	
 	
 	@PostMapping("/create")
-	public String processReadingRecordCreationForm(@ModelAttribute("readingRecord")ReadingRecord readingRecord, @ModelAttribute("book-select")Long bookId) {
+	public String processReadingRecordCreationForm(@ModelAttribute("readingRecord")ReadingRecordCreationDto readingRecordCreationDto, 
+			@ModelAttribute("bookId")Long bookId) {
 		
-		readingRecordRepo.save(ReadingRecord.builder().
-				content(readingRecord.getContent()).
-				book(bookRepo.getReferenceById(bookId)).build());
+		ReadingRecord r = ReadingRecord.builder().content(readingRecordCreationDto.getContent())
+												.book(bookRepo.getReferenceById(readingRecordCreationDto.getBookId())).build();
+		
+		readingRecordRepo.save(r);
 		
 		return "redirect:/reading-record?bookId=" + bookId;
+	}
+	
+	
+	@GetMapping("/modify")
+	public String getReadingRecordModificationForm(Model model, @AuthenticationPrincipal CustomUserDetails userDetails,
+			@RequestParam("readingRecordId")Long readingRecordId) {
+		
+		
+		List<BookDisplayDto> books = bookRepo.findDisplayDtosByUserId(userDetails.getId());
+		
+		ReadingRecordCreationDto readingRecord = readingRecordRepo.findCreationDtoById(readingRecordId);
+				
+		model.addAttribute("readingRecord", readingRecord);
+		model.addAttribute("readingRecordId", readingRecordId);
+		model.addAttribute("books", books);
+		return "/form/reading-record-creation-form";
+	}
+	
+	@PostMapping("/modify")
+	public String processReadingRecordModificationForm(@ModelAttribute("readingRecord")ReadingRecordCreationDto readingRecordCreationDto, 
+			@RequestParam("readingRecordId")Long readingRecordId) {
+		
+		ReadingRecord r = readingRecordRepo.findById(readingRecordId).get();
+		
+		r.setContent(readingRecordCreationDto.getContent());
+		r.setBook(bookRepo.getReferenceById(readingRecordCreationDto.getBookId()));
+		
+		readingRecordRepo.save(r);
+		
+		return "redirect:/reading-record?bookId=" + readingRecordCreationDto.getBookId();
 	}
 
 }

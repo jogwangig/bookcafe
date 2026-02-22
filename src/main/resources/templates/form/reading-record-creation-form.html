@@ -11,14 +11,19 @@
 	<body>
 		<div layout:fragment="Content" class="content-fragment">
 		<p class="form-title">독서 기록 등록!!</p>
-		<form th:action="@{/reading-record/create}" method="post" th:object = ${readingRecord}>
+		
+		
+		<form th:action="${(currentURI != null and currentURI.matches('/reading-record/modify.*'))}
+					? @{/reading-record/modify(readingRecordId=${readingRecordId})} 
+					: @{/reading-record/create}" method="post" th:object = ${readingRecord}>
+					
 			<p>
 			<label for="content" th:text = "'내용'"></label>
 			<input type="text" th:field="*{content}"> 
 			</p>
 			<p>
 			    <label for="book-select">등록 할 책 :</label>
-			    <select id="book-select" name="book-select">
+			    <select id="book-select" th:field= "*{bookId}">
 			      <option th:each = "b : ${books}" th:value="${b.id}" th:text="${b.title}">option</option>
 			    </select>
 			 </p>
