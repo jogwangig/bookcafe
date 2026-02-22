@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import bookcafe.data.dto.display.BookDisplayDto;
-import bookcafe.data.dto.display.BookShelfWithBooksDto;
-import bookcafe.data.dto.display.BookShelfWithBooksFlatDto;
+import bookcafe.data.dto.display.BookShelfWithBooksDisplayDto;
+import bookcafe.data.dto.display.BookShelfWithBooksDisplayFlatDto;
 import bookcafe.data.repository.BookShelfRepository;
 import lombok.AllArgsConstructor;
 
@@ -18,36 +18,36 @@ public class BookShelfDisplayService {
 	
 	private BookShelfRepository  bookShelfRepo;
 		
-	public List<BookShelfWithBooksDto> getAllBookShelfDtosForDisplay(long userId){
-		List<BookShelfWithBooksFlatDto> flatDtos = bookShelfRepo.findByUserIdWithBooks(userId);
+	public List<BookShelfWithBooksDisplayDto> getAllBookShelfDtosForDisplay(long userId){
+		List<BookShelfWithBooksDisplayFlatDto> flatDtos = bookShelfRepo.findAllDisplayDtosWithBooksByUserId(userId);
 		
 		return generateFromFlat(flatDtos);
 	
 	}
 	
-	public BookShelfWithBooksDto getBookShelfDtosForDisplay(long id){
-		List<BookShelfWithBooksFlatDto> flatDtos = bookShelfRepo.findByIdWithBooks(id);
+	public BookShelfWithBooksDisplayDto getBookShelfDtosForDisplay(long id){
+		List<BookShelfWithBooksDisplayFlatDto> flatDtos = bookShelfRepo.findDisplayDtosWithBooksById(id);
 		
 		return generateFromFlat(flatDtos).get(0);
 	}
 	
 	
 	
-	private List<BookShelfWithBooksDto> generateFromFlat(List<BookShelfWithBooksFlatDto> flatDtos){
+	private List<BookShelfWithBooksDisplayDto> generateFromFlat(List<BookShelfWithBooksDisplayFlatDto> flatDtos){
 		
-		Map<Long, List<BookShelfWithBooksFlatDto>> bookShelfDtosGroupedById = flatDtos.stream()
-										.collect(Collectors.groupingBy(BookShelfWithBooksFlatDto::getId));
+		Map<Long, List<BookShelfWithBooksDisplayFlatDto>> bookShelfDtosGroupedById = flatDtos.stream()
+										.collect(Collectors.groupingBy(BookShelfWithBooksDisplayFlatDto::getId));
 
 		return bookShelfDtosGroupedById.values().stream()
 					.map(list -> {
-							BookShelfWithBooksFlatDto first = list.get(0);
+							BookShelfWithBooksDisplayFlatDto first = list.get(0);
 					
 							List<BookDisplayDto> bookDisplayDtos = list.stream()
 										.filter(bsd->bsd.getBookId() != null)
 										.map(bsd -> new BookDisplayDto(bsd.getBookId(), bsd.getBookTitle()))
 										.toList();
 					
-							return new BookShelfWithBooksDto(first.getId(), first.getName(), bookDisplayDtos);
+							return new BookShelfWithBooksDisplayDto(first.getId(), first.getName(), bookDisplayDtos);
 					}).toList();
 	
 	}

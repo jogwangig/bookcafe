@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @AllArgsConstructor
-public class BookShelfWithBooksFlatDto {
+public class BookShelfWithBooksDisplayFlatDto {
 	private Long id;
 	private String name;
 	private Long bookId;

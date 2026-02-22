@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @AllArgsConstructor
-public class BookShelfWithBooksDto {
+public class BookShelfWithBooksDisplayDto {
 	private long id;
 	private String name;
 	private List<BookDisplayDto> books;

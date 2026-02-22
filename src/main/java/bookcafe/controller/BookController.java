@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import bookcafe.data.dto.creation.BookCreationDto;
-import bookcafe.data.dto.display.BookShelfWithBooksDto;
+import bookcafe.data.dto.display.BookShelfWithBooksDisplayDto;
 import bookcafe.data.entity.Book;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
@@ -52,7 +52,7 @@ public class BookController {
 	@GetMapping("/create")
 	public String getBookCreationForm(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		
-		List<BookShelfWithBooksDto> bookShelves = bookShelfRepo.findDtoByUserId(userDetails.getId());
+		List<BookShelfWithBooksDisplayDto> bookShelves = bookShelfRepo.findAllDisplayDtosByUserIdForOnlyName(userDetails.getId());
 						
 
 		model.addAttribute("book", new BookCreationDto());
@@ -75,7 +75,7 @@ public class BookController {
 	public String getBookModificationForm(Model model, @AuthenticationPrincipal CustomUserDetails userDetails,
 			@RequestParam("bookId")long bookId) {
 		
-		List<BookShelfWithBooksDto> bookShelves = bookShelfRepo.findDtoByUserId(userDetails.getId());
+		List<BookShelfWithBooksDisplayDto> bookShelves = bookShelfRepo.findAllDisplayDtosByUserIdForOnlyName(userDetails.getId());
 		
 		BookCreationDto book = bookRepo.findCreationDtoById(bookId);
 		

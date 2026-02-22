@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import bookcafe.data.dto.creation.BookShelfCreationDto;
-import bookcafe.data.dto.display.BookShelfWithBooksDto;
-import bookcafe.data.dto.display.BookShelfWithBooksFlatDto;
+import bookcafe.data.dto.display.BookShelfWithBooksDisplayDto;
+import bookcafe.data.dto.display.BookShelfWithBooksDisplayFlatDto;
 import bookcafe.data.entity.BookShelf;
 
 @Repository
@@ -18,27 +18,27 @@ public interface BookShelfRepository extends JpaRepository<BookShelf, Long>{
 	List<BookShelf> findByUserId(@Param("userId") Long userId);
 	
 	
-	@Query("SELECT new bookcafe.data.dto.display.BookShelfWithBooksDto(bs.id, bs.name, null) "
+	@Query("SELECT new bookcafe.data.dto.display.BookShelfWithBooksDisplayDto(bs.id, bs.name, null) "
 			+ "FROM BookShelf bs WHERE bs.user.id = :userId")
-	List<BookShelfWithBooksDto> findDtoByUserId(@Param("userId") Long userId);
+	List<BookShelfWithBooksDisplayDto> findAllDisplayDtosByUserIdForOnlyName(@Param("userId") Long userId);
 	
 	
-	@Query("SELECT new bookcafe.data.dto.display.BookShelfWithBooksFlatDto(bs.id, bs.name, "
+	@Query("SELECT new bookcafe.data.dto.display.BookShelfWithBooksDisplayFlatDto(bs.id, bs.name, "
 			+ "CASE WHEN b IS NOT NULL THEN b.id ELSE null END, "
 			+ "CASE WHEN b IS NOT NULL THEN b.bookInfo.title ELSE null END "
 			+ ") "
 			+"FROM BookShelf bs LEFT JOIN bs.books b "
 			+"WHERE bs.user.id = :userId")
-	List<BookShelfWithBooksFlatDto> findByUserIdWithBooks(@Param("userId") Long userId);
+	List<BookShelfWithBooksDisplayFlatDto> findAllDisplayDtosWithBooksByUserId(@Param("userId") Long userId);
 	
 	
-	@Query("SELECT new bookcafe.data.dto.display.BookShelfWithBooksFlatDto(bs.id, bs.name, "
+	@Query("SELECT new bookcafe.data.dto.display.BookShelfWithBooksDisplayFlatDto(bs.id, bs.name, "
 			+ "CASE WHEN b IS NOT NULL THEN b.id ELSE null END, "
 			+ "CASE WHEN b IS NOT NULL THEN b.bookInfo.title ELSE null END "
 			+ ") "
 			+"FROM BookShelf bs LEFT JOIN bs.books b "
 			+"WHERE bs.id = :id")
-	List<BookShelfWithBooksFlatDto> findByIdWithBooks(@Param("id") Long id);
+	List<BookShelfWithBooksDisplayFlatDto> findDisplayDtosWithBooksById(@Param("id") Long id);
 	
 	
 	@Query("SELECT new bookcafe.data.dto.creation.BookShelfCreationDto(bs.name) FROM BookShelf bs WHERE bs.id = :id")
