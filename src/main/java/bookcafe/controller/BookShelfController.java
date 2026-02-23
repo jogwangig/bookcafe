@@ -2,6 +2,7 @@ package bookcafe.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -82,18 +83,20 @@ public class BookShelfController {
 	
 	@ResponseBody
 	@DeleteMapping("/delete")
-	public String delete(@RequestParam("bookShelfId")Long bookShelfId) {
+	public ResponseEntity<String> delete(@RequestParam("bookShelfId")Long bookShelfId) {
 		
 		List<Book> books = bookShelfRepo.findById(bookShelfId).get().getBooks();
 		
 		
 		if(!books.isEmpty()) {
-			return "책이 존재하는 책장은 삭제 할 수 없습니다.";
+			return ResponseEntity.badRequest().body("책이 존재하는 책장은 삭제 할 수 없습니다.");
+					
 		}
 		
 		bookShelfRepo.deleteById(bookShelfId);
 		
-		return "삭제 성공";
+		return ResponseEntity.ok().body("삭제 성공");
+				
 	}
 	
 

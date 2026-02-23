@@ -14,9 +14,9 @@ async function deleteBookShelf(id){
 	}
 	
 	await fetch('/book-shelf/delete?bookShelfId=' + id, option)
-			.then(res=>(res.ok)?res.text():alert("삭제 실패"))
-			.then(t=>{alert(t);
-					location.href ="/library";})
+			.then(res=>(res.ok)?alert("삭제 성공"):res.text())
+			.then(t=>t!=undefined?alert(t):"")
+			.finally(()=>location.href ="/library")
 			.catch(err=>console.error(err));	
 	
 }
