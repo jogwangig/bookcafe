@@ -12,19 +12,7 @@ const createdUrl = createUrl("how the mind works", "", "");
 const options = {
     method: 'GET'
 };
-/*
 
-fetch(createdUrl, options)
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
-	*/
-/*
- fetch(createdUrl, options)
-					  .then(response => response.json())
-					    .then(data => console.log(filterCoverId(data.docs)))
-					    .catch(error => console.error('Error:', error));*/
-			
 						
 									
 async function searchBook(){

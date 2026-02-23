@@ -1,15 +1,20 @@
 package bookcafe.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import bookcafe.data.dto.creation.BookShelfCreationDto;
 import bookcafe.data.dto.display.BookShelfWithBooksDisplayDto;
+import bookcafe.data.entity.Book;
 import bookcafe.data.entity.BookShelf;
 import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.service.BookShelfDisplayService;
@@ -73,6 +78,22 @@ public class BookShelfController {
 		
 		
 		return "redirect:/";
+	}
+	
+	@ResponseBody
+	@DeleteMapping("/delete")
+	public String delete(@RequestParam("bookShelfId")Long bookShelfId) {
+		
+		List<Book> books = bookShelfRepo.findById(bookShelfId).get().getBooks();
+		
+		
+		if(!books.isEmpty()) {
+			return "책이 존재하는 책장은 삭제 할 수 없습니다.";
+		}
+		
+		bookShelfRepo.deleteById(bookShelfId);
+		
+		return "삭제 성공";
 	}
 	
 
