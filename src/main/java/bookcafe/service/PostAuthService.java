@@ -1,9 +1,10 @@
 package bookcafe.service;
 
 import org.springframework.stereotype.Service;
-import bookcafe.controller.ReadingRecordController;
+
 import bookcafe.data.entity.Post;
 import bookcafe.data.repository.PostRepository;
+import bookcafe.security.CustomUserDetails;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 
@@ -18,6 +19,22 @@ public class PostAuthService {
 
 
 	
+	
+	public boolean isAuthenticated(Long postId, CustomUserDetails userDetails) {
+		Post post = postRepo.findById(postId).get();
+		
+		if(isPostWrittenByLoginUser(post)&&isLoginUser(userDetails) 
+				&& isAuthenticatedUser(postId, userDetails.getId()))
+			return true;
+		
+		if(!isPostWrittenByLoginUser(post) && isAuthenticatedAnonymousUser(postId))
+			return true;
+		
+		return false;
+		
+		
+		
+	}
 	
 	public boolean isAuthenticatedUser(Long postId , Long userId) {
 		
@@ -44,5 +61,19 @@ public class PostAuthService {
 		}
 		
 		return false;
+	}
+	
+	
+	public boolean isPostWrittenByLoginUser(Post post) {
+		return (post.getAnonymousUsername() == null);
+	}
+	
+	public void flushModificationAuth(Long postId) {
+		if(session.getAttribute("post-modification-auth-" + postId) != null)
+			session.removeAttribute("post-modification-auth-" + postId);
+	}
+	
+	private boolean isLoginUser(CustomUserDetails userDetails) {
+		return userDetails instanceof CustomUserDetails;
 	}
 }

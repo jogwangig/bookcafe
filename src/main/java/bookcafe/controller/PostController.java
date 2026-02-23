@@ -83,49 +83,69 @@ public class PostController {
 		
 		Post post = postRepo.findById(postId).get();
 		
-		if(post.getAnonymousUsername() == null) {
-			if(!(userDetails instanceof CustomUserDetails))
-				return "redirect:/post?postId="+postId;
-				
-			Long userId = userDetails.getId();
+		if(!postAuthService.isAuthenticated(postId, userDetails)) {
 			
-			if(postAuthService.isAuthenticatedUser(postId, userId)) {
-				
-				PostCreationDto postCreationDto = postRepo.findCreationDtoById(postId);
-
-				model.addAttribute("postId", postId);
-				model.addAttribute("post", postCreationDto);
-				
-			}else {
-				return "redirect:/post?postId="+postId;
-			}
-			
-		}else {
-			
-//			if(session.getAttribute("post-modification-auth-" + postId) != null &&
-//					session.getAttribute("post-modification-auth-" + postId).equals(true)) {
-			
-			if(postAuthService.isAuthenticatedAnonymousUser(postId)) {
-				
-				session.removeAttribute("post-modification-auth-" + postId);
-				
-				PostCreationDto postCreationDto = postRepo.findCreationDtoById(postId);
-
-				model.addAttribute("postId", postId);
-				model.addAttribute("post", postCreationDto);
-				
-				
-				
-				
-			}else {
+			if(!postAuthService.isPostWrittenByLoginUser(post)) {
 				model.addAttribute("postId", postId);
 				return "/form/post-modification-auth-form";
 			}
 			
+			return "redirect:/post?postId="+postId;
 		}
 		
+		PostCreationDto postCreationDto = postRepo.findCreationDtoById(postId);
 
+		model.addAttribute("postId", postId);
+		model.addAttribute("post", postCreationDto);
+		
+		postAuthService.flushModificationAuth(postId);
+		
 		return "/form/post-creation-form";
+		
+		
+//		if(post.getAnonymousUsername() == null) {
+//			if(!(userDetails instanceof CustomUserDetails))
+//				return "redirect:/post?postId="+postId;
+//				
+//			Long userId = userDetails.getId();
+//			
+//			if(postAuthService.isAuthenticatedUser(postId, userId)) {
+//				
+//				PostCreationDto postCreationDto = postRepo.findCreationDtoById(postId);
+//
+//				model.addAttribute("postId", postId);
+//				model.addAttribute("post", postCreationDto);
+//				
+//			}else {
+//				return "redirect:/post?postId="+postId;
+//			}
+//			
+//		}else {
+//			
+////			if(session.getAttribute("post-modification-auth-" + postId) != null &&
+////					session.getAttribute("post-modification-auth-" + postId).equals(true)) {
+//			
+//			if(postAuthService.isAuthenticatedAnonymousUser(postId)) {
+//				
+//				session.removeAttribute("post-modification-auth-" + postId);
+//				
+//				PostCreationDto postCreationDto = postRepo.findCreationDtoById(postId);
+//
+//				model.addAttribute("postId", postId);
+//				model.addAttribute("post", postCreationDto);
+//				
+//				
+//				
+//				
+//			}else {
+//				model.addAttribute("postId", postId);
+//				return "/form/post-modification-auth-form";
+//			}
+//			
+//		}
+//		
+//
+//		return "/form/post-creation-form";
 	}
 	
 	
@@ -154,11 +174,10 @@ public class PostController {
 		
 		
 		if(postAuthService.authenticateAnonymousUser(postId, pwd)) {
-//			session.setAttribute("post-modification-auth-" + postId , true);
 			return "redirect:/post/modify?postId="+postId;
 		}
 
-		return "redirect:/";
+		return "redirect:/post?postId="+postId;
 	}
 
 }
