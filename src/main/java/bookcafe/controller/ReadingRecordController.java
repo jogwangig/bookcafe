@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bookcafe.data.dto.ReadingRecordDto;
+import bookcafe.data.dto.ReadingRecordDetailDto;
 import bookcafe.data.dto.creation.ReadingRecordCreationDto;
 import bookcafe.data.dto.display.BookDisplayDto;
 import bookcafe.data.entity.ReadingRecord;
@@ -41,7 +41,7 @@ public class ReadingRecordController {
 		PageRequest pageRequest = PageRequest.of(0 ,20 , Sort.by("cratedAt").descending());
 		
 		
-		Page<ReadingRecordDto> readingRecordPage = readingRecordRepo.findByBookId(bookId, pageRequest);
+		Page<ReadingRecordDetailDto> readingRecordPage = readingRecordRepo.findByBookId(bookId, pageRequest);
 
 		model.addAttribute("readingRecordPage", readingRecordPage);
 		return "/reading-record-list";
@@ -53,7 +53,7 @@ public class ReadingRecordController {
 	public String displayAllReadingRecords(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		PageRequest pageRequest = PageRequest.of(0 ,20 , Sort.by("cratedAt").descending());
 		
-		Page<ReadingRecordDto> readingRecordPage = readingRecordRepo.findByUserId(userDetails.getId(), pageRequest);
+		Page<ReadingRecordDetailDto> readingRecordPage = readingRecordRepo.findByUserId(userDetails.getId(), pageRequest);
 
 		model.addAttribute("readingRecordPage", readingRecordPage);
 

@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ReadingRecordDto {
+public class ReadingRecordDetailDto {
 	
 	private Long id;
 	

@@ -3,14 +3,18 @@
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{/layout/layout}">
 	<head>
+		<script th:src="@{/js/book.js}" defer></script>
+		<meta name="_csrf" th:content="${_csrf.token}"/>
+		<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 		<link rel="stylesheet" th:href = @{/css/book.css}/>
-
-		<title>대문</title>
+		<title>책 상세 페이지</title>
+		
 	</head>
 	<body>
 	<div layout:fragment="Content" class="content-fragment">
 		<p class="ud-link">
 			<a th:href="@{|/book/modify?bookId=${book.id}|}" th:text = "|수정하기|"></a>
+			<button th:data-id ="${book.id}" th:text="삭제" ></button>
 		</p>
 		
 		<img th:if="${coverImg}" th:src="|data:jpg;base64,${coverImg}|" width="250px" height="auto" />
