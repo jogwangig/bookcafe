@@ -17,6 +17,7 @@ import bookcafe.data.repository.BoardRepository;
 import bookcafe.data.repository.CommentRepository;
 import bookcafe.data.repository.PostRepository;
 import bookcafe.security.CustomUserDetails;
+import bookcafe.service.PostAuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,8 @@ import lombok.AllArgsConstructor;
 public class PostController {
 	
 	private PostRepository postRepo;
+	
+	private PostAuthService postAuthService;
 	
 	private CommentRepository commentRepo;
 	
@@ -86,7 +89,7 @@ public class PostController {
 				
 			Long userId = userDetails.getId();
 			
-			if(post.getUser().getId().equals(userId)) {
+			if(postAuthService.isAuthenticatedUser(postId, userId)) {
 				
 				PostCreationDto postCreationDto = postRepo.findCreationDtoById(postId);
 
@@ -99,8 +102,10 @@ public class PostController {
 			
 		}else {
 			
-			if(session.getAttribute("post-modification-auth-" + postId) != null &&
-					session.getAttribute("post-modification-auth-" + postId).equals(true)) {
+//			if(session.getAttribute("post-modification-auth-" + postId) != null &&
+//					session.getAttribute("post-modification-auth-" + postId).equals(true)) {
+			
+			if(postAuthService.isAuthenticatedAnonymousUser(postId)) {
 				
 				session.removeAttribute("post-modification-auth-" + postId);
 				
@@ -148,8 +153,8 @@ public class PostController {
 		Post post = postRepo.findById(postId).get();
 		
 		
-		if(post.getAnonymousUserPwd().equals(pwd)) {
-			session.setAttribute("post-modification-auth-" + postId , true);
+		if(postAuthService.authenticateAnonymousUser(postId, pwd)) {
+//			session.setAttribute("post-modification-auth-" + postId , true);
 			return "redirect:/post/modify?postId="+postId;
 		}
 
