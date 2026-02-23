@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import bookcafe.data.dto.PostDetailDto;
+import bookcafe.data.dto.creation.PostCreationDto;
 import bookcafe.data.dto.display.PostPageDto;
 import bookcafe.data.entity.Post;
 
@@ -29,4 +30,10 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 			+"FROM Post p LEFT JOIN p.user u "
 			+"WHERE p.id = :postId")
 	PostDetailDto findPostDetailDtoById(@Param("postId")long postId);
+	
+	@Query("SELECT new bookcafe.data.dto.creation.PostCreationDto( "
+			+ "CASE WHEN u IS NOT NULL THEN null ELSE p.anonymousUsername END ,  "
+			+ "CASE WHEN u IS NOT NULL THEN null ELSE p.anonymousUserPwd END , "
+			+ "p.title, p.content , p.board.id) FROM Post p LEFT JOIN p.user u WHERE p.id = :postId" )
+	PostCreationDto findCreationDtoById(@Param("postId")long postId);
 }

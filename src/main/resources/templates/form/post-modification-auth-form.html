@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{/layout/form-alone-layout}">
+	<head>
+		<title>게시판 생성</title>
+	</head>
+	<body>
+		<div layout:fragment="Content" class="content-fragment">
+		<p>게시글 수정 인증</p>
+		<form th:action="@{/post/modify/auth(postId=${postId})}" method="post">
+			<p>
+			<label for="name" th:text = "'비밀번호'"></label>
+			<input type="password" name="password"> 
+			</p>
+			<p>
+			<input type="submit"> 
+			</p>
+		</form>
+		</div>
+	</body>
+</html>

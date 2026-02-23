@@ -1,6 +1,7 @@
 package bookcafe.data.dto.creation;
 
 import bookcafe.data.entity.Post;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class PostCreationDto implements CreationDto<Post>{
 	
 	private String anonymousUsername;

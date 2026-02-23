@@ -17,6 +17,7 @@ import bookcafe.data.dto.creation.BookShelfCreationDto;
 import bookcafe.data.dto.display.BookShelfWithBooksDisplayDto;
 import bookcafe.data.entity.Book;
 import bookcafe.data.entity.BookShelf;
+import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.service.BookShelfDisplayService;
 import lombok.AllArgsConstructor;
@@ -26,8 +27,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class BookShelfController {
 	
+	private BookRepository bookRepo;
 	
-	BookShelfRepository bookShelfRepo;
+	private BookShelfRepository bookShelfRepo;
 	
 	private BookShelfDisplayService bsService;
 	
@@ -85,10 +87,9 @@ public class BookShelfController {
 	@DeleteMapping("/delete")
 	public ResponseEntity<String> delete(@RequestParam("bookShelfId")Long bookShelfId) {
 		
-		List<Book> books = bookShelfRepo.findById(bookShelfId).get().getBooks();
-		
-		
-		if(!books.isEmpty()) {
+		long bookNum = bookRepo.countByBookShelfId(bookShelfId);
+				
+		if(bookNum != 0) {
 			return ResponseEntity.badRequest().body("책이 존재하는 책장은 삭제 할 수 없습니다.");
 					
 		}

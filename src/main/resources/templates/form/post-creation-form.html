@@ -11,7 +11,9 @@
 	<body>
 		<div layout:fragment="Content" class="content-fragment">
 		<p class="form-title">게시글 등록!!</p>
-		<form th:action="@{|/post/create?boardId=${boardId}|}" method="post" th:object = ${post}>
+		<form th:action="${(currentURI != null and currentURI.matches('/post/modify.*'))}
+					? @{/post/modify(postId=${postId})} 
+					: @{/post/create}"  method="post" th:object = ${post}>
 			
 			<p sec:authorize="isAnonymous()">
 				<label for="annonymousUsername" th:text = "'id'"></label>
@@ -33,7 +35,7 @@
 			<textarea th:field="*{content}"/> 
 			</p>
 			
-			<input type="hidden" name="boardId" th:value="${boardId}"/>
+			<input type="hidden" th:field="*{boardId}"/>
 
 			<p>
 			<input type="submit"> 

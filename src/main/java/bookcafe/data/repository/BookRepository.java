@@ -18,6 +18,7 @@ public interface BookRepository extends JpaRepository<Book, Long>{
 	Optional<Book> findById(long id);
 	List<Book> findByBookShelfId(long id);
 	List<Book> findByUserId(Long id);
+	long countByBookShelfId(Long bookShelfId);
 	
 	@Query("SELECT new bookcafe.data.dto.display.BookDisplayDto(b.id, b.bookInfo.title) FROM Book b WHERE b.user.id = :userId")
 	List<BookDisplayDto> findDisplayDtosByUserId(@Param("userId")long userId);

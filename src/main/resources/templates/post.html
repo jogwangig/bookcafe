@@ -9,7 +9,10 @@
 	<body>
 		
 	<div layout:fragment="Content" class="content-fragment" >
-		
+		<p class="ud-link">
+			<a th:href="@{|/post/modify?postId=${post.id}|}" th:text = "|수정하기|"></a>
+			<button th:data-id ="${post.id}" th:text="삭제" ></button>
+		</p>
 		
 		<div class="post-head">
 			
