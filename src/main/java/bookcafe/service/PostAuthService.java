@@ -20,14 +20,13 @@ public class PostAuthService {
 
 	
 	
-	public boolean isAuthenticated(Long postId, CustomUserDetails userDetails) {
-		Post post = postRepo.findById(postId).get();
+	public boolean isAuthenticated(Post post, CustomUserDetails userDetails) {
 		
 		if(isPostWrittenByLoginUser(post)&&isLoginUser(userDetails) 
-				&& isAuthenticatedUser(postId, userDetails.getId()))
+				&& isAuthorOfPost(post, userDetails.getId()))
 			return true;
 		
-		if(!isPostWrittenByLoginUser(post) && isAuthenticatedAnonymousUser(postId))
+		if(!isPostWrittenByLoginUser(post) && isAuthenticatedForModification(post))
 			return true;
 		
 		return false;
@@ -36,23 +35,21 @@ public class PostAuthService {
 		
 	}
 	
-	public boolean isAuthenticatedUser(Long postId , Long userId) {
-		
-		Post post = postRepo.findById(postId).get();
-						
+	public boolean isAuthorOfPost(Post post , Long userId) {
+								
 		return post.getUser().getId().equals(userId);
 	}
 	
 	
-	public boolean isAuthenticatedAnonymousUser(Long postId) {
+	public boolean isAuthenticatedForModification(Post post) {
 				
-		return session.getAttribute("post-modification-auth-" + postId) != null &&
-					session.getAttribute("post-modification-auth-" + postId).equals(true);
+		return session.getAttribute("post-modification-auth-" + post.getId()) != null &&
+					session.getAttribute("post-modification-auth-" + post.getId()).equals(true);
 						
 	}
 	
 	
-	public boolean authenticateAnonymousUser(Long postId, String pwd) {
+	public boolean authenticateForModification(Long postId, String pwd) {
 		Post post = postRepo.findById(postId).get();
 		
 		if(post.getAnonymousUserPwd().equals(pwd)) {

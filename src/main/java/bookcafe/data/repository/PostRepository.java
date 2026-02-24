@@ -11,17 +11,17 @@ import org.springframework.stereotype.Repository;
 
 import bookcafe.data.dto.PostDetailDto;
 import bookcafe.data.dto.creation.PostCreationDto;
-import bookcafe.data.dto.display.PostPageDto;
+import bookcafe.data.dto.display.PostDisplayDto;
 import bookcafe.data.entity.Post;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long>{
 	List<Post> findByBoardId(long id);
 	
-	@Query("SELECT new bookcafe.data.dto.display.PostPageDto(p.id, p.cratedAt, u.username, p.anonymousUsername, p.anonymousUserPwd, p.title) "
+	@Query("SELECT new bookcafe.data.dto.display.PostDisplayDto(p.id, p.cratedAt, u.username, p.anonymousUsername, p.anonymousUserPwd, p.title) "
 			+"FROM Post p LEFT JOIN p.user u "
 			+"WHERE p.board.id = :boardId")
-	Page<PostPageDto> findPostPageByBoardId(@Param("boardId") long id, Pageable pageable);
+	Page<PostDisplayDto> findPostPageByBoardId(@Param("boardId") long id, Pageable pageable);
 	
 	@Query("SELECT new bookcafe.data.dto.PostDetailDto(p.id, p.cratedAt , p.board.id , "
 			+ "CASE WHEN u IS NOT NULL THEN u.username ELSE null END , "

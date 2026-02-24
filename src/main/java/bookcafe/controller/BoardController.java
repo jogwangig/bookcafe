@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import bookcafe.data.dto.display.BoardDisplayDto;
-import bookcafe.data.dto.display.PostPageDto;
+import bookcafe.data.dto.display.PostDisplayDto;
 import bookcafe.data.entity.Board;
 import bookcafe.data.repository.BoardRepository;
 import bookcafe.service.BoardPagingService;
@@ -35,11 +35,11 @@ public class BoardController {
 		
 		BoardDisplayDto board = boardRepo.findDtoById(boardId);
 		
-		Page<PostPageDto> postPageDto = boardPagingService.getPostPageOfBoard(boardId, pageNum);
+		Page<PostDisplayDto> postDisplayDto = boardPagingService.getPostPageOfBoard(boardId, pageNum);
 		
 		
 		model.addAttribute("board", board);
-		model.addAttribute("postPage", postPageDto);
+		model.addAttribute("postPage", postDisplayDto);
 		
 		return "/board";
 	}

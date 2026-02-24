@@ -29,26 +29,26 @@ public class SiteUser extends Base {
 
 	
 	
-	@Getter
-	@Setter
-	@ToString
-	@NoArgsConstructor
-	public static class SiteUserDTO{
-		
-		private String username;
-		
-		private String password;
-		
-		private String nickName;
-		
-		
-		public SiteUser toEntity() {
-			
-			return SiteUser.builder().username(username)
-					.password(password)
-					.nickName(nickName).build();
-		}
-	}
+//	@Getter
+//	@Setter
+//	@ToString
+//	@NoArgsConstructor
+//	public static class SiteUserDTO{
+//		
+//		private String username;
+//		
+//		private String password;
+//		
+//		private String nickName;
+//		
+//		
+//		public SiteUser toEntity() {
+//			
+//			return SiteUser.builder().username(username)
+//					.password(password)
+//					.nickName(nickName).build();
+//		}
+//	}
 	
 
 }

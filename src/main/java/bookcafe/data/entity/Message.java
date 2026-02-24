@@ -23,4 +23,6 @@ public class Message extends Base{
 	private SiteUser receipient;
 	
 	private String content;
+	
+	//private boolean isRead;
 }

@@ -89,7 +89,7 @@ public class PostController {
 		
 		Post post = postRepo.findById(postId).get();
 		
-		if(!postAuthService.isAuthenticated(postId, userDetails)) {
+		if(!postAuthService.isAuthenticated(post, userDetails)) {
 			
 			if(!postAuthService.isPostWrittenByLoginUser(post)) {
 				model.addAttribute("postId", postId);
@@ -108,50 +108,6 @@ public class PostController {
 		
 		return "/form/post-creation-form";
 		
-		
-//		if(post.getAnonymousUsername() == null) {
-//			if(!(userDetails instanceof CustomUserDetails))
-//				return "redirect:/post?postId="+postId;
-//				
-//			Long userId = userDetails.getId();
-//			
-//			if(postAuthService.isAuthenticatedUser(postId, userId)) {
-//				
-//				PostCreationDto postCreationDto = postRepo.findCreationDtoById(postId);
-//
-//				model.addAttribute("postId", postId);
-//				model.addAttribute("post", postCreationDto);
-//				
-//			}else {
-//				return "redirect:/post?postId="+postId;
-//			}
-//			
-//		}else {
-//			
-////			if(session.getAttribute("post-modification-auth-" + postId) != null &&
-////					session.getAttribute("post-modification-auth-" + postId).equals(true)) {
-//			
-//			if(postAuthService.isAuthenticatedAnonymousUser(postId)) {
-//				
-//				session.removeAttribute("post-modification-auth-" + postId);
-//				
-//				PostCreationDto postCreationDto = postRepo.findCreationDtoById(postId);
-//
-//				model.addAttribute("postId", postId);
-//				model.addAttribute("post", postCreationDto);
-//				
-//				
-//				
-//				
-//			}else {
-//				model.addAttribute("postId", postId);
-//				return "/form/post-modification-auth-form";
-//			}
-//			
-//		}
-//		
-//
-//		return "/form/post-creation-form";
 	}
 	
 	
@@ -179,50 +135,47 @@ public class PostController {
 		Post post = postRepo.findById(postId).get();
 		
 		
-		if(postAuthService.authenticateAnonymousUser(postId, pwd)) {
+		if(postAuthService.authenticateForModification(postId, pwd)) {
 			return "redirect:/post/modify?postId="+postId;
 		}
 
 		return "redirect:/post?postId="+postId;
 	}
 	
-	@ResponseBody
-	@DeleteMapping("/delete")
-	public ResponseEntity<String> deletePost(@RequestParam("postId")long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
-		Post post = postRepo.findById(postId).get();
-		
-		if(userDetails == null)
-			return ResponseEntity.badRequest().body("삭제 실패");
-		
-		Long userId = userDetails.getId();
-		
-		if(post.getUser().getId().equals(userId)) {
-			postRepo.deleteById(postId);
-			return ResponseEntity.ok().body("게시글이 삭제되었습니다.");
-		}
-		
-		return ResponseEntity.badRequest().body("삭제 실패");
-			
-	}
-	
-	
-	@PostMapping("/delete")
-	@ResponseBody
-	public ResponseEntity<String> deletePost(@RequestParam("postId")long postId,@RequestBody Map<String, String> body){
-		
-		Post post = postRepo.findById(postId).get();
-		
-		String pwd = body.get("pwd");
-		
-		System.out.println(pwd);
-		
-		if(post.getAnonymousUserPwd().equals(pwd)) {
-			postRepo.deleteById(postId);
-			return ResponseEntity.ok().body("게시글이 삭제되었습니다.");
-		}
-		
-		return ResponseEntity.badRequest().body("삭제 실패");
-		
-	}
+//	@ResponseBody
+//	@DeleteMapping("/delete")
+//	public ResponseEntity<String> deletePost(@RequestParam("postId")long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
+//		Post post = postRepo.findById(postId).get();
+//		
+//		if(userDetails == null)
+//			return ResponseEntity.badRequest().body("삭제 실패");
+//		
+//		Long userId = userDetails.getId();
+//		
+//		if(post.getUser().getId().equals(userId)) {
+//			postRepo.deleteById(postId);
+//			return ResponseEntity.ok().body("게시글이 삭제되었습니다.");
+//		}
+//		
+//		return ResponseEntity.badRequest().body("삭제 실패");
+//			
+//	}
+//	
+//	@ResponseBody
+//	@PostMapping("/delete")
+//	public ResponseEntity<String> deletePost(@RequestParam("postId")long postId,@RequestBody Map<String, String> body){
+//		
+//		Post post = postRepo.findById(postId).get();
+//		
+//		String pwd = body.get("pwd");
+//				
+//		if(post.getAnonymousUserPwd().equals(pwd)) {
+//			postRepo.deleteById(postId);
+//			return ResponseEntity.ok().body("게시글이 삭제되었습니다.");
+//		}
+//		
+//		return ResponseEntity.badRequest().body("삭제 실패");
+//		
+//	}
 
 }

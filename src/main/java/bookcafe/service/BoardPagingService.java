@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import bookcafe.data.dto.display.PostPageDto;
+import bookcafe.data.dto.display.PostDisplayDto;
 import bookcafe.data.repository.PostRepository;
 import lombok.AllArgsConstructor;
 
@@ -26,15 +26,15 @@ public class BoardPagingService {
 	}
 	
 	
-	public Page<PostPageDto> getPostPageOfBoard(long boardId, int pageNum) {
+	public Page<PostDisplayDto> getPostPageOfBoard(long boardId, int pageNum) {
 		
 		int adjustedpageNum = pageNum-1;
 		
 				
 		PageRequest pageRequest = PageRequest.of(adjustedpageNum , pageSize , Sort.by("cratedAt").descending());
-		Page<PostPageDto> postPageDto = postRepo.findPostPageByBoardId(boardId, pageRequest);
+		Page<PostDisplayDto> postDisplayDto = postRepo.findPostPageByBoardId(boardId, pageRequest);
 		
-		return postPageDto;
+		return postDisplayDto;
 		
 	}
 }
