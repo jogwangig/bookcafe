@@ -15,7 +15,7 @@ import lombok.ToString;
 @MappedSuperclass
 @ToString(callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
-public class ItemBase extends Base{
+public abstract class ItemBase extends Base{
 	
 	@CreatedBy
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -4,14 +4,18 @@
 		layout:decorate="~{/layout/layout}">
 		
 	<head>
-		<!--
-		<link rel="stylesheet" th:href = @{/index.css}/>
-		-->
+		<style>
+			.content-fragment{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+		</style>
 		<title>문제 발생</title>
 	</head>
 	<body>
-		<div layout:fragment="Content">
-		<p style="font-size: 50px;">문제 발생</p>
+		<div layout:fragment="Content" class="content-fragment">
+		<p style="font-size: 50px;" th:text = "${msg}">문제 발생</p>
 		</div>
 	</body>
 	

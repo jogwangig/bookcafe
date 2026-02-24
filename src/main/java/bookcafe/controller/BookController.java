@@ -19,8 +19,10 @@ import bookcafe.data.dto.display.BookShelfWithBooksDisplayDto;
 import bookcafe.data.entity.Book;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
+import bookcafe.exception.InaccessibleItemException;
 import bookcafe.security.CustomUserDetails;
 import bookcafe.service.BookService;
+import bookcafe.util.ItemOwnerChecker;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -77,9 +79,16 @@ public class BookController {
 	public String getBookModificationForm(Model model, @AuthenticationPrincipal CustomUserDetails userDetails,
 			@RequestParam("bookId")long bookId) {
 		
+		
 		List<BookShelfWithBooksDisplayDto> bookShelves = bookShelfRepo.findAllDisplayDtosByUserIdForOnlyName(userDetails.getId());
 		
 		BookCreationDto book = bookRepo.findCreationDtoById(bookId);
+		
+		Book b = bookRepo.findById(bookId).get();
+		
+		if(!ItemOwnerChecker.isOwnerOfItem(b, userDetails))
+			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
+		
 		
 		model.addAttribute("book", book);
 		model.addAttribute("bookId", bookId);
