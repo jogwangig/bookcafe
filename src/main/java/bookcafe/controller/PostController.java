@@ -1,13 +1,19 @@
 package bookcafe.controller;
 
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import bookcafe.data.dto.PostDetailDto;
 import bookcafe.data.dto.creation.PostCreationDto;
@@ -178,6 +184,45 @@ public class PostController {
 		}
 
 		return "redirect:/post?postId="+postId;
+	}
+	
+	@ResponseBody
+	@DeleteMapping("/delete")
+	public ResponseEntity<String> deletePost(@RequestParam("postId")long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
+		Post post = postRepo.findById(postId).get();
+		
+		if(userDetails == null)
+			return ResponseEntity.badRequest().body("삭제 실패");
+		
+		Long userId = userDetails.getId();
+		
+		if(post.getUser().getId().equals(userId)) {
+			postRepo.deleteById(postId);
+			return ResponseEntity.ok().body("게시글이 삭제되었습니다.");
+		}
+		
+		return ResponseEntity.badRequest().body("삭제 실패");
+			
+	}
+	
+	
+	@PostMapping("/delete")
+	@ResponseBody
+	public ResponseEntity<String> deletePost(@RequestParam("postId")long postId,@RequestBody Map<String, String> body){
+		
+		Post post = postRepo.findById(postId).get();
+		
+		String pwd = body.get("pwd");
+		
+		System.out.println(pwd);
+		
+		if(post.getAnonymousUserPwd().equals(pwd)) {
+			postRepo.deleteById(postId);
+			return ResponseEntity.ok().body("게시글이 삭제되었습니다.");
+		}
+		
+		return ResponseEntity.badRequest().body("삭제 실패");
+		
 	}
 
 }

@@ -3,6 +3,9 @@
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{/layout/layout}">
 	<head>
+		<script th:src="@{/js/post.js}" defer></script>
+		<meta name="_csrf" th:content="${_csrf.token}"/>
+		<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 		<link rel="stylesheet" th:href = @{/css/post.css}/>
 		<title>대문</title>
 	</head>
@@ -11,7 +14,9 @@
 	<div layout:fragment="Content" class="content-fragment" >
 		<p class="ud-link">
 			<a th:href="@{|/post/modify?postId=${post.id}|}" th:text = "|수정하기|"></a>
-			<button th:data-id ="${post.id}" th:text="삭제" ></button>
+		
+			<button th:data-id ="${post.id}" th:data-author-type = "${(post.username != null)?'user':'anonymous'}"
+			th:data-board-id = "${boardId}" th:text="삭제" ></button>
 		</p>
 		
 		<div class="post-head">

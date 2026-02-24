@@ -1,7 +1,5 @@
 package bookcafe.controller;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import bookcafe.data.dto.creation.BookShelfCreationDto;
 import bookcafe.data.dto.display.BookShelfWithBooksDisplayDto;
-import bookcafe.data.entity.Book;
 import bookcafe.data.entity.BookShelf;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
