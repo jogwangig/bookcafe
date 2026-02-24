@@ -177,5 +177,16 @@ public class PostController {
 //		return ResponseEntity.badRequest().body("삭제 실패");
 //		
 //	}
+	
+	@PostMapping(path = "/create" , params = "postId")
+	public String processCommentCreationForm(@ModelAttribute("newComment")Comment comment, @RequestParam("postId")long postId) {
+
+		
+		comment.setPost(postRepo.getReferenceById(postId));
+		
+		commentRepo.save(comment);
+		
+		return "redirect:/post?postId=" + postId;
+	}
 
 }

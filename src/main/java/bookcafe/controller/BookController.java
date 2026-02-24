@@ -38,8 +38,14 @@ public class BookController {
 	
 	
 	@GetMapping
-	public String displayBookDetailById(Model model, @RequestParam("bookId")long bookId) {
+	public String displayBookDetailById(Model model, @RequestParam("bookId")long bookId,
+			@AuthenticationPrincipal CustomUserDetails userDetails) {
+		
+		
 		Book book = bookRepo.findById(bookId).get();
+		
+		if(!ItemOwnerChecker.isOwnerOfItem(book, userDetails))
+			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
 		
 		if(book.getCoverImage() != null) {
 			String coverImg = Base64.getEncoder().encodeToString(book.getCoverImage());
@@ -81,14 +87,15 @@ public class BookController {
 		
 		
 		List<BookShelfWithBooksDisplayDto> bookShelves = bookShelfRepo.findAllDisplayDtosByUserIdForOnlyName(userDetails.getId());
-		
-		BookCreationDto book = bookRepo.findCreationDtoById(bookId);
-		
+				
 		Book b = bookRepo.findById(bookId).get();
 		
 		if(!ItemOwnerChecker.isOwnerOfItem(b, userDetails))
 			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
 		
+		
+		BookCreationDto book = bookRepo.findCreationDtoById(bookId);
+
 		
 		model.addAttribute("book", book);
 		model.addAttribute("bookId", bookId);
@@ -108,9 +115,17 @@ public class BookController {
 		return "redirect:/";
 	}
 	
+	
+	
 	@ResponseBody
 	@DeleteMapping("/delete")
-	public String delete(@RequestParam("bookId")Long bookId) {
+	public String delete(@RequestParam("bookId")Long bookId, @AuthenticationPrincipal CustomUserDetails userDetails) {
+		
+		Book book = bookRepo.findById(bookId).get();
+		
+		if(!ItemOwnerChecker.isOwnerOfItem(book, userDetails))
+			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
+		
 		bookRepo.deleteById(bookId);
 		
 		return "삭제 성공";

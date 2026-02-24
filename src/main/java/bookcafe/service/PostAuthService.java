@@ -35,19 +35,6 @@ public class PostAuthService {
 		
 	}
 	
-	private boolean isAuthorOfPost(Post post , Long userId) {
-								
-		return post.getUser().getId().equals(userId);
-	}
-	
-	
-	private boolean isAuthenticatedForModification(Post post) {
-				
-		return session.getAttribute("post-modification-auth-" + post.getId()) != null &&
-					session.getAttribute("post-modification-auth-" + post.getId()).equals(true);
-						
-	}
-	
 	
 	public boolean authenticateForModification(Post post, String pwd) {
 		
@@ -83,7 +70,18 @@ public class PostAuthService {
 	}
 	
 	
+	private boolean isAuthorOfPost(Post post , Long userId) {
+		
+		return post.getUser().getId().equals(userId);
+	}
 	
+	
+	private boolean isAuthenticatedForModification(Post post) {
+				
+		return session.getAttribute("post-modification-auth-" + post.getId()) != null &&
+					session.getAttribute("post-modification-auth-" + post.getId()).equals(true);
+						
+	}
 	
 	private boolean isLoginUser(CustomUserDetails userDetails) {
 		return userDetails instanceof CustomUserDetails;
