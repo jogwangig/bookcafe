@@ -30,4 +30,9 @@ public class Post extends ItemBase{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Board board;
+	
+	
+	public boolean isWrittenByAnonymous() {
+		return this.getAnonymousUsername() != null;
+	}
 }

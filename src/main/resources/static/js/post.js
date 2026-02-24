@@ -1,6 +1,5 @@
 async function deletePost(id, authorType, boardId){
-	//if(!confirm("정말 삭제하시겠습니까?")) return;
-	
+		
 	const token = document.querySelector("meta[name='_csrf']").content;
 	const header = document.querySelector("meta[name='_csrf_header']").content;
 	
@@ -17,7 +16,7 @@ async function deletePost(id, authorType, boardId){
 			
 			
 			if(authorType == 'user'){
-				const res = await fetch('/post/delete?postId=' + id, option);
+				const res = await fetch('/api/post/delete?postId=' + id, option);
 				const data = await res.text();
 				
 				if(res.ok){
@@ -48,7 +47,7 @@ async function deletePost(id, authorType, boardId){
 					
 					
 				
-				const res= await fetch('/post/delete?postId=' + id, anonymousOption);
+				const res= await fetch('/api/post/delete?postId=' + id, anonymousOption);
 				const data = await res.text();
 				
 				if(res.ok){
@@ -61,6 +60,9 @@ async function deletePost(id, authorType, boardId){
 			}
 	
 }
+
+
+
 
 
 const deleteBtns = document.querySelectorAll("button");

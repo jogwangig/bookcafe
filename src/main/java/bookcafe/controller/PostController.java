@@ -1,19 +1,13 @@
 package bookcafe.controller;
 
-import java.util.Map;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import bookcafe.data.dto.PostDetailDto;
 import bookcafe.data.dto.creation.PostCreationDto;
@@ -89,9 +83,9 @@ public class PostController {
 		
 		Post post = postRepo.findById(postId).get();
 		
-		if(!postAuthService.isAuthenticated(post, userDetails)) {
+		if(!postAuthService.isAuthenticatedForModification(post, userDetails)) {
 			
-			if(!postAuthService.isPostWrittenByLoginUser(post)) {
+			if(post.isWrittenByAnonymous()) {
 				model.addAttribute("postId", postId);
 				return "/form/post-modification-auth-form";
 			}
@@ -99,33 +93,39 @@ public class PostController {
 			return "redirect:/post?postId="+postId;
 		}
 		
+		
 		PostCreationDto postCreationDto = postRepo.findCreationDtoById(postId);
 
 		model.addAttribute("postId", postId);
 		model.addAttribute("post", postCreationDto);
-		
-		postAuthService.flushModificationAuth(postId);
-		
+				
 		return "/form/post-creation-form";
 		
 	}
 	
 	
 	@PostMapping("/modify")
-	public String processPostModificationForm(@ModelAttribute("post")PostCreationDto postCreationDto ,@RequestParam("postId")long postId) {
+	public String processPostModificationForm(@ModelAttribute("post")PostCreationDto postCreationDto 
+			,@RequestParam("postId")long postId, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		
 		Post post = postRepo.findById(postId).get();
+		
+		if(!postAuthService.isAuthenticatedForModification(post, userDetails))
+			return "redirect:/";
+		
+		
+		postAuthService.flushModificationAuth(postId);
 		
 		post.setAnonymousUsername(postCreationDto.getAnonymousUsername());
 		post.setAnonymousUserPwd(postCreationDto.getAnonymousUserPwd());
 		post.setTitle(postCreationDto.getTitle());
 		post.setContent(postCreationDto.getContent());
 		
-		
 		postRepo.save(post);
 
 		return "redirect:/";
 	}
+	
 	
 	
 	@PostMapping("/modify/auth")
@@ -135,7 +135,7 @@ public class PostController {
 		Post post = postRepo.findById(postId).get();
 		
 		
-		if(postAuthService.authenticateForModification(postId, pwd)) {
+		if(postAuthService.authenticateForModification(post, pwd)) {
 			return "redirect:/post/modify?postId="+postId;
 		}
 
