@@ -40,7 +40,7 @@ public class PostRestController {
 		
 		Long userId = userDetails.getId();
 		
-		if(post.getUser().getId().equals(userId)) {
+		if(postAuthService.isAuthenticatedForEdit(post, userDetails)) {
 			postRepo.deleteById(postId);
 			return ResponseEntity.ok().body("게시글이 삭제되었습니다.");
 		}
@@ -57,10 +57,10 @@ public class PostRestController {
 		
 		String pwd = body.get("pwd");
 				
-		if(postAuthService.authenticateForDelete(post, pwd)) {
+		if(postAuthService.authenticateForEdit(post, pwd)) {
 			postRepo.deleteById(postId);
 			
-			postAuthService.flushDeleteAuth(postId);
+			postAuthService.flushEditAuth(postId);
 			
 			return ResponseEntity.ok().body("게시글이 삭제되었습니다.");
 		}
@@ -72,13 +72,13 @@ public class PostRestController {
 	
 	@PostMapping("/modify/auth")
 	public ResponseEntity<String> authenticateUserForModification(@RequestParam("postId")long postId,
-			@RequestBody Map<String, String> body, HttpSession session) {
+			@RequestBody Map<String, String> body) {
 		
 		Post post = postRepo.findById(postId).get();
 		
 		String pwd = body.get("pwd");
 		
-		if(postAuthService.authenticateForModification(post, pwd)) {
+		if(postAuthService.authenticateForEdit(post, pwd)) {
 			return ResponseEntity.ok().body("인증 성공");
 		}
 
@@ -97,7 +97,7 @@ public class PostRestController {
 		if(userDetails == null)
 			return ResponseEntity.badRequest().body("인증 실패");
 		
-		if(postAuthService.isAuthenticatedForModification(post, userDetails)) {
+		if(postAuthService.isAuthenticatedForEdit(post, userDetails)) {
 			return ResponseEntity.ok().body("인증 성공");
 		}
 

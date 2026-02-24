@@ -1,10 +1,14 @@
 package bookcafe.data.entity;
 
+import java.util.List;
+
 import bookcafe.data.ItemBase;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,6 +34,9 @@ public class Post extends ItemBase{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Board board;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade = CascadeType.REMOVE)
+	private List<Comment> comments;
 	
 	
 	public boolean isWrittenByAnonymous() {

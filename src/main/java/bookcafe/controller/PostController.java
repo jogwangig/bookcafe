@@ -83,7 +83,7 @@ public class PostController {
 		
 		Post post = postRepo.findById(postId).get();
 		
-		if(!postAuthService.isAuthenticatedForModification(post, userDetails)) {
+		if(!postAuthService.isAuthenticatedForEdit(post, userDetails)) {
 			
 			if(post.isWrittenByAnonymous()) {
 				model.addAttribute("postId", postId);
@@ -110,11 +110,11 @@ public class PostController {
 		
 		Post post = postRepo.findById(postId).get();
 		
-		if(!postAuthService.isAuthenticatedForModification(post, userDetails))
+		if(!postAuthService.isAuthenticatedForEdit(post, userDetails))
 			return "redirect:/";
 		
 		
-		postAuthService.flushModificationAuth(postId);
+		postAuthService.flushEditAuth(postId);
 		
 		post.setAnonymousUsername(postCreationDto.getAnonymousUsername());
 		post.setAnonymousUserPwd(postCreationDto.getAnonymousUserPwd());
@@ -135,48 +135,14 @@ public class PostController {
 		Post post = postRepo.findById(postId).get();
 		
 		
-		if(postAuthService.authenticateForModification(post, pwd)) {
+		if(postAuthService.authenticateForEdit(post, pwd)) {
 			return "redirect:/post/modify?postId="+postId;
 		}
 
 		return "redirect:/post?postId="+postId;
 	}
 	
-//	@ResponseBody
-//	@DeleteMapping("/delete")
-//	public ResponseEntity<String> deletePost(@RequestParam("postId")long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
-//		Post post = postRepo.findById(postId).get();
-//		
-//		if(userDetails == null)
-//			return ResponseEntity.badRequest().body("삭제 실패");
-//		
-//		Long userId = userDetails.getId();
-//		
-//		if(post.getUser().getId().equals(userId)) {
-//			postRepo.deleteById(postId);
-//			return ResponseEntity.ok().body("게시글이 삭제되었습니다.");
-//		}
-//		
-//		return ResponseEntity.badRequest().body("삭제 실패");
-//			
-//	}
-//	
-//	@ResponseBody
-//	@PostMapping("/delete")
-//	public ResponseEntity<String> deletePost(@RequestParam("postId")long postId,@RequestBody Map<String, String> body){
-//		
-//		Post post = postRepo.findById(postId).get();
-//		
-//		String pwd = body.get("pwd");
-//				
-//		if(post.getAnonymousUserPwd().equals(pwd)) {
-//			postRepo.deleteById(postId);
-//			return ResponseEntity.ok().body("게시글이 삭제되었습니다.");
-//		}
-//		
-//		return ResponseEntity.badRequest().body("삭제 실패");
-//		
-//	}
+	
 	
 	@PostMapping(path = "/create" , params = "postId")
 	public String processCommentCreationForm(@ModelAttribute("newComment")Comment comment, @RequestParam("postId")long postId) {

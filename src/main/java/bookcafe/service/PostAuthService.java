@@ -20,36 +20,24 @@ public class PostAuthService {
 
 	
 	
-	public boolean isAuthenticatedForModification(Post post, CustomUserDetails userDetails) {
+	public boolean isAuthenticatedForEdit(Post post, CustomUserDetails userDetails) {
 		
 		if(!post.isWrittenByAnonymous()&&isLoginUser(userDetails) 
 				&& isAuthorOfPost(post, userDetails.getId()))
 			return true;
 		
-		if(post.isWrittenByAnonymous() && isAuthenticatedForModification(post))
+		if(post.isWrittenByAnonymous() && isAuthenticatedForEdit(post))
 			return true;
 		
-		return false;
-		
-		
+		return false;	
 		
 	}
 	
 	
-	public boolean authenticateForModification(Post post, String pwd) {
+	public boolean authenticateForEdit(Post post, String pwd) {
 		
 		if(post.getAnonymousUserPwd().equals(pwd)) {
-			session.setAttribute("post-modification-auth-" + post.getId() , true);
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public boolean authenticateForDelete(Post post, String pwd) {
-		
-		if(post.getAnonymousUserPwd().equals(pwd)) {
-			session.setAttribute("post-delete-auth-" + post.getId() , true);
+			session.setAttribute("post-auth-" + post.getId() , true);
 			return true;
 		}
 		
@@ -57,17 +45,11 @@ public class PostAuthService {
 	}
 	
 	
-	public void flushModificationAuth(Long postId) {
-		if(session.getAttribute("post-modification-auth-" + postId) != null)
-			session.removeAttribute("post-modification-auth-" + postId);
+	public void flushEditAuth(Long postId) {
+		if(session.getAttribute("post-auth-" + postId) != null)
+			session.removeAttribute("post-auth-" + postId);
 	}
 	
-	
-	
-	public void flushDeleteAuth(Long postId) {
-		if(session.getAttribute("post-delete-auth-" + postId) != null)
-			session.removeAttribute("post-delete-auth-" + postId);
-	}
 	
 	
 	private boolean isAuthorOfPost(Post post , Long userId) {
@@ -76,12 +58,14 @@ public class PostAuthService {
 	}
 	
 	
-	private boolean isAuthenticatedForModification(Post post) {
+	private boolean isAuthenticatedForEdit(Post post) {
 				
-		return session.getAttribute("post-modification-auth-" + post.getId()) != null &&
-					session.getAttribute("post-modification-auth-" + post.getId()).equals(true);
+		return session.getAttribute("post-auth-" + post.getId()) != null &&
+					session.getAttribute("post-auth-" + post.getId()).equals(true);
 						
 	}
+	
+	
 	
 	private boolean isLoginUser(CustomUserDetails userDetails) {
 		return userDetails instanceof CustomUserDetails;
