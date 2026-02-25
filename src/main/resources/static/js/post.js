@@ -65,7 +65,7 @@ async function deletePost(id, authorType, boardId){
 
 
 
-const deleteBtns = document.querySelectorAll("button");
+const deleteBtns = document.querySelectorAll(".post-delete");
 
 deleteBtns.forEach(b=>{
 	b.addEventListener('click' , (event)=>{

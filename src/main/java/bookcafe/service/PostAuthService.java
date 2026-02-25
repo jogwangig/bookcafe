@@ -16,6 +16,8 @@ public class PostAuthService {
 	private PostRepository postRepo;
 	
 	private HttpSession session;
+	
+	private final String authName = "post-auth-";
 
 
 	
@@ -37,7 +39,7 @@ public class PostAuthService {
 	public boolean authenticateForEdit(Post post, String pwd) {
 		
 		if(post.getAnonymousUserPwd().equals(pwd)) {
-			session.setAttribute("post-auth-" + post.getId() , true);
+			session.setAttribute(authName + post.getId() , true);
 			return true;
 		}
 		

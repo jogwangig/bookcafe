@@ -4,6 +4,7 @@
 		layout:decorate="~{/layout/layout}">
 	<head>
 		<script th:src="@{/js/post.js}" defer></script>
+		<script th:src="@{/js/comment.js}" defer></script>
 		<meta name="_csrf" th:content="${_csrf.token}"/>
 		<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 		<link rel="stylesheet" th:href = @{/css/post.css}/>
@@ -13,9 +14,9 @@
 		
 	<div layout:fragment="Content" class="content-fragment" >
 		<p class="ud-link">
-			<a th:href="@{|/post/modify?postId=${post.id}|}" th:text = "|수정하기|"></a>
+			<a class="post-modify" th:href="@{|/post/modify?postId=${post.id}|}" th:text = "|수정하기|"></a>
 		
-			<button th:data-id ="${post.id}" th:data-author-type = "${(post.username != null)?'user':'anonymous'}"
+			<button class="post-delete" th:data-id ="${post.id}" th:data-author-type = "${(post.username != null)?'user':'anonymous'}"
 			th:data-board-id = "${boardId}" th:text="삭제" ></button>
 		</p>
 		
@@ -48,9 +49,19 @@
 		<ul class="comment-list">
 			<li th:each = "comment : ${comments}">
 				
+				
+				<p class="ud-link">
+					<button class="comment-modify" th:data-id ="${comment.id}" 
+					th:data-author-type = "${(comment.user != null)?'user':'anonymous'}"
+					 th:text = "|댓글 수정하기|"></button>
+
+					<button class="comment-delete" th:data-id ="${comment.id}" th:text="'댓글 삭제'" ></button>
+				</p>
+				
 				<p th:text="|${comment.content}|" > </p>
 				
 				<p class="comment-audit"> 
+					
 					<span th:if="${comment.user != null}" th:text = "|작성자 : ${comment.user.username}|"></span>
 					<span th:if="${comment.user == null}" th:text = "|작성자 : ${comment.anonymousUsername}|"></span>
 					<span th:text = "|작성 시각 : ${#temporals.format(comment.cratedAt, 'yyyy-MM-dd HH:mm')}|"></span>
@@ -61,10 +72,10 @@
 		
 		</div>
 			
+		
 			
-			
-		<form class="comment-form"
-		th:action="@{|/comment/create?postId=${post.id}|}" method="post" th:object = ${newComment}>
+		<form class="comment-form", th:data-post-id="${post.id}"
+		th:action="@{|/post/comment/create?postId=${post.id}|}" method="post" th:object = ${newComment}>
 		
 			<p sec:authorize="isAnonymous()">
 				<label for="annonymousUsername" th:text = "'id'"></label>

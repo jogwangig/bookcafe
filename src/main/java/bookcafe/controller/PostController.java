@@ -144,7 +144,7 @@ public class PostController {
 	
 	
 	
-	@PostMapping(path = "/create" , params = "postId")
+	@PostMapping(path = "/comment/create" , params = "postId")
 	public String processCommentCreationForm(@ModelAttribute("newComment")Comment comment, @RequestParam("postId")long postId) {
 
 		

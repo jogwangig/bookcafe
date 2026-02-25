@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import bookcafe.data.dto.creation.CommentCreationDto;
+import bookcafe.data.entity.Comment;
 import bookcafe.data.entity.Post;
+import bookcafe.data.repository.CommentRepository;
 import bookcafe.data.repository.PostRepository;
 import bookcafe.security.CustomUserDetails;
 import bookcafe.service.PostAuthService;
@@ -27,6 +30,8 @@ import lombok.AllArgsConstructor;
 public class PostRestController {
 	
 	private PostRepository postRepo;
+	
+	private CommentRepository commentRepo;
 	
 	private PostAuthService postAuthService;
 	
@@ -102,6 +107,45 @@ public class PostRestController {
 		}
 
 		return ResponseEntity.badRequest().body("인증 실패");
+	}
+	
+	
+	
+	@PostMapping(path = "/comment", params = {"postId" , "type"})
+	public String processCommentCreationForm(@RequestBody CommentCreationDto body, 
+			@RequestParam("postId")long postId, @RequestParam("type")String type) {
+
+		System.out.println(postId + "  :  " +  type);
+
+		System.out.println(body);
+		Comment comment = body.toEntity();
+		
+		comment.setPost(postRepo.getReferenceById(postId));
+		
+		commentRepo.save(comment);
+		
+		return "redirect:/post?postId=" + postId;
+	}
+	
+	
+	
+	@GetMapping("/comment/modify")
+	public ResponseEntity<CommentCreationDto> getCommentForEdit(@RequestParam("commentId")Long commentId, 
+			@AuthenticationPrincipal CustomUserDetails userDetails){
+		
+		if(userDetails == null)
+			return ResponseEntity.badRequest().build();
+		
+		Comment comment = commentRepo.findById(commentId).get();
+		
+		CommentCreationDto c = new CommentCreationDto(comment.getAnonymousUsername(), comment.getAnonymousUserPwd(), comment.getContent());
+		
+		if(comment.getUser().getId().equals(userDetails.getId())) {
+			return ResponseEntity.ok().body(c);
+		}
+		
+		return ResponseEntity.badRequest().build();
+		
 	}
 
 }
