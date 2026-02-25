@@ -26,5 +26,9 @@ public class Comment extends ItemBase {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Post post;
+	
+	public boolean isWrittenByAnonymous() {
+		return this.getAnonymousUsername() != null;
+	}
 
 }

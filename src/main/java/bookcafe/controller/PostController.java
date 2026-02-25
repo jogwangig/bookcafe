@@ -144,15 +144,15 @@ public class PostController {
 	
 	
 	
-	@PostMapping(path = "/comment/create" , params = "postId")
-	public String processCommentCreationForm(@ModelAttribute("newComment")Comment comment, @RequestParam("postId")long postId) {
-
-		
-		comment.setPost(postRepo.getReferenceById(postId));
-		
-		commentRepo.save(comment);
-		
-		return "redirect:/post?postId=" + postId;
-	}
+//	@PostMapping(path = "/comment/create" , params = "postId")
+//	public String processCommentCreationForm(@ModelAttribute("newComment")Comment comment, @RequestParam("postId")long postId) {
+//
+//		
+//		comment.setPost(postRepo.getReferenceById(postId));
+//		
+//		commentRepo.save(comment);
+//		
+//		return "redirect:/post?postId=" + postId;
+//	}
 
 }

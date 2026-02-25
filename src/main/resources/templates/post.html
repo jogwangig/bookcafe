@@ -55,7 +55,11 @@
 					th:data-author-type = "${(comment.user != null)?'user':'anonymous'}"
 					 th:text = "|댓글 수정하기|"></button>
 
-					<button class="comment-delete" th:data-id ="${comment.id}" th:text="'댓글 삭제'" ></button>
+					<button class="comment-delete" 
+					
+					th:data-author-type = "${(comment.user != null)?'user':'anonymous'}"
+					
+					th:data-id ="${comment.id}" th:text="'댓글 삭제'" ></button>
 				</p>
 				
 				<p th:text="|${comment.content}|" > </p>

@@ -22,15 +22,14 @@ async function modifyComment(id, authorType){
 				const res = await fetch('/api/post/comment/modify?commentId=' + id, option);
 				
 
-				const data = await res.json();
-				
-				console.log(commentForm.elements['content'].value);
 				
 				if(res.ok){
+					const data = await res.json();
+									
 					commentForm.elements['content'].value = data.content;
 					console.log(data.content);
 				}else{
-					alert(data);
+					alert("인증 실패");
 				}
 				
 				
@@ -44,7 +43,9 @@ async function modifyComment(id, authorType){
 						
 						headers: {
 						        [header]: token,
-								'Content-Type': 'application/json' 
+								'Content-Type': 'application/json; charset=utf-8' ,
+								
+								
 						    },
 						body : JSON.stringify({
 								pwd : postPwd
@@ -54,22 +55,97 @@ async function modifyComment(id, authorType){
 					
 					
 				
-				const res= await fetch('/api/post/delete?postId=' + id, anonymousOption);
-				const data = await res.text();
+				const res= await fetch('/api/post/comment/modify?commentId=' + id, anonymousOption);
 				
 				if(res.ok){
-					alert(data);
-					location.href = '/board?boardId='+ boardId;
+					const data = await res.json();
+					commentForm.elements['content'].value = data.content;
+					console.log(data.content);
 				}else{
-					alert(data);
+					alert("dd");
 				}
 						
 			}
 			
+			submitType = 'modify';
+			commentId = id;
+			
 	
 }
 
+
+async function deleteComment(id, authorType){
+		
+	const token = document.querySelector("meta[name='_csrf']").content;
+	const header = document.querySelector("meta[name='_csrf_header']").content;
+		
+	
+	const option = {
+		
+		method : 'GET',
+		
+		headers: {
+		        [header]: token
+		    }
+	}
+			
+			console.log(authorType);
+			
+			
+			if(authorType == 'user'){
+				const res = await fetch('/api/post/comment/delete?commentId=' + id, option);
+				
+
+				
+				if(res.ok){
+					alert("삭제 성공");
+				}else{
+					alert("삭제 실패");
+				}
+				
+				
+			}else{
+				
+				const postPwd = prompt("비밀번호를 입력해 주세요", "");
+							
+				const anonymousOption = {
+						
+						method : 'POST',
+						
+						headers: {
+						        [header]: token,
+								'Content-Type': 'application/json; charset=utf-8' ,
+								
+								
+						    },
+						body : JSON.stringify({
+								pwd : postPwd
+							})
+						
+					};
+					
+					
+				
+				const res= await fetch('/api/post/comment/delete?commentId=' + id, anonymousOption);
+				
+				if(res.ok){
+					alert("삭제 성공");
+				}else{
+					alert("삭제 실패");
+				}
+						
+			}
+			
+			location.reload();
+
+}
+
+
+
 const commentForm = document.querySelector(".comment-form");
+
+let submitType = 'create';
+let commentId;
 
 async function createComment(event){
 		
@@ -82,10 +158,11 @@ async function createComment(event){
 	
 	const csrf = formData.get('_csrf');
 	
-	const data = {
-		'content' : formData.get('content')
-	};
-		
+	const data = Object.fromEntries(formData.entries());
+	
+	delete data._csrf;
+	
+			
 	const option = {
 		method : 'POST',
 		headers : {
@@ -95,7 +172,14 @@ async function createComment(event){
 		body : JSON.stringify(data)
 	};
 	
-	const res = await fetch('/api/post/comment?type=create&postId='+postId, option);
+	let res;
+	if(submitType == 'create'){
+		res = await fetch('/api/post/comment?type=create&postId='+postId, option);
+	}else{
+		res = await fetch('/api/post/comment?type=modify&commentId='+commentId, option);
+		submitType = 'create';
+		commentId = '';
+	}
 	
 	if(res.ok)
 		alert("성공");
@@ -114,6 +198,7 @@ async function createComment(event){
 commentForm.addEventListener('submit', createComment);
 
 const modifyBtns = document.querySelectorAll(".comment-modify");
+const deleteCommentBtns = document.querySelectorAll(".comment-delete");
 
 modifyBtns.forEach(b=>{
 	b.addEventListener('click' , (event)=>{
@@ -124,6 +209,15 @@ modifyBtns.forEach(b=>{
 	});
 });
 
+
+deleteCommentBtns.forEach(b=>{
+	b.addEventListener('click' , (event)=>{
+		const id = event.target.dataset.id;
+		const authorType = event.target.dataset.authorType;
+		
+		deleteComment(id , authorType);
+	});
+});
 
 
 

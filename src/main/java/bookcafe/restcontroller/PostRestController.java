@@ -1,17 +1,16 @@
 package bookcafe.restcontroller;
 
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import bookcafe.data.dto.creation.CommentCreationDto;
@@ -115,9 +114,6 @@ public class PostRestController {
 	public String processCommentCreationForm(@RequestBody CommentCreationDto body, 
 			@RequestParam("postId")long postId, @RequestParam("type")String type) {
 
-		System.out.println(postId + "  :  " +  type);
-
-		System.out.println(body);
 		Comment comment = body.toEntity();
 		
 		comment.setPost(postRepo.getReferenceById(postId));
@@ -125,6 +121,35 @@ public class PostRestController {
 		commentRepo.save(comment);
 		
 		return "redirect:/post?postId=" + postId;
+	}
+	
+	@PostMapping(path = "/comment", params = {"commentId" , "type"})
+	public String processCommentModificationForm(@RequestBody CommentCreationDto body, 
+			@RequestParam("commentId")long commentId, @RequestParam("type")String type, 
+			@AuthenticationPrincipal CustomUserDetails userDetails,  HttpSession session) {
+
+		
+		Comment comment = commentRepo.findById(commentId).get();
+		
+		if(!comment.isWrittenByAnonymous() && userDetails != null && comment.getUser().getId().equals(userDetails.getId())) {
+			
+			comment.setContent(body.getContent());
+			
+			commentRepo.save(comment);
+		}
+		
+		if(comment.isWrittenByAnonymous() && session.getAttribute("comment-auth-" + commentId) != null &&
+				session.getAttribute("comment-auth-" + commentId).equals(true)) {
+			
+			comment.setContent(body.getContent());
+			
+			commentRepo.save(comment);
+			
+			session.removeAttribute("comment-auth-" + commentId);
+		}
+			
+		
+		return "redirect:/post?postId=" ;
 	}
 	
 	
@@ -144,6 +169,67 @@ public class PostRestController {
 			return ResponseEntity.ok().body(c);
 		}
 		
+		return ResponseEntity.badRequest().build();
+		
+	}
+	
+	
+	@PostMapping("/comment/modify")
+	public ResponseEntity<CommentCreationDto> getCommentForEdit(@RequestParam("commentId")Long commentId, 
+			@RequestBody Map<String, String> body, HttpSession session){
+		
+		
+		Comment comment = commentRepo.findById(commentId).get();
+		
+		String pwd = body.get("pwd");
+		
+		CommentCreationDto c = new CommentCreationDto(comment.getAnonymousUsername(), comment.getAnonymousUserPwd(), comment.getContent());
+		
+		
+		if(Objects.equals(comment.getAnonymousUserPwd(), pwd)) {
+			session.setAttribute("comment-auth-" + commentId, true);
+			return ResponseEntity.ok().body(c);
+		}
+
+		return ResponseEntity.badRequest().build();
+		
+	}
+	
+	
+	@GetMapping("/comment/delete")
+	public ResponseEntity<String> deleteComment(@RequestParam("commentId")Long commentId, 
+			@AuthenticationPrincipal CustomUserDetails userDetails){
+		
+		if(userDetails == null)
+			return ResponseEntity.badRequest().build();
+		
+		Comment comment = commentRepo.findById(commentId).get();
+		
+		
+		if(comment.getUser().getId().equals(userDetails.getId())) {
+			commentRepo.deleteById(commentId);
+			return ResponseEntity.ok().build();
+		}
+		
+		return ResponseEntity.badRequest().build();
+		
+	}
+	
+	@PostMapping("/comment/delete")
+	public ResponseEntity<String> deleteComment(@RequestParam("commentId")Long commentId, 
+			@RequestBody Map<String, String> body){
+		
+		
+		Comment comment = commentRepo.findById(commentId).get();
+		
+		String pwd = body.get("pwd");
+				
+		
+		if(Objects.equals(comment.getAnonymousUserPwd(), pwd)) {
+			commentRepo.deleteById(commentId);
+			return ResponseEntity.ok().build();
+		}
+
 		return ResponseEntity.badRequest().build();
 		
 	}
