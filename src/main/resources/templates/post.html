@@ -78,7 +78,7 @@
 			
 		
 			
-		<form class="comment-form", th:data-post-id="${post.id}"
+		<form class="comment-form" th:data-post-id="${post.id}" id="comment-form"
 		th:action="@{|/post/comment/create?postId=${post.id}|}" method="post" th:object = ${newComment}>
 		
 			<p sec:authorize="isAnonymous()">

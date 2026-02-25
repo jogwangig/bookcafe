@@ -1,4 +1,6 @@
 async function deletePost(id, authorType, boardId){
+	
+	if(!confirm("정말 삭제하시겠습니까?")) return;
 		
 	const token = document.querySelector("meta[name='_csrf']").content;
 	const header = document.querySelector("meta[name='_csrf_header']").content;

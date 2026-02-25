@@ -66,11 +66,14 @@ async function modifyComment(id, authorType){
 			submitType = 'modify';
 			commentId = id;
 			
-	
+			document.getElementById("comment-form").scrollIntoView({ behavior: "smooth" });
+
 }
 
 
 async function deleteComment(id, authorType){
+	
+	if(!confirm("정말 삭제하시겠습니까?")) return;
 		
 	const token = document.querySelector("meta[name='_csrf']").content;
 	const header = document.querySelector("meta[name='_csrf_header']").content;

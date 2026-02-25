@@ -25,9 +25,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserController {
 	
-	SiteUserRepository userRepo;
+	private SiteUserRepository userRepo;
 	
-	MessageRepository msgRepo;
+	private MessageRepository msgRepo;
 
 	
 	private UserService userService;
