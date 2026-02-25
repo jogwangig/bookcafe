@@ -22,7 +22,7 @@ public class DefaultController {
 	@GetMapping("/")
 	public String index(Model model, @AuthenticationPrincipal Object principal) {
 		if(principal instanceof CustomUserDetails)
-			model.addAttribute("msgNum", msgRepo.countByReceipientId( ((CustomUserDetails)principal).getId() ));
+			model.addAttribute("msgNum", msgRepo.countUnreadMsgByReceipientId( ((CustomUserDetails)principal).getId() ));
 		
 		return "/index";
 	}

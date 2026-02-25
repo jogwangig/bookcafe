@@ -1,5 +1,7 @@
 package bookcafe.controller;
 
+import java.util.List;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import bookcafe.data.dto.creation.UserCreationDto;
+import bookcafe.data.entity.Message;
 import bookcafe.data.entity.SiteUser;
 import bookcafe.data.repository.MessageRepository;
 import bookcafe.data.repository.SiteUserRepository;
@@ -76,7 +79,17 @@ public class UserController {
 	
 	@GetMapping("/msg")
 	public String displayMsgBox(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-		model.addAttribute("msgs", msgRepo.findByReceipientId(userDetails.getId()));
+		
+		List<Message> msgs = msgRepo.findByReceipientId(userDetails.getId());
+		
+		msgs.forEach(m->{
+			if(!m.isRead())
+				m.setRead(true);
+		});
+		
+		msgRepo.saveAll(msgs);
+		
+		model.addAttribute("msgs", msgs);
 		
 		return "msg-box";
 	}

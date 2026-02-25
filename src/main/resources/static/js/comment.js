@@ -13,10 +13,7 @@ async function modifyComment(id, authorType){
 		headers: {
 		        [header]: token
 		    }
-	}
-			
-			console.log(authorType);
-			
+	}			
 			
 			if(authorType == 'user'){
 				const res = await fetch('/api/post/comment/modify?commentId=' + id, option);
@@ -60,9 +57,8 @@ async function modifyComment(id, authorType){
 				if(res.ok){
 					const data = await res.json();
 					commentForm.elements['content'].value = data.content;
-					console.log(data.content);
 				}else{
-					alert("dd");
+					alert("인증 실패");
 				}
 						
 			}
@@ -88,9 +84,7 @@ async function deleteComment(id, authorType){
 		        [header]: token
 		    }
 	}
-			
-			console.log(authorType);
-			
+						
 			
 			if(authorType == 'user'){
 				const res = await fetch('/api/post/comment/delete?commentId=' + id, option);

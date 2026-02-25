@@ -16,11 +16,19 @@
 		<form th:action="${(currentURI != null and currentURI.matches('/reading-record/modify.*'))}
 					? @{/reading-record/modify(readingRecordId=${readingRecordId})} 
 					: @{/reading-record/create}" method="post" th:object = ${readingRecord}>
-					
+		<!--			
 			<p>
 			<label for="content" th:text = "'내용'"></label>
 			<input type="text" th:field="*{content}"> 
+			</p>-->
+			
+			<p>
+			<label for="content" th:text = "'내용'"></label>
+			<textarea th:field="*{content}"/> 
 			</p>
+			
+			
+			
 			<p>
 			    <label for="book-select">등록 할 책 :</label>
 			    <select id="book-select" th:field= "*{bookId}">
