@@ -1,6 +1,7 @@
 package bookcafe.controller;
 
 import java.lang.reflect.InaccessibleObjectException;
+import java.util.NoSuchElementException;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,14 @@ public class ControllerExceptionHandler {
 	
 	@ExceptionHandler(InaccessibleItemException.class)
 	public String catchInaccessibleItemException(Model model, InaccessibleItemException e) {
+		model.addAttribute("msg",e.getMessage());
+		
+		return "/error";
+	}
+	
+	
+	@ExceptionHandler(NoSuchElementException.class)
+	public String catchNoSuchElementException(Model model, NoSuchElementException e) {
 		model.addAttribute("msg",e.getMessage());
 		
 		return "/error";

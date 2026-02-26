@@ -2,6 +2,7 @@ package bookcafe.controller;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -42,7 +43,8 @@ public class BookController {
 			@AuthenticationPrincipal CustomUserDetails userDetails) {
 		
 		
-		Book book = bookRepo.findById(bookId).get();
+		Book book = bookRepo.findById(bookId).
+				orElseThrow(()->new NoSuchElementException("존재하지 않는 책입니다."));
 		
 		if(!ItemOwnerChecker.isOwnerOfItem(book, userDetails))
 			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
@@ -88,7 +90,8 @@ public class BookController {
 		
 		List<BookShelfWithBooksDisplayDto> bookShelves = bookShelfRepo.findAllDisplayDtosByUserIdForOnlyName(userDetails.getId());
 				
-		Book b = bookRepo.findById(bookId).get();
+		Book b = bookRepo.findById(bookId).
+				orElseThrow(()->new NoSuchElementException("존재하지 않는 책입니다."));
 		
 		if(!ItemOwnerChecker.isOwnerOfItem(b, userDetails))
 			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
@@ -121,7 +124,8 @@ public class BookController {
 	@DeleteMapping("/delete")
 	public String delete(@RequestParam("bookId")Long bookId, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		
-		Book book = bookRepo.findById(bookId).get();
+		Book book = bookRepo.findById(bookId).
+				orElseThrow(()->new NoSuchElementException("존재하지 않는 책입니다."));
 		
 		if(!ItemOwnerChecker.isOwnerOfItem(book, userDetails))
 			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
