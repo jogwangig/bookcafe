@@ -5,17 +5,20 @@
 		layout:decorate="~{/layout/form-alone-layout}">
 		
 	<head>
+		<script th:src="@{/js/user-creation-form.js}" defer></script>
 		<title>사용자 계정 생성</title>
 	</head>
 	<body>
 		<main>
 		<div layout:fragment="Content" class="content-fragment">
 		<p>사용자 계정 생성!!</p>
-		<form th:action="${(currentURI.matches('/user/create'))?
+		<form id ="user-creation-form" th:action="${(currentURI.matches('/user/create'))?
 						'/user/create':'/user/modify'}" method="post" th:object = "${userCreationDto}">
 			<p>
 			<label for="username" th:text = "'id'">id</label>
 			<input type="text" th:field="*{username}"> 
+			
+			<button class="check-available-username" th:text="'사용가능한 id 검사'"></button>
 			</p>
 			<p>
 			<label for="password">password </label>

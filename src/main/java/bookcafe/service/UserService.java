@@ -36,6 +36,9 @@ public class UserService {
 	
 	public void createNewUser(UserCreationDto userCreationDto) {
 		
+		if(userRepo.existsByUsername(userCreationDto.getUsername()))
+			throw new RuntimeException("사용이 불가능한 아이디입니다.");
+		
 		encodeUserPwd(userCreationDto);
 		
 		SiteUser newUser = userCreationDto.toEntity();

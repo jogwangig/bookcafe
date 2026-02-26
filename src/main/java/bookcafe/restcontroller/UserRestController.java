@@ -5,28 +5,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import bookcafe.controller.ReadingRecordController;
+
 import bookcafe.data.repository.SiteUserRepository;
+import bookcafe.restcontroller.ApiResponse.Status;
 import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/user")
 public class UserRestController {
-
-    private final ReadingRecordController readingRecordController;
 	
 	private SiteUserRepository userRepo;
 
-    UserRestController(ReadingRecordController readingRecordController) {
-        this.readingRecordController = readingRecordController;
-    }
 
     @GetMapping
-	public ResponseEntity<Boolean> isUsernameAvailable(@RequestParam("username")String username){
-		if(userRepo.exexistsByUsername(username))
-			return ResponseEntity.ok(Boolean.valueOf(false));
+	public ResponseEntity<ApiResponse<Boolean>> isUsernameAvailable(@RequestParam("username")String username){
+
+    	if(userRepo.existsByUsername(username))
+			return ResponseEntity.ok(new ApiResponse<Boolean>(Status.FAIL, "사용 할 수 없는 아이디입니다." , Boolean.FALSE));
 		
-		return ResponseEntity.ok(Boolean.valueOf(true));
+		return ResponseEntity.ok(new ApiResponse<Boolean>(Status.SUCCESS, "사용 가능한 아이디입니다." , Boolean.TRUE));
+		
 	}
 }
