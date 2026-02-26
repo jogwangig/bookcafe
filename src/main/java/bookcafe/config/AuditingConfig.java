@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import bookcafe.data.entity.SiteUser;
 import bookcafe.data.repository.SiteUserRepository;
 import bookcafe.security.CustomUserDetails;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Configuration
@@ -26,6 +27,7 @@ public class AuditingConfig {
 	
 
 	
+	@Slf4j
 	private static class SiteUserAuditorAware implements AuditorAware<SiteUser>{
 		@Autowired
 		SiteUserRepository userRepo;
@@ -42,8 +44,7 @@ public class AuditingConfig {
 				SiteUser u = userRepo.getReferenceById(c.getId());
 				return Optional.ofNullable(u);
 			}
-			
-			System.out.println("익명 사용자입니다.");
+			log.info("익명 사용자가 아이템을 생성했습니다");
 			return Optional.empty();
 				
 		}

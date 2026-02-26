@@ -111,7 +111,7 @@ public class PostRestController {
 	
 	
 	@PostMapping(path = "/comment", params = {"postId" , "type"})
-	public String processCommentCreationForm(@RequestBody CommentCreationDto body, 
+	public String processCommentCreation(@RequestBody CommentCreationDto body, 
 			@RequestParam("postId")long postId, @RequestParam("type")String type) {
 
 		Comment comment = body.toEntity();
@@ -124,7 +124,7 @@ public class PostRestController {
 	}
 	
 	@PostMapping(path = "/comment", params = {"commentId" , "type"})
-	public String processCommentModificationForm(@RequestBody CommentCreationDto body, 
+	public String processCommentModification(@RequestBody CommentCreationDto body, 
 			@RequestParam("commentId")long commentId, @RequestParam("type")String type, 
 			@AuthenticationPrincipal CustomUserDetails userDetails,  HttpSession session) {
 
@@ -138,8 +138,8 @@ public class PostRestController {
 			commentRepo.save(comment);
 		}
 		
-		if(comment.isWrittenByAnonymous() && session.getAttribute("comment-auth-" + commentId) != null &&
-				session.getAttribute("comment-auth-" + commentId).equals(true)) {
+		if(comment.isWrittenByAnonymous() && 
+				Objects.equals(session.getAttribute("comment-auth-" + commentId), true)) {
 			
 			comment.setContent(body.getContent());
 			
