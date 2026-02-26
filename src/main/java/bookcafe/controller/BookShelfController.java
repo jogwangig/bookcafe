@@ -1,5 +1,7 @@
 package bookcafe.controller;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import bookcafe.data.dto.creation.BookShelfCreationDto;
 import bookcafe.data.dto.display.BookShelfWithBooksDisplayDto;
+import bookcafe.data.entity.Book;
 import bookcafe.data.entity.BookShelf;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.service.BookShelfDisplayService;
+import bookcafe.util.ItemOwnerChecker;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -30,8 +34,16 @@ public class BookShelfController {
 	
 	private BookShelfDisplayService bsService;
 	
+	private ItemOwnerChecker itemOwnerChecker;
+	
 	@GetMapping
 	public String displayBookShelfById(Model model, @RequestParam("bookShelfId")long bookShelfId) {
+		
+		BookShelf bookShelf = bookShelfRepo.findById(bookShelfId).
+				orElseThrow(()->new NoSuchElementException("존재하지 않는 책장입니다."));
+		
+		itemOwnerChecker.throwExceptionIfNotOwner(bookShelf);
+		
 		
 		BookShelfWithBooksDisplayDto bookShelfWithBooks = 
 				bsService.getBookShelfDtosForDisplay(bookShelfId);
@@ -59,6 +71,11 @@ public class BookShelfController {
 	@GetMapping(value = "/modify", params = "bookShelfId")
 	public String getBookShelfModificationForm(Model model, @RequestParam("bookShelfId")Long bookShelfId) {
 		
+		BookShelf bookShelf = bookShelfRepo.findById(bookShelfId).
+				orElseThrow(()->new NoSuchElementException("존재하지 않는 책장입니다."));
+		
+		itemOwnerChecker.throwExceptionIfNotOwner(bookShelf);
+		
 		model.addAttribute("bookShelfId",bookShelfId);
 		model.addAttribute("bookShelfCreationDto", bookShelfRepo.findCreationDtoById(bookShelfId));
 		return "/form/book-shelf-creation-form";
@@ -70,11 +87,14 @@ public class BookShelfController {
 	public String processBookShelfModificationForm(@RequestParam("bookShelfId")Long bookShelfId,
 			@ModelAttribute("bookShelfCreationDto")BookShelfCreationDto bookShelfDTO) {
 		
-		BookShelf bs = bookShelfRepo.findById(bookShelfId).get();
+		BookShelf bookShelf = bookShelfRepo.findById(bookShelfId).
+				orElseThrow(()->new NoSuchElementException("존재하지 않는 책장입니다."));
 		
-		bs.setName(bookShelfDTO.getName());
+		itemOwnerChecker.throwExceptionIfNotOwner(bookShelf);
 		
-		bookShelfRepo.save(bs);
+		bookShelf.setName(bookShelfDTO.getName());
+		
+		bookShelfRepo.save(bookShelf);
 		
 		
 		return "redirect:/";
@@ -90,6 +110,11 @@ public class BookShelfController {
 			return ResponseEntity.badRequest().body("책이 존재하는 책장은 삭제 할 수 없습니다.");
 					
 		}
+		
+		BookShelf bookShelf = bookShelfRepo.findById(bookShelfId).
+				orElseThrow(()->new NoSuchElementException("존재하지 않는 책장입니다."));
+		
+		itemOwnerChecker.throwExceptionIfNotOwner(bookShelf);
 		
 		bookShelfRepo.deleteById(bookShelfId);
 		

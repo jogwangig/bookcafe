@@ -37,17 +37,21 @@ public class BookController {
 	
 	BookService bookService;
 	
+	private ItemOwnerChecker itemOwnerChecker;
+	
 	
 	@GetMapping
-	public String displayBookDetailById(Model model, @RequestParam("bookId")long bookId,
-			@AuthenticationPrincipal CustomUserDetails userDetails) {
+	public String displayBookDetailById(Model model, @RequestParam("bookId")long bookId) {
 		
 		
 		Book book = bookRepo.findById(bookId).
 				orElseThrow(()->new NoSuchElementException("존재하지 않는 책입니다."));
 		
-		if(!ItemOwnerChecker.isOwnerOfItem(book, userDetails))
-			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
+		itemOwnerChecker.throwExceptionIfNotOwner(book);
+		
+//		if(!ItemOwnerChecker.isOwnerOfItem(book, userDetails))
+//			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
+		
 		
 		if(book.getCoverImage() != null) {
 			String coverImg = Base64.getEncoder().encodeToString(book.getCoverImage());
@@ -93,8 +97,10 @@ public class BookController {
 		Book b = bookRepo.findById(bookId).
 				orElseThrow(()->new NoSuchElementException("존재하지 않는 책입니다."));
 		
-		if(!ItemOwnerChecker.isOwnerOfItem(b, userDetails))
-			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
+		itemOwnerChecker.throwExceptionIfNotOwner(b);
+		
+//		if(!ItemOwnerChecker.isOwnerOfItem(b, userDetails))
+//			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
 		
 		
 		BookCreationDto book = bookRepo.findCreationDtoById(bookId);
@@ -127,8 +133,10 @@ public class BookController {
 		Book book = bookRepo.findById(bookId).
 				orElseThrow(()->new NoSuchElementException("존재하지 않는 책입니다."));
 		
-		if(!ItemOwnerChecker.isOwnerOfItem(book, userDetails))
-			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
+		itemOwnerChecker.throwExceptionIfNotOwner(book);
+		
+//		if(!ItemOwnerChecker.isOwnerOfItem(book, userDetails))
+//			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
 		
 		bookRepo.deleteById(bookId);
 		
