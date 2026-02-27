@@ -36,26 +36,26 @@ public class PostRestController {
 	
 	
 	@DeleteMapping("/delete")
-	public ResponseEntity<String> deletePost(@RequestParam("postId")long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
+	public ResponseEntity<ApiResponse<?>> deletePost(@RequestParam("postId")long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
 		Post post = postRepo.findById(postId).get();
 		
 		if(userDetails == null)
-			return ResponseEntity.badRequest().body("삭제 실패");
+			return ResponseEntity.status(403).body(new ApiResponse<>("로그인한 사용자만 게시글을 삭제 할 수 있습니다.", null));
 		
-		Long userId = userDetails.getId();
+//		Long userId = userDetails.getId();
 		
 		if(postAuthService.isAuthenticatedForEdit(post, userDetails)) {
 			postRepo.deleteById(postId);
-			return ResponseEntity.ok().body("게시글이 삭제되었습니다.");
+			return ResponseEntity.ok(new ApiResponse<>("게시글이 삭제되었습니다.", null));
 		}
 		
-		return ResponseEntity.badRequest().body("삭제 실패");
+		return ResponseEntity.status(403).body(new ApiResponse<>("권한이 없는 사용자입니다.", null));
 			
 	}
 	
 	
 	@PostMapping("/delete")
-	public ResponseEntity<String> deletePost(@RequestParam("postId")long postId, @RequestBody Map<String, String> body){
+	public ResponseEntity<ApiResponse<?>> deletePost(@RequestParam("postId")long postId, @RequestBody Map<String, String> body){
 		
 		Post post = postRepo.findById(postId).get();
 		
@@ -66,10 +66,11 @@ public class PostRestController {
 			
 			postAuthService.flushEditAuth(postId);
 			
-			return ResponseEntity.ok().body("게시글이 삭제되었습니다.");
+			return ResponseEntity.ok(new ApiResponse<>("게시글이 삭제되었습니다.", null));
+					
 		}
 		
-		return ResponseEntity.badRequest().body("삭제 실패");
+		return ResponseEntity.status(403).body(new ApiResponse<>("잘못된 비밀번호입니다.", null));
 		
 	}
 	
