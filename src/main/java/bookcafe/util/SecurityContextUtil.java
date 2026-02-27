@@ -23,4 +23,22 @@ public class SecurityContextUtil {
 		
 		return null;
 	}
+	
+	public String getCurrentUsername() {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if(authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails))
+			return null;
+		
+		if(authentication.getPrincipal() instanceof CustomUserDetails) {
+			CustomUserDetails userDetails = (CustomUserDetails)authentication.getPrincipal();
+			String username = userDetails.getUsername();
+			
+			return username;
+		}
+		
+		return null;
+	}
+	
 }

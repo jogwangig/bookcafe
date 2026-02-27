@@ -6,10 +6,13 @@ async function registerBookClub(event){
 	const bookCludId = new URL(target.parentElement.querySelector("a").href)
 								.searchParams.get('bookClubId');
 		
-	await fetch("/api/book-club/register?bookClubId=" + bookCludId)
-				.then(res=>res.text())
-				.then(data=>console.log(data))
-				.catch(err=>console.error(err));
+	const res = await fetch("/api/book-club/register?bookClubId=" + bookCludId)
+							.catch(err=>console.error(err));
+	
+	const data = await res.json();	
+	
+	alert(data.msg);
+				
 				
 	target.removeEventListener('click', registerBookClub);
 	
@@ -29,10 +32,13 @@ async function unregisterBookClub(event){
 	const bookCludId = new URL(target.parentElement.querySelector("a").href)
 								.searchParams.get('bookClubId');
 		
-	await fetch("/api/book-club/unregister?bookClubId=" + bookCludId)
-				.then(res=>res.text())
-				.then(data=>console.log(data))
-				.catch(err=>console.error(err));
+	const res = await fetch("/api/book-club/unregister?bookClubId=" + bookCludId)
+							.catch(err=>console.error(err));
+							
+	const data = await res.json();	
+
+	alert(data.msg);
+				
 	
 	target.removeEventListener('click', unregisterBookClub);
 	

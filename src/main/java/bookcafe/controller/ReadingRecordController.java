@@ -1,10 +1,12 @@
 package bookcafe.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,20 +21,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import bookcafe.data.dto.ReadingRecordDetailDto;
 import bookcafe.data.dto.creation.ReadingRecordCreationDto;
 import bookcafe.data.dto.display.BookDisplayDto;
+import bookcafe.data.entity.Book;
 import bookcafe.data.entity.ReadingRecord;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.ReadingRecordRepository;
+import bookcafe.restcontroller.ApiResponse;
 import bookcafe.security.CustomUserDetails;
+import bookcafe.util.ItemOwnerChecker;
 import lombok.AllArgsConstructor;
 
 @Controller
-@RequestMapping("/reading-record")
 @AllArgsConstructor
+@RequestMapping("/reading-record")
 public class ReadingRecordController {
 	
 	BookRepository bookRepo;
 	
 	ReadingRecordRepository readingRecordRepo;
+	
+	private ItemOwnerChecker itemOwnerChecker;
 	
 	
 	
@@ -117,10 +124,16 @@ public class ReadingRecordController {
 	
 	@ResponseBody
 	@DeleteMapping("/delete")
-	public String delete(@RequestParam("readingRecordId")Long readingRecordId) {
+	public ResponseEntity<?> delete(@RequestParam("readingRecordId")Long readingRecordId ,@AuthenticationPrincipal CustomUserDetails userDetails) {
+		
+		ReadingRecord readingRecord = readingRecordRepo.findById(readingRecordId).
+										orElseThrow(()->new NoSuchElementException("존재하지 않는 독서기록입니다."));
+		
+		itemOwnerChecker.throwExceptionIfNotOwner(readingRecord);
+		
 		readingRecordRepo.deleteById(readingRecordId);
 		
-		return "삭제 성공";
+		return ResponseEntity.ok(new ApiResponse<>("삭제 성공", null));
 	}
 
 }

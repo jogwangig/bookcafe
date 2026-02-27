@@ -4,6 +4,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ import bookcafe.data.entity.Book;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.exception.InaccessibleItemException;
+import bookcafe.restcontroller.ApiResponse;
 import bookcafe.security.CustomUserDetails;
 import bookcafe.service.BookService;
 import bookcafe.util.ItemOwnerChecker;
@@ -128,7 +130,7 @@ public class BookController {
 	
 	@ResponseBody
 	@DeleteMapping("/delete")
-	public String delete(@RequestParam("bookId")Long bookId, @AuthenticationPrincipal CustomUserDetails userDetails) {
+	public ResponseEntity<?> delete(@RequestParam("bookId")Long bookId, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		
 		Book book = bookRepo.findById(bookId).
 				orElseThrow(()->new NoSuchElementException("존재하지 않는 책입니다."));
@@ -140,6 +142,6 @@ public class BookController {
 		
 		bookRepo.deleteById(bookId);
 		
-		return "삭제 성공";
+		return ResponseEntity.ok(new ApiResponse<>("삭제 성공", null));
 	}
 }

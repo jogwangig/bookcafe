@@ -13,16 +13,13 @@ async function deleteReadingRecord(id){
 		    }
 	}
 	
-	await fetch('/reading-record/delete?readingRecordId=' + id, option)
-			.then(res=>{if(res.ok){
-							alert("삭제 성공");
-							location.reload();
-						}else{
-							alert("삭제 실패");
-						}
-					})
-			.catch(err=>console.error(err));	
-	
+	const res = await fetch('/reading-record/delete?readingRecordId=' + id, option)
+							.catch(err=>console.error(err));	
+							
+	const data = await res.json();	
+								
+	alert(data.msg);
+		
 }
 
 

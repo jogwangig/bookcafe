@@ -13,15 +13,18 @@ async function deleteBook(id){
 		    }
 	}
 	
-	await fetch('/book/delete?bookId=' + id, option)
-			.then(res=>{if(res.ok){
-							alert("삭제 성공");
-							location.href ="/library";
-						}else{
-							alert("삭제 실패");
-						}
-					})
-			.catch(err=>console.error(err));	
+	const res = await fetch('/book/delete?bookId=' + id, option)
+							.catch(err=>console.error(err));	
+	
+	if(res.ok){
+		const data = await res.json();
+		alert(data.msg);
+		location.href ="/library";
+	}else{
+		alert("삭제 실패");
+	}
+		
+			
 	
 }
 

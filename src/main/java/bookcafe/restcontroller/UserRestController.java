@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import bookcafe.data.repository.SiteUserRepository;
-import bookcafe.restcontroller.ApiResponse.Status;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -22,9 +21,11 @@ public class UserRestController {
 	public ResponseEntity<ApiResponse<Boolean>> isUsernameAvailable(@RequestParam("username")String username){
 
     	if(userRepo.existsByUsername(username))
-			return ResponseEntity.ok(new ApiResponse<Boolean>(Status.FAIL, "사용 할 수 없는 아이디입니다." , Boolean.FALSE));
+			return ResponseEntity.status(403).body(new ApiResponse<Boolean>("사용 할 수 없는 아이디입니다." , Boolean.FALSE));
+					
+    	
 		
-		return ResponseEntity.ok(new ApiResponse<Boolean>(Status.SUCCESS, "사용 가능한 아이디입니다." , Boolean.TRUE));
+		return ResponseEntity.ok(new ApiResponse<Boolean>("사용 가능한 아이디입니다." , Boolean.TRUE));
 		
 	}
 }
