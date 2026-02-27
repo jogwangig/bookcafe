@@ -13,11 +13,15 @@ async function deleteBookShelf(id){
 		    }
 	}
 	
-	await fetch('/book-shelf/delete?bookShelfId=' + id, option)
-			.then(res=>(res.ok)?alert("삭제 성공"):res.text())
-			.then(t=>t!=undefined?alert(t):"")
-			.finally(()=>location.href ="/library")
-			.catch(err=>console.error(err));	
+	const res =await fetch('/book-shelf/delete?bookShelfId=' + id, option)
+							.catch(err=>console.error(err));
+							
+	const data = await res.json();	
+														
+	alert(data.msg);
+	
+	if(res.ok)
+		location.href = '/library';			
 	
 }
 

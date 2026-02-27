@@ -124,7 +124,7 @@ public class ReadingRecordController {
 	
 	@ResponseBody
 	@DeleteMapping("/delete")
-	public ResponseEntity<?> delete(@RequestParam("readingRecordId")Long readingRecordId ,@AuthenticationPrincipal CustomUserDetails userDetails) {
+	public ResponseEntity<ApiResponse<?>> delete(@RequestParam("readingRecordId")Long readingRecordId ,@AuthenticationPrincipal CustomUserDetails userDetails) {
 		
 		ReadingRecord readingRecord = readingRecordRepo.findById(readingRecordId).
 										orElseThrow(()->new NoSuchElementException("존재하지 않는 독서기록입니다."));
@@ -133,7 +133,7 @@ public class ReadingRecordController {
 		
 		readingRecordRepo.deleteById(readingRecordId);
 		
-		return ResponseEntity.ok(new ApiResponse<>("삭제 성공", null));
+		return ResponseEntity.ok(new ApiResponse<>("독서 기록이 삭제되었습니다.", null));
 	}
 
 }

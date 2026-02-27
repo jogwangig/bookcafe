@@ -3,6 +3,7 @@ package bookcafe.controller;
 import java.util.NoSuchElementException;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,8 @@ import bookcafe.data.entity.Book;
 import bookcafe.data.entity.BookShelf;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
+import bookcafe.restcontroller.ApiResponse;
+import bookcafe.security.CustomUserDetails;
 import bookcafe.service.BookShelfDisplayService;
 import bookcafe.util.ItemOwnerChecker;
 import lombok.AllArgsConstructor;
@@ -102,23 +105,25 @@ public class BookShelfController {
 	
 	@ResponseBody
 	@DeleteMapping("/delete")
-	public ResponseEntity<String> delete(@RequestParam("bookShelfId")Long bookShelfId) {
-		
-		long bookNum = bookRepo.countByBookShelfId(bookShelfId);
-				
-		if(bookNum != 0) {
-			return ResponseEntity.badRequest().body("책이 존재하는 책장은 삭제 할 수 없습니다.");
-					
-		}
+	public ResponseEntity<ApiResponse<?>> delete(@RequestParam("bookShelfId")Long bookShelfId, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		
 		BookShelf bookShelf = bookShelfRepo.findById(bookShelfId).
-				orElseThrow(()->new NoSuchElementException("존재하지 않는 책장입니다."));
+						orElseThrow(()->new NoSuchElementException("존재하지 않는 책입니다."));
 		
 		itemOwnerChecker.throwExceptionIfNotOwner(bookShelf);
 		
+		long bookNum = bookRepo.countByBookShelfId(bookShelfId);
+				
+		
+		if(bookNum != 0) {
+			return ResponseEntity.badRequest().body(new ApiResponse<>("책이 존재하는 책장은 삭제 할 수 없습니다.", null));
+					
+		}
+		
+		
 		bookShelfRepo.deleteById(bookShelfId);
 		
-		return ResponseEntity.ok().body("삭제 성공");
+		return ResponseEntity.ok(new ApiResponse<>("책장이 삭제 되었습니다.", null));
 				
 	}
 	

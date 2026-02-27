@@ -3,6 +3,7 @@ package bookcafe.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import bookcafe.data.dto.creation.BookClubCreationDto;
 import bookcafe.data.dto.display.BookClubDisplayDto;
@@ -51,6 +52,18 @@ public class BookClubService {
 		bookClubCommentRepo.save(newComment);
 		
 		msgService.sendMessageFromAdmin(users, msgContent);
+	}
+	
+	public void registerUser(Long bookClubId) {
+		
+		bookClubParticipantRepo.save(new BookClubParticipant(
+								bookClubRepo.getReferenceById(bookClubId)));
+	}
+	
+	public void unregisterUser(Long bookClubId, Long userId) {
+		
+		bookClubParticipantRepo.deleteByUserIdAndBookClubId(userId , bookClubId);
+		
 	}
 	
 	

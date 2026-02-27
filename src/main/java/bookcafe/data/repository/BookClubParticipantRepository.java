@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import bookcafe.data.entity.BookClubParticipant;
 
@@ -13,4 +14,7 @@ public interface BookClubParticipantRepository extends JpaRepository<BookClubPar
 	Optional<BookClubParticipant> findByUserIdAndBookClubId(long userId, long bookClubId);
 	
 	List<BookClubParticipant> findByBookClubId(long bookClubId);
+	
+	@Transactional
+	void deleteByUserIdAndBookClubId(long userId, long bookClubId);
 }

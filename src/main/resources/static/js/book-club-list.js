@@ -13,14 +13,14 @@ async function registerBookClub(event){
 	
 	alert(data.msg);
 				
-				
-	target.removeEventListener('click', registerBookClub);
+	if(res.ok){	
+		target.removeEventListener('click', registerBookClub);
 	
-	target.addEventListener('click', unregisterBookClub);
+		target.addEventListener('click', unregisterBookClub);
+		
+		target.innerHTML = "탈퇴하기";
+	}
 
-				
-	
-	target.innerHTML = "탈퇴하기";
 	
 }
 
@@ -39,12 +39,13 @@ async function unregisterBookClub(event){
 
 	alert(data.msg);
 				
-	
-	target.removeEventListener('click', unregisterBookClub);
-	
-	target.addEventListener('click', registerBookClub);
-	
-	target.innerHTML = "등록하기";
+	if(res.ok){	
+		target.removeEventListener('click', unregisterBookClub);
+		
+		target.addEventListener('click', registerBookClub);
+		
+		target.innerHTML = "등록하기";
+	}
 	
 }
 

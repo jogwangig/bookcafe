@@ -130,18 +130,16 @@ public class BookController {
 	
 	@ResponseBody
 	@DeleteMapping("/delete")
-	public ResponseEntity<?> delete(@RequestParam("bookId")Long bookId, @AuthenticationPrincipal CustomUserDetails userDetails) {
+	public ResponseEntity<ApiResponse<?>> delete(@RequestParam("bookId")Long bookId, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		
 		Book book = bookRepo.findById(bookId).
 				orElseThrow(()->new NoSuchElementException("존재하지 않는 책입니다."));
 		
 		itemOwnerChecker.throwExceptionIfNotOwner(book);
 		
-//		if(!ItemOwnerChecker.isOwnerOfItem(book, userDetails))
-//			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
 		
 		bookRepo.deleteById(bookId);
 		
-		return ResponseEntity.ok(new ApiResponse<>("삭제 성공", null));
+		return ResponseEntity.ok(new ApiResponse<>("책이 삭제되었습니다.", null));
 	}
 }
