@@ -135,14 +135,14 @@ public class PostRestController {
 		
 		Comment comment = commentRepo.findById(commentId).get();
 		
-		if(!comment.isWrittenByAnonymous() && userDetails != null && comment.getUser().getId().equals(userDetails.getId())) {
+		if(!comment.isWrittenByAnonymous() && itemOwnerChecker.isOwnerOfItem(comment)) {
 			
 			comment.setContent(body.getContent());
 			
 			commentRepo.save(comment);
 		}
 		
-		if(comment.isWrittenByAnonymous() && 
+		else if(comment.isWrittenByAnonymous() && 
 				Objects.equals(session.getAttribute("comment-auth-" + commentId), true)) {
 			
 			comment.setContent(body.getContent());
@@ -166,8 +166,8 @@ public class PostRestController {
 		
 		Comment comment = commentRepo.findById(commentId).get();
 		
-		CommentCreationDto c = new CommentCreationDto(comment.getAnonymousUsername(), comment.getAnonymousUserPwd(), comment.getContent());
-		
+		CommentCreationDto c = commentRepo.findCreationDtoById(commentId);
+						
 		if(itemOwnerChecker.isOwnerOfItem(comment)) {
 			return ResponseEntity.ok().body(new ApiResponse<CommentCreationDto>("인증에 성공했습니다.", c));
 		}
@@ -185,9 +185,8 @@ public class PostRestController {
 		Comment comment = commentRepo.findById(commentId).get();
 		
 		String pwd = body.get("pwd");
-		
-		CommentCreationDto c = new CommentCreationDto(comment.getAnonymousUsername(), comment.getAnonymousUserPwd(), comment.getContent());
-		
+				
+		CommentCreationDto c = commentRepo.findCreationDtoById(commentId);
 		
 		if(Objects.equals(comment.getAnonymousUserPwd(), pwd)) {
 			session.setAttribute("comment-auth-" + commentId, true);

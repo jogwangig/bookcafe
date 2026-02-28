@@ -28,7 +28,7 @@ public class LibraryController {
 	public String displayMyLibrary(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
 		
 		List<BookShelfWithBooksDisplayDto> bookShelfWithBooksDisplayDtos = 
-				bsService.getAllBookShelfDtosForDisplay(userDetails.getId());
+				bsService.getAllBookShelfDisplayDtos(userDetails.getId());
 
 		
 		model.addAttribute("bookShelfWithBooksDtos", bookShelfWithBooksDisplayDtos);

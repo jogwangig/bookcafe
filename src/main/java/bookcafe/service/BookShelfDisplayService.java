@@ -18,14 +18,14 @@ public class BookShelfDisplayService {
 	
 	private BookShelfRepository  bookShelfRepo;
 		
-	public List<BookShelfWithBooksDisplayDto> getAllBookShelfDtosForDisplay(long userId){
+	public List<BookShelfWithBooksDisplayDto> getAllBookShelfDisplayDtos(long userId){
 		List<BookShelfWithBooksDisplayFlatDto> flatDtos = bookShelfRepo.findAllDisplayDtosWithBooksByUserId(userId);
 		
 		return generateFromFlat(flatDtos);
 	
 	}
 	
-	public BookShelfWithBooksDisplayDto getBookShelfDtosForDisplay(long id){
+	public BookShelfWithBooksDisplayDto getBookShelfDisplayDtos(long id){
 		List<BookShelfWithBooksDisplayFlatDto> flatDtos = bookShelfRepo.findDisplayDtosWithBooksById(id);
 		
 		return generateFromFlat(flatDtos).get(0);

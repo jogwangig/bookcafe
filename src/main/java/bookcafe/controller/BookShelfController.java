@@ -49,7 +49,7 @@ public class BookShelfController {
 		
 		
 		BookShelfWithBooksDisplayDto bookShelfWithBooks = 
-				bsService.getBookShelfDtosForDisplay(bookShelfId);
+				bsService.getBookShelfDisplayDtos(bookShelfId);
 				
 		model.addAttribute("bookShelfWithBooks", bookShelfWithBooks);
 		
