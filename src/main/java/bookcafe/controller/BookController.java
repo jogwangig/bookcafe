@@ -100,9 +100,6 @@ public class BookController {
 		
 		itemOwnerChecker.throwExceptionIfNotOwner(b);
 		
-//		if(!ItemOwnerChecker.isOwnerOfItem(b, userDetails))
-//			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
-		
 		
 		BookCreationDto book = bookRepo.findCreationDtoById(bookId);
 

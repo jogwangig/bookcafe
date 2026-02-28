@@ -42,12 +42,10 @@ public class PostRestController {
 	public ResponseEntity<ApiResponse<?>> deletePost(@RequestParam("postId")long postId, @AuthenticationPrincipal CustomUserDetails userDetails){
 		Post post = postRepo.findById(postId).get();
 		
-		if(userDetails == null)
-			return ResponseEntity.status(403).body(new ApiResponse<>("로그인한 사용자만 게시글을 삭제 할 수 있습니다.", null));
+//		if(userDetails == null)
+//			return ResponseEntity.status(403).body(new ApiResponse<>("로그인한 사용자만 게시글을 삭제 할 수 있습니다.", null));
 		
-//		Long userId = userDetails.getId();
-		
-		if(postAuthService.isAuthenticatedForEdit(post, userDetails)) {
+		if(postAuthService.isAuthenticatedForPostEdit(post)) {
 			postRepo.deleteById(postId);
 			return ResponseEntity.ok(new ApiResponse<>("게시글이 삭제되었습니다.", null));
 		}
@@ -64,10 +62,10 @@ public class PostRestController {
 		
 		String pwd = body.get("pwd");
 				
-		if(postAuthService.authenticateForEdit(post, pwd)) {
+		if(postAuthService.authenticateForPostPwd(post, pwd)) {
 			postRepo.deleteById(postId);
 			
-			postAuthService.flushEditAuth(postId);
+			postAuthService.flushPostPwdAuth(post);
 			
 			return ResponseEntity.ok(new ApiResponse<>("게시글이 삭제되었습니다.", null));
 					
@@ -86,7 +84,7 @@ public class PostRestController {
 		
 		String pwd = body.get("pwd");
 		
-		if(postAuthService.authenticateForEdit(post, pwd)) {
+		if(postAuthService.authenticateForPostPwd(post, pwd)) {
 			return ResponseEntity.ok().body("인증 성공");
 		}
 
@@ -105,7 +103,7 @@ public class PostRestController {
 		if(userDetails == null)
 			return ResponseEntity.badRequest().body("인증 실패");
 		
-		if(postAuthService.isAuthenticatedForEdit(post, userDetails)) {
+		if(postAuthService.isAuthenticatedForPostEdit(post)) {
 			return ResponseEntity.ok().body("인증 성공");
 		}
 
@@ -129,28 +127,33 @@ public class PostRestController {
 	
 	@PostMapping(path = "/comment", params = {"commentId" , "type"})
 	public String processCommentModification(@RequestBody CommentCreationDto body, 
-			@RequestParam("commentId")long commentId, @RequestParam("type")String type, 
-			@AuthenticationPrincipal CustomUserDetails userDetails,  HttpSession session) {
+			@RequestParam("commentId")long commentId, @RequestParam("type")String type) {
 
 		
 		Comment comment = commentRepo.findById(commentId).get();
 		
-		if(!comment.isWrittenByAnonymous() && itemOwnerChecker.isOwnerOfItem(comment)) {
-			
+		if(postAuthService.isAuthenticatedForCommentEdit(comment)) {
 			comment.setContent(body.getContent());
 			
 			commentRepo.save(comment);
 		}
 		
-		else if(comment.isWrittenByAnonymous() && 
-				Objects.equals(session.getAttribute("comment-auth-" + commentId), true)) {
-			
-			comment.setContent(body.getContent());
-			
-			commentRepo.save(comment);
-			
-			session.removeAttribute("comment-auth-" + commentId);
-		}
+//		if(!comment.isWrittenByAnonymous() && itemOwnerChecker.isOwnerOfItem(comment)) {
+//			
+//			comment.setContent(body.getContent());
+//			
+//			commentRepo.save(comment);
+//		}
+//		
+//		else if(comment.isWrittenByAnonymous() && 
+//				Objects.equals(session.getAttribute("comment-auth-" + commentId), true)) {
+//			
+//			comment.setContent(body.getContent());
+//			
+//			commentRepo.save(comment);
+//			
+//			session.removeAttribute("comment-auth-" + commentId);
+//		}
 			
 		
 		return "redirect:/post?postId=" ;
@@ -168,7 +171,7 @@ public class PostRestController {
 		
 		CommentCreationDto c = commentRepo.findCreationDtoById(commentId);
 						
-		if(itemOwnerChecker.isOwnerOfItem(comment)) {
+		if(postAuthService.isAuthenticatedForCommentEdit(comment)) {
 			return ResponseEntity.ok().body(new ApiResponse<CommentCreationDto>("인증에 성공했습니다.", c));
 		}
 		
@@ -179,7 +182,7 @@ public class PostRestController {
 	
 	@PostMapping("/comment/modify")
 	public ResponseEntity<ApiResponse<CommentCreationDto>> getCommentForEdit(@RequestParam("commentId")Long commentId, 
-			@RequestBody Map<String, String> body, HttpSession session){
+			@RequestBody Map<String, String> body){
 		
 		
 		Comment comment = commentRepo.findById(commentId).get();
@@ -188,8 +191,7 @@ public class PostRestController {
 				
 		CommentCreationDto c = commentRepo.findCreationDtoById(commentId);
 		
-		if(Objects.equals(comment.getAnonymousUserPwd(), pwd)) {
-			session.setAttribute("comment-auth-" + commentId, true);
+		if(postAuthService.authenticateForCommentPwd(comment, pwd)) {
 			return ResponseEntity.ok().body(new ApiResponse<CommentCreationDto>("인증에 성공했습니다.", c));
 		}
 
@@ -202,13 +204,11 @@ public class PostRestController {
 	public ResponseEntity<ApiResponse<?>> deleteComment(@RequestParam("commentId")Long commentId, 
 			@AuthenticationPrincipal CustomUserDetails userDetails){
 		
-//		if(userDetails == null)
-//			return ResponseEntity.badRequest().build();
 		
 		Comment comment = commentRepo.findById(commentId).get();
 		
 		
-		if(itemOwnerChecker.isOwnerOfItem(comment)) {
+		if(postAuthService.isAuthenticatedForCommentEdit(comment)) {
 			commentRepo.deleteById(commentId);
 			return ResponseEntity.ok(new ApiResponse<>("댓글이 삭제되었습니다.", null));
 		}
@@ -226,9 +226,11 @@ public class PostRestController {
 		
 		String pwd = body.get("pwd");
 				
-		
-		if(Objects.equals(comment.getAnonymousUserPwd(), pwd)) {
+		if(postAuthService.authenticateForCommentPwd(comment, pwd)) {
+			
 			commentRepo.deleteById(commentId);
+			postAuthService.flushCommentPwdAuth(comment);
+			
 			return ResponseEntity.ok(new ApiResponse<>("댓글이 삭제되었습니다.", null));
 		}
 

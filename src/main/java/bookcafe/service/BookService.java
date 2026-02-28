@@ -1,5 +1,7 @@
 package bookcafe.service;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.stereotype.Service;
 
 import bookcafe.data.dto.creation.BookCreationDto;
@@ -45,19 +47,20 @@ public class BookService {
 	
 	public void modifyBookInfo(BookCreationDto creationDto, long bookId ) {
 		
-			
-			Book book =	bookRepo.findById(bookId).get();
+		
+		Book book = bookRepo.findById(bookId).
+			orElseThrow(()->new NoSuchElementException("존재하지 않는 책입니다."));
 					
-			Book b = creationDto.toEntity();
+		Book b = creationDto.toEntity();
 			
-			book.setBookInfo(b.getBookInfo());
+		book.setBookInfo(b.getBookInfo());
 			
-			if(!creationDto.getCoverImg().isEmpty())
-				book.setCoverImage(b.getCoverImage());
+		if(!creationDto.getCoverImg().isEmpty())
+			book.setCoverImage(b.getCoverImage());
 			
-			book.setBookShelf(bookShelfRepo.getReferenceById(creationDto.getBookShelfId()));
+		book.setBookShelf(bookShelfRepo.getReferenceById(creationDto.getBookShelfId()));
 			
-			bookRepo.save(book);
+		bookRepo.save(book);
 	
 	}
 

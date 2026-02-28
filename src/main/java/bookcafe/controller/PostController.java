@@ -83,7 +83,7 @@ public class PostController {
 		
 		Post post = postRepo.findById(postId).get();
 		
-		if(!postAuthService.isAuthenticatedForEdit(post, userDetails)) {
+		if(!postAuthService.isAuthenticatedForPostEdit(post)) {
 			
 			if(post.isWrittenByAnonymous()) {
 				model.addAttribute("postId", postId);
@@ -110,11 +110,11 @@ public class PostController {
 		
 		Post post = postRepo.findById(postId).get();
 		
-		if(!postAuthService.isAuthenticatedForEdit(post, userDetails))
+		if(!postAuthService.isAuthenticatedForPostEdit(post))
 			return "redirect:/";
 		
 		
-		postAuthService.flushEditAuth(postId);
+		postAuthService.flushPostPwdAuth(post);
 		
 		post.setAnonymousUsername(postCreationDto.getAnonymousUsername());
 		post.setAnonymousUserPwd(postCreationDto.getAnonymousUserPwd());
@@ -135,7 +135,7 @@ public class PostController {
 		Post post = postRepo.findById(postId).get();
 		
 		
-		if(postAuthService.authenticateForEdit(post, pwd)) {
+		if(postAuthService.authenticateForPostPwd(post, pwd)) {
 			return "redirect:/post/modify?postId="+postId;
 		}
 
