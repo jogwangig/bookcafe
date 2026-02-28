@@ -1,21 +1,23 @@
+
+const token = document.querySelector("meta[name='_csrf']").content;
+const header = document.querySelector("meta[name='_csrf_header']").content;
+
+const option = {
+	method : 'GET',
+				
+	headers: { [header]: token }
+};
+
+
 async function modifyComment(id, authorType){
-		
-	const token = document.querySelector("meta[name='_csrf']").content;
-	const header = document.querySelector("meta[name='_csrf_header']").content;
-	
+
 	const commentForm = document.querySelector('.comment-form');
 	
 	let res;
 	
 			
 	if(authorType == 'user'){
-				
-		const option = {
-			method : 'GET',
-						
-			headers: { [header]: token }
-		};
-					
+	
 		res = await fetch('/api/post/comment/modify?commentId=' + id, option);
 				
 	}else{
@@ -50,65 +52,19 @@ async function modifyComment(id, authorType){
 
 			document.getElementById("comment-form").scrollIntoView({ behavior: "smooth" });
 		}
-				
-				
-			/*
-			}else{
-				
-				const postPwd = prompt("비밀번호를 입력해 주세요", "");
-							
-				const anonymousOption = {
-						
-						method : 'POST',
-						
-						headers: {
-						        [header]: token,
-								'Content-Type': 'application/json; charset=utf-8' ,
-								
-								
-						    },
-						body : JSON.stringify({
-								pwd : postPwd
-							})
-						
-					};
-					
-					
-				
-				const res= await fetch('/api/post/comment/modify?commentId=' + id, anonymousOption);
-				
-				const data = await res.json();
-				
-				alert(data.msg);
-				
-				if(res.ok){
-					commentForm.elements['content'].value = data.content;
-				}
-					
-			}
-			*/
 
 }
+
 
 
 async function deleteComment(id, authorType){
 	
 	if(!confirm("정말 삭제하시겠습니까?")) return;
-		
-	const token = document.querySelector("meta[name='_csrf']").content;
-	const header = document.querySelector("meta[name='_csrf_header']").content;
-		
+	
 	let res;
 						
 			
 	if(authorType == 'user'){
-		
-		const option = {
-			
-			method : 'GET',
-			
-			headers: { [header]: token}
-		}
 		
 		res = await fetch('/api/post/comment/delete?commentId=' + id, option);
 			
@@ -172,6 +128,7 @@ async function createComment(event){
 	};
 	
 	let res;
+	
 	if(submitType == 'create'){
 		res = await fetch('/api/post/comment?type=create&postId='+postId, option);
 	}else{
