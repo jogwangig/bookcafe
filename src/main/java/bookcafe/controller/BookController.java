@@ -21,7 +21,6 @@ import bookcafe.data.dto.display.BookShelfWithBooksDisplayDto;
 import bookcafe.data.entity.Book;
 import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
-import bookcafe.exception.InaccessibleItemException;
 import bookcafe.restcontroller.ApiResponse;
 import bookcafe.security.CustomUserDetails;
 import bookcafe.service.BookService;

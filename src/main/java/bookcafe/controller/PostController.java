@@ -130,7 +130,7 @@ public class PostController {
 	
 	@PostMapping("/modify/auth")
 	public String processPostModificationForm(@RequestParam("postId")long postId,
-			@ModelAttribute("password")String pwd, HttpSession session) {
+			@ModelAttribute("password")String pwd) {
 		
 		Post post = postRepo.findById(postId).get();
 		

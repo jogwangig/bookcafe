@@ -5,31 +5,54 @@ async function modifyComment(id, authorType){
 	
 	const commentForm = document.querySelector('.comment-form');
 	
+	let res;
 	
-	const option = {
-		
-		method : 'GET',
-		
-		headers: {
-		        [header]: token
-		    }
-	}			
 			
-			if(authorType == 'user'){
-				const res = await fetch('/api/post/comment/modify?commentId=' + id, option);
+	if(authorType == 'user'){
 				
+		const option = {
+			method : 'GET',
+						
+			headers: { [header]: token }
+		};
+					
+		res = await fetch('/api/post/comment/modify?commentId=' + id, option);
+				
+	}else{
+			
+		const postPwd = prompt("비밀번호를 입력해 주세요", "");
+				
+		const anonymousOption = {
+										
+			method : 'POST',
+					
+			headers: {
+				[header]: token,
+				'Content-Type': 'application/json; charset=utf-8'},
+										
+				body : JSON.stringify({pwd : postPwd })	
+			};
+				
+			res= await fetch('/api/post/comment/modify?commentId=' + id, anonymousOption);
+				
+		}
+				
+		const data = await res.json();
+				
+		alert(data.msg);
+				
+		if(res.ok){									
+			commentForm.elements['content'].value = data.data.content;
+			console.log(data.content);
+			
+			submitType = 'modify';
+			commentId = id;
 
-				
-				if(res.ok){
-					const data = await res.json();
-									
-					commentForm.elements['content'].value = data.content;
-					console.log(data.content);
-				}else{
-					alert("인증 실패");
-				}
+			document.getElementById("comment-form").scrollIntoView({ behavior: "smooth" });
+		}
 				
 				
+			/*
 			}else{
 				
 				const postPwd = prompt("비밀번호를 입력해 주세요", "");
@@ -54,19 +77,16 @@ async function modifyComment(id, authorType){
 				
 				const res= await fetch('/api/post/comment/modify?commentId=' + id, anonymousOption);
 				
+				const data = await res.json();
+				
+				alert(data.msg);
+				
 				if(res.ok){
-					const data = await res.json();
 					commentForm.elements['content'].value = data.content;
-				}else{
-					alert("인증 실패");
 				}
-						
+					
 			}
-			
-			submitType = 'modify';
-			commentId = id;
-			
-			document.getElementById("comment-form").scrollIntoView({ behavior: "smooth" });
+			*/
 
 }
 
@@ -78,61 +98,43 @@ async function deleteComment(id, authorType){
 	const token = document.querySelector("meta[name='_csrf']").content;
 	const header = document.querySelector("meta[name='_csrf_header']").content;
 		
-	
-	const option = {
-		
-		method : 'GET',
-		
-		headers: {
-		        [header]: token
-		    }
-	}
+	let res;
 						
 			
-			if(authorType == 'user'){
-				const res = await fetch('/api/post/comment/delete?commentId=' + id, option);
+	if(authorType == 'user'){
+		
+		const option = {
+			
+			method : 'GET',
+			
+			headers: { [header]: token}
+		}
+		
+		res = await fetch('/api/post/comment/delete?commentId=' + id, option);
+			
+	}else{
 				
-
-				
-				if(res.ok){
-					alert("삭제 성공");
-				}else{
-					alert("삭제 실패");
-				}
-				
-				
-			}else{
-				
-				const postPwd = prompt("비밀번호를 입력해 주세요", "");
+		const postPwd = prompt("비밀번호를 입력해 주세요", "");
 							
-				const anonymousOption = {
+		const anonymousOption = {
 						
-						method : 'POST',
+			method : 'POST',
 						
-						headers: {
-						        [header]: token,
-								'Content-Type': 'application/json; charset=utf-8' ,
-								
-								
-						    },
-						body : JSON.stringify({
-								pwd : postPwd
-							})
-						
-					};
-					
-					
+			headers: {  [header]: token, 'Content-Type': 'application/json; charset=utf-8' },
 				
-				const res= await fetch('/api/post/comment/delete?commentId=' + id, anonymousOption);
-				
-				if(res.ok){
-					alert("삭제 성공");
-				}else{
-					alert("삭제 실패");
-				}
+			body : JSON.stringify({ pwd : postPwd})
 						
-			}
-			
+		};
+						
+		res= await fetch('/api/post/comment/delete?commentId=' + id, anonymousOption);
+						
+		}
+		
+		const data = await res.json();
+				
+		alert(data.msg);
+		
+		if(res.ok)	
 			location.reload();
 
 }
