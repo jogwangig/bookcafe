@@ -2,6 +2,8 @@ package bookcafe.controller;
 
 import java.util.Base64;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import bookcafe.data.dto.BookClubDetailDto;
 import bookcafe.data.dto.creation.BookClubCreationDto;
+import bookcafe.data.dto.display.BookClubDisplayDto;
 import bookcafe.data.entity.BookClubComment;
 import bookcafe.data.repository.BookClubCommentRepository;
 import bookcafe.data.repository.BookClubRepository;
@@ -34,11 +37,31 @@ public class BookClubController {
 	
 	@GetMapping
 	public String displayBookClubs(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+				
+		PageRequest pageRequest = PageRequest.of(0, 10);
+				
 		
-		model.addAttribute("bookClubs",bookClubRepo.findAllDisplayDtos(userDetails.getId()));
+		Page<BookClubDisplayDto> bookClubPage = bookClubRepo.findDisplayDtoPage(userDetails.getId(), pageRequest);
+		
+		model.addAttribute("bookClubs", bookClubPage);
 		
 		return "/book-club-list";
 	}
+	
+	
+	@GetMapping("/my")
+	public String displayParticipatedBookClubs(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+		
+		PageRequest pageRequest = PageRequest.of(0, 10);
+		
+		Page<BookClubDisplayDto> bookClubPage = bookClubRepo.findDisplayDtoOfBookClubUserParticipated(userDetails.getId(), pageRequest);
+		
+		model.addAttribute("bookClubs", bookClubPage);
+		
+		return "/book-club-list";
+	}
+	
+	
 	
 	
 	@GetMapping(params = "bookClubId")

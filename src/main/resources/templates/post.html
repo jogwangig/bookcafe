@@ -16,7 +16,13 @@
 		
 	<div layout:fragment="Content" class="content-fragment" >
 		<p class="ud-link">
+			<!--
 			<a class="post-modify" th:href="@{|/post/modify?postId=${post.id}|}" th:text = "|수정하기|"></a>
+			-->
+			
+			<button class="post-modify" th:data-id ="${post.id}" th:data-author-type = "${(post.username != null)?'user':'anonymous'}"
+			 th:text = "|게시글 수정하기|"></button>
+			
 		
 			<button class="post-delete" th:data-id ="${post.id}" th:data-author-type = "${(post.username != null)?'user':'anonymous'}"
 			th:data-board-id = "${boardId}" th:text="삭제" ></button>

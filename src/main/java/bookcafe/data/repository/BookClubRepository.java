@@ -2,6 +2,8 @@ package bookcafe.data.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,6 +21,21 @@ public interface BookClubRepository extends JpaRepository<BookClub, Long>{
 			"FROM BookClub bc "+
 			"LEFT JOIN BookClubParticipant bcp ON bcp.bookClub.id = bc.id and bcp.user.id = :userId ")
 	List<BookClubDisplayDto> findAllDisplayDtos(@Param("userId")long userId);
+	
+	@Query("SELECT new bookcafe.data.dto.display.BookClubDisplayDto(bc.id ,bc.name ,bc.bookInfo.title , "+
+			"CASE WHEN bcp IS NULL THEN false ELSE true END) "+
+			"FROM BookClub bc "+
+			"LEFT JOIN BookClubParticipant bcp ON bcp.bookClub.id = bc.id and bcp.user.id = :userId ")
+	Page<BookClubDisplayDto> findDisplayDtoPage(@Param("userId")long userId, Pageable pageable);
+	
+	
+	@Query("SELECT new bookcafe.data.dto.display.BookClubDisplayDto(bc.id ,bc.name ,bc.bookInfo.title , true) "+
+			"FROM BookClub bc "+
+			"JOIN BookClubParticipant bcp "+
+			"ON bcp.bookClub.id = bc.id and bcp.user.id = :userId ")
+	Page<BookClubDisplayDto> findDisplayDtoOfBookClubUserParticipated(@Param("userId")long userId, Pageable pageable);
+	
+	
 	
 	@Query("SELECT new bookcafe.data.dto.display.BookClubDisplayDto( bc.id ,bc.name , null , false ) "+
 			"FROM BookClub bc "+

@@ -59,7 +59,8 @@
 			<!-------------------------------------독서 모임--------------------------------------------------------------->
 			<ul sec:authorize="isAuthenticated()" th:if="${currentURI != null and currentURI.matches('^(/book-club).*' )}"
 			class="guide-link-list  header-link-list right-link-list">
-			
+				
+				<li><a th:href="@{/book-club/my}" th:text="'내가 가입한 독서 모임'"></a></li>
 				<li><a th:href="@{/book-club/create}" th:text="'독서 모임 만들기'"></a></li>
 			</ul>
 			

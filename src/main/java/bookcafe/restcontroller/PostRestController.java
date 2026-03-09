@@ -77,7 +77,7 @@ public class PostRestController {
 	
 	
 	@PostMapping("/modify/auth")
-	public ResponseEntity<String> authenticateUserForModification(@RequestParam("postId")long postId,
+	public ResponseEntity<ApiResponse<?>> authenticateUserForModification(@RequestParam("postId")long postId,
 			@RequestBody Map<String, String> body) {
 		
 		Post post = postRepo.findById(postId).get();
@@ -85,29 +85,26 @@ public class PostRestController {
 		String pwd = body.get("pwd");
 		
 		if(postAuthService.authenticateForPostPwd(post, pwd)) {
-			return ResponseEntity.ok().body("인증 성공");
+			return ResponseEntity.ok(new ApiResponse<>("게시글 수정권한 확인.", null));
 		}
 
-		return ResponseEntity.badRequest().body("인증 실패");
+		return ResponseEntity.status(403).body(new ApiResponse<>("권한이 없는 사용자입니다.", null));
 	}
 	
 	
 	
 	
 	@GetMapping("/modify/auth")
-	public ResponseEntity<String> authenticateUserForModification(@RequestParam("postId")long postId,
-			@AuthenticationPrincipal CustomUserDetails userDetails) {
+	public ResponseEntity<ApiResponse<?>> authenticateUserForModification(@RequestParam("postId")long postId) {
 		
 		Post post = postRepo.findById(postId).get();
 		
-		if(userDetails == null)
-			return ResponseEntity.badRequest().body("인증 실패");
 		
 		if(postAuthService.isAuthenticatedForPostEdit(post)) {
-			return ResponseEntity.ok().body("인증 성공");
+			return ResponseEntity.ok(new ApiResponse<>("게시글 수정권한 확인.", null));
 		}
 
-		return ResponseEntity.badRequest().body("인증 실패");
+		return ResponseEntity.status(403).body(new ApiResponse<>("권한이 없는 사용자입니다.", null));
 	}
 	
 	

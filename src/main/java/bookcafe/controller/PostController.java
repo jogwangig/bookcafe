@@ -1,6 +1,5 @@
 package bookcafe.controller;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +15,8 @@ import bookcafe.data.entity.Post;
 import bookcafe.data.repository.BoardRepository;
 import bookcafe.data.repository.CommentRepository;
 import bookcafe.data.repository.PostRepository;
-import bookcafe.security.CustomUserDetails;
 import bookcafe.service.PostAuthService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -77,18 +74,16 @@ public class PostController {
 	
 	
 	@GetMapping("/modify")
-	public String getPostModificationForm(Model model, 
-			@RequestParam("postId")long postId, HttpSession session,
-			@AuthenticationPrincipal CustomUserDetails userDetails) {
+	public String getPostModificationForm(Model model, @RequestParam("postId")long postId) {
 		
 		Post post = postRepo.findById(postId).get();
 		
 		if(!postAuthService.isAuthenticatedForPostEdit(post)) {
 			
-			if(post.isWrittenByAnonymous()) {
-				model.addAttribute("postId", postId);
-				return "/form/post-modification-auth-form";
-			}
+//			if(post.isWrittenByAnonymous()) {
+//				model.addAttribute("postId", postId);
+//				return "/form/post-modification-auth-form";
+//			}
 			
 			return "redirect:/post?postId="+postId;
 		}
@@ -100,18 +95,17 @@ public class PostController {
 		model.addAttribute("post", postCreationDto);
 				
 		return "/form/post-creation-form";
-		
+				
 	}
 	
 	
 	@PostMapping("/modify")
-	public String processPostModificationForm(@ModelAttribute("post")PostCreationDto postCreationDto 
-			,@RequestParam("postId")long postId, @AuthenticationPrincipal CustomUserDetails userDetails) {
+	public String processPostModificationForm(@ModelAttribute("post")PostCreationDto postCreationDto ,@RequestParam("postId")long postId) {
 		
 		Post post = postRepo.findById(postId).get();
 		
 		if(!postAuthService.isAuthenticatedForPostEdit(post))
-			return "redirect:/";
+			return "redirect:/post?postId="+postId;
 		
 		
 		postAuthService.flushPostPwdAuth(post);
@@ -123,24 +117,24 @@ public class PostController {
 		
 		postRepo.save(post);
 
-		return "redirect:/";
-	}
-	
-	
-	
-	@PostMapping("/modify/auth")
-	public String processPostModificationForm(@RequestParam("postId")long postId,
-			@ModelAttribute("password")String pwd) {
-		
-		Post post = postRepo.findById(postId).get();
-		
-		
-		if(postAuthService.authenticateForPostPwd(post, pwd)) {
-			return "redirect:/post/modify?postId="+postId;
-		}
-
 		return "redirect:/post?postId="+postId;
 	}
+	
+	
+	
+//	@PostMapping("/modify/auth")
+//	public String processPostModificationForm(@RequestParam("postId")long postId,
+//			@ModelAttribute("password")String pwd) {
+//		
+//		Post post = postRepo.findById(postId).get();
+//		
+//		
+//		if(postAuthService.authenticateForPostPwd(post, pwd)) {
+//			return "redirect:/post/modify?postId="+postId;
+//		}
+//
+//		return "redirect:/post?postId="+postId;
+//	}
 	
 	
 	
