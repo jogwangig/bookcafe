@@ -197,7 +197,7 @@ public class PostRestController {
 	}
 	
 	
-	@GetMapping("/comment/delete")
+	@DeleteMapping("/comment/delete")
 	public ResponseEntity<ApiResponse<?>> deleteComment(@RequestParam("commentId")Long commentId, 
 			@AuthenticationPrincipal CustomUserDetails userDetails){
 		

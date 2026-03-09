@@ -78,15 +78,9 @@ public class PostController {
 		
 		Post post = postRepo.findById(postId).get();
 		
-		if(!postAuthService.isAuthenticatedForPostEdit(post)) {
-			
-//			if(post.isWrittenByAnonymous()) {
-//				model.addAttribute("postId", postId);
-//				return "/form/post-modification-auth-form";
-//			}
-			
+		if(!postAuthService.isAuthenticatedForPostEdit(post)) 
 			return "redirect:/post?postId="+postId;
-		}
+		
 		
 		
 		PostCreationDto postCreationDto = postRepo.findCreationDtoById(postId);

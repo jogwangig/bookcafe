@@ -8,52 +8,6 @@
 		<script th:src="@{/js/book-search.js}" defer></script>
 		<link rel="stylesheet" th:href = @{/css/book-search.css}/>
 		<title>책 검색</title>
-		<!--
-		<style>
-			#search-btn{
-				width: 80px;
-			}
-			
-			.content-fragment{
-				display: flex;
-				flex-wrap: wrap;
-				flex-direction: row;
-			}
-			
-			.book-container{
-				width: 300px;
-				height: 350px;
-			}
-			
-			p{
-				margin-top : auto;
-				overflow: clip;
-			}
-			
-			#bookshelf-select-container{
-				width: 400px;
-				height: 300px;
-				position: fixed;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%,-50%);
-				display: none;
-				z-index: 1000;
-			}
-			#black-box{
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100vw;
-				height: 100vh;
-				z-index: 100;
-				background-color: black;
-				opacity: 0.5;
-				display: none;
-			}
-			
-		</style>
-		-->
 	</head>
 	
 	<body>
@@ -84,7 +38,8 @@
 			    <select id="bookshelf-select" name="bookshelf-select">
 			      <option th:each = "b : ${bookShelves}" th:value="${b.id}" th:text="${b.name}">option</option>
 			    </select>
-				<button id="register-btn">검색</button>
+				<button id="register-btn">등록하기</button>
+				<button id="cancel-btn">취소하기</button>
 			</div>			
 		</div>
 		

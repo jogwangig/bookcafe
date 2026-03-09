@@ -28,12 +28,12 @@ public class UserController {
 	private SiteUserRepository userRepo;
 	
 	private MessageRepository msgRepo;
-
 	
 	private UserService userService;
 	
 	@GetMapping("/create")
 	public String getUserCreationForm(Model model) {
+		
 		model.addAttribute("userCreationDto", new UserCreationDto());
 		return "/form/user-creation-form";
 	}

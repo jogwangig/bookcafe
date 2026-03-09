@@ -1,6 +1,7 @@
 package bookcafe.restcontroller;
 
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,7 @@ public class BookRestController {
 	private BookShelfRepository bookShelfRepo;
 	
 	@GetMapping("/create")
-	public ApiBookCreationDto createBookFromApi(@ModelAttribute ApiBookCreationDto dto) {
+	public ResponseEntity<ApiResponse<?>> createBookFromApi(@ModelAttribute ApiBookCreationDto dto) {
 		
 		System.out.println("OpenLibrary Api을 사용하여 조회된 책으로부터 책 생성을 요청 받았습니다.");
 		
@@ -39,10 +40,9 @@ public class BookRestController {
 									coverImage(coverImg).build();
 		
 		bookRepo.save(book);
-									
-									
 		
-		return dto;
+		
+		return ResponseEntity.ok(new ApiResponse<>("책이 성공적으로 등록되었습니다", null));
 	}
 	
 	

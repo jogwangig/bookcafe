@@ -1,12 +1,7 @@
-
+/*
 const token = document.querySelector("meta[name='_csrf']").content;
 const header = document.querySelector("meta[name='_csrf_header']").content;
-
-const option = {
-	method : 'GET',
-				
-	headers: { [header]: token }
-};
+*/
 
 
 async function modifyComment(id, authorType){
@@ -17,6 +12,12 @@ async function modifyComment(id, authorType){
 	
 			
 	if(authorType == 'user'){
+		
+		const option = {
+			method : 'GET',
+						
+			headers: { [header]: token }
+		};
 	
 		res = await fetch('/api/post/comment/modify?commentId=' + id, option);
 				
@@ -45,7 +46,6 @@ async function modifyComment(id, authorType){
 				
 		if(res.ok){									
 			commentForm.elements['content'].value = data.data.content;
-			console.log(data.content);
 			
 			submitType = 'modify';
 			commentId = id;
@@ -65,6 +65,11 @@ async function deleteComment(id, authorType){
 						
 			
 	if(authorType == 'user'){
+		const option = {
+			method : 'DELETE',
+			headers: { [header]: token }
+		};
+
 		
 		res = await fetch('/api/post/comment/delete?commentId=' + id, option);
 			
@@ -153,10 +158,10 @@ async function createComment(event){
 
 commentForm.addEventListener('submit', createComment);
 
-const modifyBtns = document.querySelectorAll(".comment-modify");
+const modifyCommentBtns = document.querySelectorAll(".comment-modify");
 const deleteCommentBtns = document.querySelectorAll(".comment-delete");
 
-modifyBtns.forEach(b=>{
+modifyCommentBtns.forEach(b=>{
 	b.addEventListener('click' , (event)=>{
 		const id = event.target.dataset.id;
 		const authorType = event.target.dataset.authorType;

@@ -9,15 +9,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ApiResponse <T>{
 	
-//	private Status status;
-	
 	private String msg;
 	
 	private T data;
 	
-	
-//	public static enum Status{
-//		SUCCESS, FAIL
-//	}
 
 }

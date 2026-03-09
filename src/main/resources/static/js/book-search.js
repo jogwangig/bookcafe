@@ -1,13 +1,8 @@
 const searchUrl = "https://openlibrary.org/search.json?";
 
-
 const coverImgUrl = "https://covers.openlibrary.org/b/id/";
 
 const imgSize = "-M.jpg";
-
-
-const createdUrl = createUrl("how the mind works", "", "");
-//console.log(createdUrl);
 
 const options = {
     method: 'GET'
@@ -23,18 +18,15 @@ async function searchBook(){
 	const createdUrl = createUrl(title, author, isbn);
 	
 	document.querySelector('.search-container').style.display = 'none';
-	//document.querySelector('#bookshelf-select-container').style.display = "";
+
 	document.querySelector('.black-box').style.display = 'none';
-	await fetch(createdUrl, options)
-				.then(response => response.json())
-				.then(data=>{
-					console.log(data);
-					displayWithCoverImg(data.docs);})
-				.catch(error => console.error('Error:', error));
 	
+	const res = await fetch(createdUrl, options);
 	
-	console.log(createdUrl);
+	const searchResults = await res.json();
 	
+	displayWithCoverImg(searchResults.docs);
+		
 }
 
 	
@@ -67,10 +59,10 @@ function createUrl(title, author_name, isbn){
 function displayWithCoverImg(docs){
 	const container = document.querySelector('.content-fragment');
 	
-			docs.filter(doc => 'cover_i' in doc)
-				.forEach((doc)=>{
-					container.appendChild(createBookTag(doc));			
-			});
+	docs.filter(doc => 'cover_i' in doc)
+	.forEach((doc)=>{
+		container.appendChild(createBookTag(doc));			
+	});
 }
 
 
@@ -99,15 +91,16 @@ async function fetchToServer(){
 	const selectValue = document.querySelector('#bookshelf-select');
 	
 	let query = "coverId=" + imgSrc  + "&title=" + titleValue  +  "&author=" + authorValue + "&bookShelfId=" + selectValue.value;
-	console.log(query);
-	document.querySelector('#bookshelf-select-container').style.display = 'none';
 
+	document.querySelector('#bookshelf-select-container').style.display = 'none';
 	
-	await fetch("/api/book/create?" + query)
-		.then(res=>{(res.ok)?alert("책이 성공적으로 등록 되었습니다"):alert("책 등록에 실패했습니다.");})
-		.catch(err=>console.error(err));
+	const res = await fetch("/api/book/create?" + query);
+	
+	const data = await res.json();
 		
-		document.querySelector('.black-box').style.display = 'none';
+	alert(data.msg)
+		
+	document.querySelector('.black-box').style.display = 'none';
 }
 
 
@@ -141,11 +134,20 @@ function createBookTag(doc){
 }
 
 
+function cancel(){
+	document.querySelector('.black-box').style.display = 'none';
+	document.querySelector('#bookshelf-select-container').style.display = 'none';
+}
+
+
 
 const btn = document.getElementById('search-btn');
 const fetchBtn = document.getElementById('register-btn');
+const cancelBtn = document.getElementById('cancel-btn');
+
 btn.addEventListener('click', searchBook);
 fetchBtn.addEventListener('click', fetchToServer);
+cancelBtn.addEventListener('click', cancel);
 
 
 
