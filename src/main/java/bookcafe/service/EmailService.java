@@ -5,7 +5,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import lombok.AllArgsConstructor;
+import bookcafe.data.entity.EmailAuthentication;
+import bookcafe.data.repository.EmailAuthenticationRepository;
 
 @Service
 public class EmailService {
@@ -15,8 +16,11 @@ public class EmailService {
 	
 	private final JavaMailSender mailSender;
 	
-	public EmailService(JavaMailSender mailSender) {
+	private EmailAuthenticationRepository emailAuthRepository;
+	
+	public EmailService(JavaMailSender mailSender, EmailAuthenticationRepository emailAuthRepository) {
 		this.mailSender = mailSender;
+		this.emailAuthRepository = emailAuthRepository;
 	}
 	 
 	public void sendSimpleEmail(String to) {
@@ -34,6 +38,10 @@ public class EmailService {
 		message.setFrom(senderEmail);
 	        
 		mailSender.send(message);
+		
+		EmailAuthentication emailAuth = new EmailAuthentication(to, String.valueOf(authCode) , false);
+		
+		emailAuthRepository.save(emailAuth);
 	 }
 	
 	public boolean verifyEmailAuthCode(String emailAddress, String authCode) {

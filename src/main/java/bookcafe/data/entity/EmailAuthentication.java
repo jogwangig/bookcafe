@@ -14,5 +14,7 @@ public class EmailAuthentication extends Base{
 	
 	private String emailAddress;
 	
+	private String authCode;
+	
 	private boolean isAuthenticated;
 }
