@@ -68,8 +68,24 @@ public class EmailService {
 		
 		if(Objects.equals(authCode, userSubmitAuthCode) && elapsedMinuteAfterSend <= 5) {
 			emailAuth.setAuthenticated(true);
+			emailAuthRepository.save(emailAuth);
 			return true;
 		}
+		
+		return false;
+	}
+	
+	
+	public boolean isVerifiedEmailAddress(String emailAddress) {
+		Optional<EmailAuthentication> emailAuthInfo = emailAuthRepository.findByEmailAddress(emailAddress);
+		
+		if(emailAuthInfo.isEmpty())
+			return false;
+		
+		EmailAuthentication emailAuth = emailAuthInfo.get();
+		
+		if(emailAuth.isAuthenticated())
+			return true;
 		
 		return false;
 	}

@@ -26,6 +26,6 @@ public class SiteUser extends Base {
 	
 	private String nickName;
 	
-	
+	private String emailAddress;
 
 }

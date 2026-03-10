@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import bookcafe.data.dto.creation.UserCreationDto;
 import bookcafe.data.entity.BookShelf;
@@ -33,11 +34,17 @@ public class UserService {
 	
 	private CustomUserDetailsService userDetailsService;
 	
+	private EmailService emailService;
 	
+	
+	@Transactional
 	public void createNewUser(UserCreationDto userCreationDto) {
 		
 		if(userRepo.existsByUsername(userCreationDto.getUsername()))
 			throw new RuntimeException("사용이 불가능한 아이디입니다.");
+		
+		if(!emailService.isVerifiedEmailAddress(userCreationDto.getEmailAddress()))
+			throw new RuntimeException("인증되지 않은 이메일 입니다.");
 		
 		encodeUserPwd(userCreationDto);
 		

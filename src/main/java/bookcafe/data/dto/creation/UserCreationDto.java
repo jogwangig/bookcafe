@@ -31,6 +31,7 @@ public class UserCreationDto implements CreationDto<SiteUser>{
 		
 		return SiteUser.builder().username(username)
 				.password(password)
-				.nickName(nickName).build();
+				.nickName(nickName)
+				.emailAddress(emailAddress).build();
 	}
 }
