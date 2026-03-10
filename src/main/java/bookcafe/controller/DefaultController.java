@@ -1,6 +1,8 @@
 package bookcafe.controller;
 
 
+import java.util.Iterator;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.data.repository.MessageRepository;
 import bookcafe.security.CustomUserDetails;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -21,6 +24,7 @@ public class DefaultController {
 		
 	@GetMapping("/")
 	public String index(Model model, @AuthenticationPrincipal Object principal) {
+		
 		if(principal instanceof CustomUserDetails)
 			model.addAttribute("msgNum", msgRepo.countUnreadMsgByReceipientId( ((CustomUserDetails)principal).getId() ));
 		

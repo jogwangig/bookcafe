@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import bookcafe.data.repository.SiteUserRepository;
-import bookcafe.service.EmailService;
+import bookcafe.service.EmailAuthenticationService;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -21,7 +21,7 @@ public class UserRestController {
 	
 	private SiteUserRepository userRepo;
 	
-	private EmailService emailService;
+	private EmailAuthenticationService emailAuthenticationService;
 
 
     @GetMapping
@@ -37,7 +37,7 @@ public class UserRestController {
     @GetMapping("/send/email/auth")
     public ResponseEntity<ApiResponse<?>> sendEmailForUserEmailAuth(@RequestParam("emailAddress")String emailAddress){
     	
-    	emailService.sendSimpleEmail(emailAddress);
+    	emailAuthenticationService.sendEmailAuthCode(emailAddress);
     	
     	return ResponseEntity.ok(new ApiResponse<>("인증메일이 발송되었습니다." , null));
     }
@@ -49,7 +49,7 @@ public class UserRestController {
     	String emailAddress = body.get("emailAddress");
     	String userSubmitAuthCode = body.get("emailAuthCode");
     	
-    	if(emailService.verifyEmailAuthCode(emailAddress, userSubmitAuthCode))
+    	if(emailAuthenticationService.verifyEmailAuthCode(emailAddress, userSubmitAuthCode))
     		return ResponseEntity.ok(new ApiResponse<>("인증 성공" , null));
     	
     	return ResponseEntity.status(403).body(new ApiResponse<>("인증 실패", null));

@@ -14,7 +14,7 @@ public class PostAuthService {
 	
 	private HttpSession session;
 	
-	private final String authName = "post-auth-";
+	private final String postAuthName = "post-auth-";
 	
 	private final String commentAuthName = "comment-auth-";
 	
@@ -48,7 +48,7 @@ public class PostAuthService {
 	public boolean authenticateForPostPwd(Post post, String pwd) {
 		
 		if(post.getAnonymousUserPwd().equals(pwd)) {
-			session.setAttribute(authName + post.getId() , true);
+			session.setAttribute(postAuthName + post.getId() , true);
 			return true;
 		}
 		
@@ -67,8 +67,8 @@ public class PostAuthService {
 	
 	
 	public void flushPostPwdAuth(Post post) {
-		if(session.getAttribute("post-auth-" + post.getId()) != null)
-			session.removeAttribute("post-auth-" + post.getId());
+		if(session.getAttribute(postAuthName + post.getId()) != null)
+			session.removeAttribute(postAuthName + post.getId());
 	}
 	
 	
@@ -81,8 +81,8 @@ public class PostAuthService {
 	
 	private boolean isAuthenticatedForPostPwd(Post post) {
 				
-		return session.getAttribute("post-auth-" + post.getId()) != null &&
-					session.getAttribute("post-auth-" + post.getId()).equals(true);
+		return session.getAttribute(postAuthName + post.getId()) != null &&
+					session.getAttribute(postAuthName + post.getId()).equals(true);
 						
 	}
 	

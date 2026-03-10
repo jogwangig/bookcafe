@@ -6,15 +6,17 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import bookcafe.data.entity.EmailAuthentication;
 import bookcafe.data.repository.EmailAuthenticationRepository;
+import jakarta.servlet.http.HttpSession;
 
 @Service
-public class EmailService {
+public class EmailAuthenticationService {
 	
 	@Value("${spring.mail.username}")
 	private String senderEmail;
@@ -23,16 +25,18 @@ public class EmailService {
 	
 	private EmailAuthenticationRepository emailAuthRepository;
 	
-	public EmailService(JavaMailSender mailSender, EmailAuthenticationRepository emailAuthRepository) {
+	private HttpSession session;
+	
+	public EmailAuthenticationService(JavaMailSender mailSender, EmailAuthenticationRepository emailAuthRepository ,HttpSession session) {
 		this.mailSender = mailSender;
 		this.emailAuthRepository = emailAuthRepository;
+		this.session = session;
 	}
 	 
-	public void sendSimpleEmail(String to) {
+	public void sendEmailAuthCode(String to) {
 	        
 		SimpleMailMessage message = new SimpleMailMessage();
 	    
-		
 		message.setTo(to);
 	        
 		message.setSubject("이메일 인증을 위한 발송");
@@ -68,6 +72,7 @@ public class EmailService {
 		
 		if(Objects.equals(authCode, userSubmitAuthCode) && elapsedMinuteAfterSend <= 5) {
 			emailAuth.setAuthenticated(true);
+			session.setAttribute("verifiedEmailAddress", emailAddress);
 			emailAuthRepository.save(emailAuth);
 			return true;
 		}
@@ -84,8 +89,13 @@ public class EmailService {
 		
 		EmailAuthentication emailAuth = emailAuthInfo.get();
 		
-		if(emailAuth.isAuthenticated())
+		Object verifiedEmailAddress = session.getAttribute("verifiedEmailAddress");
+		
+		if(emailAuth.isAuthenticated() && Objects.equals(emailAddress, verifiedEmailAddress)) {
+			session.removeAttribute("verifiedEmailAddress");
+			emailAuthRepository.delete(emailAuth);
 			return true;
+		}
 		
 		return false;
 	}

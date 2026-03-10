@@ -34,7 +34,7 @@ public class UserService {
 	
 	private CustomUserDetailsService userDetailsService;
 	
-	private EmailService emailService;
+	private EmailAuthenticationService emailAuthenticationService;
 	
 	
 	@Transactional
@@ -43,7 +43,7 @@ public class UserService {
 		if(userRepo.existsByUsername(userCreationDto.getUsername()))
 			throw new RuntimeException("사용이 불가능한 아이디입니다.");
 		
-		if(!emailService.isVerifiedEmailAddress(userCreationDto.getEmailAddress()))
+		if(!emailAuthenticationService.isVerifiedEmailAddress(userCreationDto.getEmailAddress()))
 			throw new RuntimeException("인증되지 않은 이메일 입니다.");
 		
 		encodeUserPwd(userCreationDto);
