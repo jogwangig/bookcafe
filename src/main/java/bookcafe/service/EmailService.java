@@ -1,5 +1,8 @@
 package bookcafe.service;
 
+import java.util.Objects;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -44,8 +47,23 @@ public class EmailService {
 		emailAuthRepository.save(emailAuth);
 	 }
 	
-	public boolean verifyEmailAuthCode(String emailAddress, String authCode) {
-		return true;
+	public boolean verifyEmailAuthCode(String emailAddress, String userSubmitAuthCode) {
+		
+		Optional<EmailAuthentication> emailAuthInfo = emailAuthRepository.findByEmailAddress(emailAddress);
+		
+		if(emailAuthInfo.isEmpty())
+			return false;
+		
+		EmailAuthentication emailAuth = emailAuthInfo.get();
+		
+		String authCode = emailAuth.getAuthCode();
+		
+		if(Objects.equals(authCode, userSubmitAuthCode)) {
+			emailAuth.setAuthenticated(true);
+			return true;
+		}
+		
+		return false;
 	}
 	
 }
