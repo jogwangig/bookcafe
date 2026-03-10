@@ -7,7 +7,9 @@
 
 		<meta name="_csrf" th:content="${_csrf.token}"/>
 		<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+		
 		<link rel="stylesheet" th:href = @{/css/reading-record-list.css}/>
+		
 		<title>대문</title>
 	</head>
 	
@@ -19,16 +21,15 @@
 			<p th:text = "|총 개수 ${readingRecordPage.totalElements}|"></p>
 
 			<li class="item" th:each = "readingRecord : ${readingRecordPage}">
+				<p class="link-container">
+					<a class="reading-record-modify" th:href = "@{/reading-record/modify(readingRecordId=${readingRecord.id})}" th:text = "수정"></a>
+					<button class="reading-record-delete-btn" th:data-id ="${readingRecord.id}" th:text="삭제"></button>
+				</p>
+				
 				<p th:text = "|📝 ${readingRecord.content}|"></p>
 				<p class="audit">
 					<span th:text = "|책 : ${readingRecord.bookTitle}|"></span>
 					<span th:text = "|작성 시각 : ${#temporals.format(readingRecord.createdAt, 'yyyy-MM-dd HH:mm')}|"></span>
-				</p>
-				
-				<p>
-					<a th:href = "@{/reading-record/modify(readingRecordId=${readingRecord.id})}"
-					th:text = "수정"></a>
-					<button th:data-id ="${readingRecord.id}" th:text="삭제"></button>
 				</p>
 			</li>
 		</ul>

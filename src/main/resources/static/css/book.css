@@ -10,10 +10,25 @@ a{
 	text-decoration: none;
 }
 
-.ud-link{
+.reading-record-link{
+	border: 1px solid black; 
+	padding: 5px; 
+	border-radius: 8px;
 	margin-left: auto;
-	
 }
+
+.link-container{
+	display: flex;
+	justify-content: right;
+	align-items: center;
+	gap: 10px;
+	margin-left: auto;
+}
+
+.book-delete-btn{
+	background-color: inherit;
+}
+
 
 
 

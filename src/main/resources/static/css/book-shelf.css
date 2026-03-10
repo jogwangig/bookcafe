@@ -27,7 +27,10 @@ a{
 	display: flex;
 	justify-content: right;
 	gap: 10px;
-	
+}
+
+.book-shelf-delete-btn{
+	background-color: inherit;
 }
 
 

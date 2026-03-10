@@ -12,15 +12,15 @@
 	</head>
 	<body>
 	<div layout:fragment="Content" class="content-fragment">
-		<p class="ud-link">
+		<p class="link-container">
+			<a class="reading-record-link" th:text = "'독서 기록 보기'" th:href="@{|/reading-record?bookId=${book.id}|}"></a>
 			<a th:href="@{|/book/modify?bookId=${book.id}|}" th:text = "|수정하기|"></a>
-			<button th:data-id ="${book.id}" th:text="삭제" ></button>
+			<button class="book-delete-btn" th:data-id ="${book.id}" th:text="삭제" ></button>
 		</p>
 		
 		<img th:if="${coverImg}" th:src="|data:jpg;base64,${coverImg}|" width="250px" height="auto" />
 		<p th:text = "|📖 ${book.bookInfo.title}|"></p>
 		<p th:text = "|ISBN ${book.bookInfo.ISBN}|"></p>
-		<a th:text = "'독서 기록 보기'" th:href="@{|/reading-record?bookId=${book.id}|}"></a>
 		
 	</div>
 	</body>

@@ -4,8 +4,10 @@
 		layout:decorate="~{/layout/layout}">
 	<head>
 		<script th:src="@{/js/book-shelf.js}" defer></script>
+		
 		<meta name="_csrf" th:content="${_csrf.token}"/>
 		<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+		
 		<link rel="stylesheet" th:href = @{/css/book-shelf.css}/>
 		<title>책장</title>
 	</head>
@@ -13,7 +15,7 @@
 	<div layout:fragment="Content" class="content-fragment">
 		<p class="ud-link">
 			<a th:href="@{|/book-shelf/modify?bookShelfId=${bookShelfWithBooks.id}|}" th:text = "|수정하기|"></a>
-			<button th:data-id ="${bookShelfWithBooks.id}" th:text="삭제" ></button>
+			<button class="book-shelf-delete-btn" th:data-id ="${bookShelfWithBooks.id}" th:text="삭제" ></button>
 		</p>
 		
 		<p class="title" th:text = "|📚 책장 : ${bookShelfWithBooks.name}|">책장</p>
