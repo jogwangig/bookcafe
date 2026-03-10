@@ -1,7 +1,6 @@
 package bookcafe.restcontroller;
 
 import java.util.Map;
-import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,7 +20,6 @@ import bookcafe.data.repository.PostRepository;
 import bookcafe.security.CustomUserDetails;
 import bookcafe.service.PostAuthService;
 import bookcafe.util.ItemOwnerChecker;
-import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 
 @RestController

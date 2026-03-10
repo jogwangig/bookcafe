@@ -6,6 +6,10 @@
 		
 	<head>
 		<script th:src="@{/js/user-creation-form.js}" defer></script>
+		
+		<meta name="_csrf" th:content="${_csrf.token}"/>
+		<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+		
 		<title>사용자 계정 생성</title>
 	</head>
 	<body>
@@ -20,18 +24,34 @@
 			
 			<button class="check-available-username" th:text="'사용가능한 id 검사'"></button>
 			</p>
+			
 			<p>
 			<label for="password">password </label>
 			<input type="password" th:field="*{password}"> 
 			</p>
+			
 			<p>
 			<label for="nickName">nickName </label>
 			<input type="text" th:field="*{nickName}"> 
 			</p>
+			
+			<p>
+				<label for="emailAddress">이메일 주소</label>
+				<input type="email" th:field="*{emailAddress}">
+				<button class="send-auth-code" th:text="'이메일 계정 인증 코드 발송'"></button>
+			</p>
+			
 			<p>
 			<input type="submit"> 
 			</p>
 		</form>
+		
+		<p>
+			<label for="emailAuthCode">이메일 계정 인증 코드</label>
+			<input type="text" id="emailAuthCode" name="emailAuthCode">
+			<button class="verify-auth-code" th:text="'이메일 계정 인증 코드 검증'"></button>
+		</p>
+		
 		</div>
 		</main>
 	</body>

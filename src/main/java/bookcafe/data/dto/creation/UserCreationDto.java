@@ -20,8 +20,10 @@ public class UserCreationDto implements CreationDto<SiteUser>{
 	
 	private String nickName;
 	
+	private String emailAddress;
+	
 	public static UserCreationDto fromEntity(SiteUser user) {
-		return new UserCreationDto(user.getUsername(), user.getPassword(), user.getNickName());
+		return new UserCreationDto(user.getUsername(), user.getPassword(), user.getNickName(), null);
 	}
 	
 	

@@ -1,5 +1,7 @@
 package bookcafe.service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -29,7 +31,8 @@ public class EmailService {
 	public void sendSimpleEmail(String to) {
 	        
 		SimpleMailMessage message = new SimpleMailMessage();
-	        
+	    
+		
 		message.setTo(to);
 	        
 		message.setSubject("이메일 인증을 위한 발송");
@@ -37,15 +40,16 @@ public class EmailService {
 		int authCode = (int)(Math.random()*1_000_000);
 	        
 		message.setText("인증 번호는 : " + authCode + " 입니다." );
-	        
+		
 		message.setFrom(senderEmail);
-	        
+		
 		mailSender.send(message);
 		
 		EmailAuthentication emailAuth = new EmailAuthentication(to, String.valueOf(authCode) , false);
 		
 		emailAuthRepository.save(emailAuth);
 	 }
+	
 	
 	public boolean verifyEmailAuthCode(String emailAddress, String userSubmitAuthCode) {
 		
@@ -58,7 +62,11 @@ public class EmailService {
 		
 		String authCode = emailAuth.getAuthCode();
 		
-		if(Objects.equals(authCode, userSubmitAuthCode)) {
+		LocalDateTime emailAuthSendTime = emailAuth.getCratedAt();
+		
+		long elapsedMinuteAfterSend = ChronoUnit.MINUTES.between(emailAuthSendTime, LocalDateTime.now());
+		
+		if(Objects.equals(authCode, userSubmitAuthCode) && elapsedMinuteAfterSend <= 5) {
 			emailAuth.setAuthenticated(true);
 			return true;
 		}
