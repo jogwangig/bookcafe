@@ -29,7 +29,7 @@ async function deleteBook(id){
 }
 
 
-const deleteBtns = document.querySelectorAll("button");
+const deleteBtns = document.querySelectorAll(".book-delete-btn")
 
 deleteBtns.forEach(b=>{
 	b.addEventListener('click' , (event)=>{

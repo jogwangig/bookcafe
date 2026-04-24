@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class EmailAuthenticationService {
 	private final JavaMailSender mailSender;
 	
 	private EmailAuthenticationRepository emailAuthRepository;
-	
+		
 	private HttpSession session;
 	
 	public EmailAuthenticationService(JavaMailSender mailSender, EmailAuthenticationRepository emailAuthRepository ,HttpSession session) {

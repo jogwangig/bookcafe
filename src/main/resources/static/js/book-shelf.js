@@ -26,7 +26,7 @@ async function deleteBookShelf(id){
 }
 
 
-const deleteBtns = document.querySelectorAll("button");
+const deleteBtns = document.querySelectorAll(".book-shelf-delete-btn");
 
 deleteBtns.forEach(b=>{
 	b.addEventListener('click' , (event)=>{

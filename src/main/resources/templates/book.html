@@ -18,7 +18,7 @@
 			<button class="book-delete-btn" th:data-id ="${book.id}" th:text="삭제" ></button>
 		</p>
 		
-		<img th:if="${coverImg}" th:src="|data:jpg;base64,${coverImg}|" width="250px" height="auto" />
+		<img th:if="${coverImg}" th:src="|data:image/jpg;base64,${coverImg}|" width="250px" height="auto" />
 		<p th:text = "|📖 ${book.bookInfo.title}|"></p>
 		<p th:text = "|ISBN ${book.bookInfo.ISBN}|"></p>
 		

@@ -76,7 +76,7 @@ public class BookClubController {
 		model.addAttribute("comments", bookClubCommentRepo.findByBookClubId(bookClubId));
 		model.addAttribute("newComment", new BookClubComment());
 		model.addAttribute("bookClub", bookClub);
-		return "book-club";
+		return "/book-club";
 	}
 	
 	

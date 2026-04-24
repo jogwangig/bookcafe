@@ -120,6 +120,7 @@ public class PostRestController {
 		return "redirect:/post?postId=" + postId;
 	}
 	
+	
 	@PostMapping(path = "/comment", params = {"commentId" , "type"})
 	public String processCommentModification(@RequestBody CommentCreationDto body, 
 			@RequestParam("commentId")long commentId, @RequestParam("type")String type) {

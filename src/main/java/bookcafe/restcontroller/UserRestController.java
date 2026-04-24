@@ -37,6 +37,9 @@ public class UserRestController {
     @GetMapping("/send/email/auth")
     public ResponseEntity<ApiResponse<?>> sendEmailForUserEmailAuth(@RequestParam("emailAddress")String emailAddress){
     	
+    	if(userRepo.existsByEmailAddress(emailAddress))
+    		return ResponseEntity.status(403).body(new ApiResponse<>("이미 등록된 이메일입니다.", null));
+    	
     	emailAuthenticationService.sendEmailAuthCode(emailAddress);
     	
     	return ResponseEntity.ok(new ApiResponse<>("인증메일이 발송되었습니다." , null));

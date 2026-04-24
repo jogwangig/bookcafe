@@ -49,11 +49,7 @@ public class BookController {
 				orElseThrow(()->new NoSuchElementException("존재하지 않는 책입니다."));
 		
 		itemOwnerChecker.throwExceptionIfNotOwner(book);
-		
-//		if(!ItemOwnerChecker.isOwnerOfItem(book, userDetails))
-//			throw new InaccessibleItemException("접근이 불가능한 책입니다.");
-		
-		
+			
 		if(book.getCoverImage() != null) {
 			String coverImg = Base64.getEncoder().encodeToString(book.getCoverImage());
 			model.addAttribute("coverImg", coverImg);
