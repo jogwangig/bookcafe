@@ -20,8 +20,8 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 		.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers("/book/**", "/library/**", "/reading-record/**").hasAnyAuthority("NORMAL", "ADMIN")
-				.requestMatchers("/user/modify").authenticated()
+				.requestMatchers("/book/**", "/library/**", "/reading-record/**", "/book-club/**", "/book-shelf/**").hasAnyAuthority("NORMAL", "ADMIN")
+				.requestMatchers("/user/modify", "/user/delete", "/user/msg").authenticated()
 				.requestMatchers("/board/create").hasAnyAuthority("ADMIN")
 				.anyRequest().permitAll())
 		

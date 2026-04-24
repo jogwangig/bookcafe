@@ -16,7 +16,6 @@ import bookcafe.data.repository.BoardRepository;
 import bookcafe.data.repository.CommentRepository;
 import bookcafe.data.repository.PostRepository;
 import bookcafe.service.PostAuthService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -33,7 +32,7 @@ public class PostController {
 	private BoardRepository boardRepo;
 	
 	@GetMapping(params = "postId")
-	public String displayPostById(Model model, @RequestParam("postId") long postId, HttpServletRequest req) {
+	public String displayPostById(Model model, @RequestParam("postId") long postId) {
 		
 		
 		PostDetailDto post = postRepo.findPostDetailDtoById(postId);
