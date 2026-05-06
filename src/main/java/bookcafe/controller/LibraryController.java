@@ -17,12 +17,8 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/library")
 @AllArgsConstructor
 public class LibraryController {
-	
-//	private BookShelfRepository  bookShelfRepo;
-	
+		
 	private BookShelfDisplayService bsService;
-	
-//	private BookRepository bookRepo;
 	
 	@GetMapping
 	public String displayMyLibrary(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {

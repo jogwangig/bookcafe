@@ -34,7 +34,7 @@ public class BoardController {
 			@RequestParam(value = "boardName", required = false, defaultValue = "main")String boardName, 
 			@RequestParam(value = "pageNum", required = false, defaultValue = "${paging.default.page}" )int pageNum) {
 		
-		BoardDisplayDto board = boardRepo.findDtoById(2);
+		BoardDisplayDto board = boardRepo.findDtoByName(boardName);
 		
 		Page<PostDisplayDto> postDisplayDto = boardPagingService.getPostPageOfBoard(boardName, pageNum);
 		

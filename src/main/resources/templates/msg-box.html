@@ -11,7 +11,7 @@
 		
 		<ul>
 			<li class="msg-container" th:each = "msg : ${msgs}">
-				<p th:text="|${msg.content} : ${msg.cratedAt}|"></p>
+				<p th:text="|${msg.content} : ${#temporals.format(msg.cratedAt, 'yyyy-MM-dd HH:mm')}|"></p>
 			</li>
 		</ul>
 		

@@ -17,6 +17,9 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
 	@Query("SELECT new bookcafe.data.dto.display.BoardDisplayDto(b.id, b.name) FROM Board b WHERE b.id = :boardId")
 	BoardDisplayDto findDtoById(@Param("boardId")long boardId);
 	
+	@Query("SELECT new bookcafe.data.dto.display.BoardDisplayDto(b.id, b.name) FROM Board b WHERE b.name = :boardName")
+	BoardDisplayDto findDtoByName(@Param("boardName")String boardName);
+	
 	@Query("SELECT new bookcafe.data.dto.display.BoardDisplayDto(b.id, b.name) FROM Board b")
 	List<BoardDisplayDto> findAllDtos();
 }

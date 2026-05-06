@@ -12,6 +12,7 @@ import bookcafe.data.repository.BookRepository;
 import bookcafe.data.repository.BookShelfRepository;
 import bookcafe.data.valueobject.BookInfo;
 import bookcafe.service.OpenLibraryApiService;
+import bookcafe.util.ItemOwnerChecker;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,12 +24,16 @@ public class BookRestController {
 	
 	private OpenLibraryApiService olApiService;
 	
+	private ItemOwnerChecker itemOwnerChecker;
+	
 	private BookRepository bookRepo;
 	
 	private BookShelfRepository bookShelfRepo;
 	
 	@GetMapping("/create")
 	public ResponseEntity<ApiResponse<?>> createBookFromApi(@ModelAttribute ApiBookCreationDto dto) {
+		
+		itemOwnerChecker.throwExceptionIfNotOwner(bookShelfRepo.getReferenceById(dto.getBookShelfId()));
 		
 		System.out.println("OpenLibrary Api을 사용하여 조회된 책으로부터 책 생성을 요청 받았습니다.");
 		

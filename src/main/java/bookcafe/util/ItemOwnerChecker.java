@@ -16,11 +16,6 @@ public class ItemOwnerChecker {
 	
 	private SecurityContextUtil securityContextUtil;
 	
-//	public static boolean isOwnerOfItem(ItemBase item, CustomUserDetails userDetails) {
-//
-//		
-//		return item.getUser().getId().equals(userDetails.getId());
-//	}
 	
 	public void throwExceptionIfNotOwner(ItemBase item) {
 
