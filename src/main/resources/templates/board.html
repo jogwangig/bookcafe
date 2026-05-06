@@ -41,15 +41,15 @@
 			th:with="start = ${(postPage.number/5)*5 + 1 }, end = ${(start + 4 < postPage.totalPages?start + 4:postPage.totalPages)}">
 			
 				<li th:if = "${start != 1}">
-					<a th:href = @{|/board?boardId=${boardId}&pageNum=${start-1}|} th:text="'<'" />
+					<a th:href = @{|/board?boardName=${board.name}&pageNum=${start-1}|} th:text="'<'" />
 				</li>
 							
 				<li th:each = "pageNum : ${#numbers.sequence(start, end)}">
-					<a th:href = @{|/board?boardId=${boardId}&pageNum=${pageNum}|} th:text="${pageNum}" />
+					<a th:href = @{|/board?boardName=${board.name}&pageNum=${pageNum}|} th:text="${pageNum}" />
 				</li>
 				
 				<li th:if = "${end != postPage.totalPages}">
-					<a th:href = @{|/board?boardId=${boardId}&pageNum=${end+1}|} th:text="'>'" />
+					<a th:href = @{|/board?boardName=${board.name}&pageNum=${end+1}|} th:text="'>'" />
 				</li>
 			</ul>
 		

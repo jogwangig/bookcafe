@@ -26,13 +26,15 @@ public class BoardPagingService {
 	}
 	
 	
-	public Page<PostDisplayDto> getPostPageOfBoard(long boardId, int pageNum) {
+	public Page<PostDisplayDto> getPostPageOfBoard(String boardName, int pageNum) {
 		
 		int adjustedpageNum = pageNum-1;
 		
 				
 		PageRequest pageRequest = PageRequest.of(adjustedpageNum , pageSize , Sort.by("cratedAt").descending());
-		Page<PostDisplayDto> postDisplayDto = postRepo.findPostPageByBoardId(boardId, pageRequest);
+//		Page<PostDisplayDto> postDisplayDto = postRepo.findPostPageByBoardId(boardId, pageRequest);
+		
+		Page<PostDisplayDto> postDisplayDto = postRepo.findPostPageByBoardName(boardName, pageRequest);
 		
 		return postDisplayDto;
 		

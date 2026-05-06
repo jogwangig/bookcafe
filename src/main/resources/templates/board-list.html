@@ -11,7 +11,7 @@
 		<div layout:fragment="Content" class="content-fragment">
 		<ul>
 			<li class="board-container"   th:each = "board : ${boards}">
-				<a class="item-link" th:href="@{|/board?boardId=${board.id}|}" th:text = "|${board.name}|"></a>
+				<a class="item-link" th:href="@{|/board?boardName=${board.name}|}" th:text = "|${board.name}|"></a>
 			</li>
 		</ul>
 		</div>

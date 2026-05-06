@@ -3,6 +3,7 @@ package bookcafe.controller;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,12 +31,12 @@ public class BoardController {
 	
 	@GetMapping
 	public String displayBoard(Model model,
-			@RequestParam(value = "boardId", required = false, defaultValue = "2") long boardId, 
+			@RequestParam(value = "boardName", required = false, defaultValue = "main")String boardName, 
 			@RequestParam(value = "pageNum", required = false, defaultValue = "${paging.default.page}" )int pageNum) {
 		
-		BoardDisplayDto board = boardRepo.findDtoById(boardId);
+		BoardDisplayDto board = boardRepo.findDtoById(2);
 		
-		Page<PostDisplayDto> postDisplayDto = boardPagingService.getPostPageOfBoard(boardId, pageNum);
+		Page<PostDisplayDto> postDisplayDto = boardPagingService.getPostPageOfBoard(boardName, pageNum);
 		
 		
 		model.addAttribute("board", board);
@@ -50,7 +51,7 @@ public class BoardController {
 	public String displayBoards(Model model) {
 		List<BoardDisplayDto> boards = boardRepo.findAllDtos();
 		model.addAttribute("boards", boards);
-		
+				
 		return "/board-list";
 	}
 	
@@ -69,11 +70,11 @@ public class BoardController {
 	}
 	
 	
-	@ModelAttribute("boardId")
-	public long addBoardId(@RequestParam(value = "boardId", required = false)Long boardId) {
-		if(boardId == null) return 2;
-		return boardId;
-	}
+//	@ModelAttribute("boardId")
+//	public long addBoardId(@RequestParam(value = "boardId", required = false)Long boardId) {
+//		if(boardId == null) return 2;
+//		return boardId;
+//	}
 	
 
 }

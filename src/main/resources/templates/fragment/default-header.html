@@ -54,6 +54,10 @@
 					
 				<li th:if= "${!currentURI.matches('/board/board-list')}">
 					<a th:href = @{|/board/board-list|} th:text="'게시판 목록'" /></li>
+					
+				<li sec:authorize="hasAuthority('ADMIN')" th:if= "${currentURI.matches('/board/board-list')}">
+					<a th:href = @{|/board/create|} th:text="'게시판 만들기'" />
+				</li>
 			</ul>
 			
 			<!-------------------------------------독서 모임--------------------------------------------------------------->

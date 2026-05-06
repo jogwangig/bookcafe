@@ -23,6 +23,11 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 			+"WHERE p.board.id = :boardId")
 	Page<PostDisplayDto> findPostPageByBoardId(@Param("boardId") long id, Pageable pageable);
 	
+	@Query("SELECT new bookcafe.data.dto.display.PostDisplayDto(p.id, p.cratedAt, u.username, p.anonymousUsername, p.anonymousUserPwd, p.title) "
+			+"FROM Post p LEFT JOIN p.user u "
+			+"WHERE p.board.name = :boardName")
+	Page<PostDisplayDto> findPostPageByBoardName(@Param("boardName")String boardName, Pageable pageable);
+	
 	@Query("SELECT new bookcafe.data.dto.PostDetailDto(p.id, p.cratedAt , p.board.id , "
 			+ "CASE WHEN u IS NOT NULL THEN u.username ELSE null END , "
 			+ "CASE WHEN u IS NOT NULL THEN null ELSE p.anonymousUsername END ,"
