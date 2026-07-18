@@ -40,6 +40,7 @@ public class BoardController {
 		
 		
 		model.addAttribute("board", board);
+		model.addAttribute("boardId", board.getId());
 		model.addAttribute("postPage", postDisplayDto);
 		
 		return "/board";
